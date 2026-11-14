@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated dataset SQL (scripts/build-junction-sql.ps1)
+/db/seed/

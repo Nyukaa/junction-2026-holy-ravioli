@@ -38,23 +38,83 @@ export const tools: Tool[] = [
     },
   },
   {
+    name: "get_data",
+    description:
+      "Get this customer's actual transactions and confirmed plans grouped by month and category. " +
+      "Returns signed EUR totals, entry counts, transaction types, and plan reasons. " +
+      "Actuals stop at the database demo clock (as_of); plans include future months. " +
+      "Transfers (salary_sweep, investment_deposit, investment_withdrawal) are excluded from both. " +
+      "Use only returned category/type names and amounts; do not calculate new amounts.",
+    input_schema: {
+      type: "object",
+      properties: {},
+      required: [],
+      additionalProperties: false,
+    },
+  },
+  {
     name: "save_plan",
     description:
-      "Save the monthly budget plan. Call after user confirms they want to proceed.",
+      "Replace this customer's complete plan with dated entries after explicit user confirmation. " +
+      "Each entry needs a short user-facing reason, not private internal reasoning. " +
+      "Copy amounts from user-confirmed values or tool results; never calculate or invent amounts.",
     input_schema: {
       type: "object" as const,
       properties: {
-        monthly_savings: {
-          type: "number",
-          description: "Amount to save per month in EUR",
-        },
-        categories: {
-          type: "object",
-          description:
-            "Monthly limits by category (e.g., {'dining': 100, 'shopping': 200})",
+        entries: {
+          type: "array",
+          minItems: 1,
+          items: {
+            type: "object",
+            properties: {
+              plan_date: {
+                type: "string",
+                format: "date",
+                description: "Planned date, YYYY-MM-DD",
+              },
+              plan_timestamp: {
+                type: "string",
+                description:
+                  "Local planned timestamp, YYYY-MM-DDTHH:mm:ss, without timezone",
+              },
+              category: {
+                type: "string",
+                minLength: 1,
+                description: "Category from get_data",
+              },
+              plan_amount_eur: {
+                type: "string",
+                pattern: "^-?(?:0|[1-9]\\d{0,9})\\.\\d{2}$",
+                description:
+                  "Signed EUR decimal, exactly two decimal places; use the same sign convention as actuals",
+              },
+              transaction_type: {
+                type: "string",
+                minLength: 1,
+                description: "Transaction type from get_data",
+              },
+              reason: {
+                type: "string",
+                minLength: 1,
+                maxLength: 1000,
+                description:
+                  "Short explanation of why the user chose this plan entry",
+              },
+            },
+            required: [
+              "plan_date",
+              "plan_timestamp",
+              "category",
+              "plan_amount_eur",
+              "transaction_type",
+              "reason",
+            ],
+            additionalProperties: false,
+          },
         },
       },
-      required: ["monthly_savings", "categories"],
+      required: ["entries"],
+      additionalProperties: false,
     },
   },
   {

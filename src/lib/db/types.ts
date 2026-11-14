@@ -1,4 +1,5 @@
-import { Goal, Progress, Plan, Warning } from "@/types/contracts";
+import { Goal, Progress, Warning } from "@/types/contracts";
+import { FinancialData, PlanEntryInput, PlanRow } from "./plans";
 
 export interface Db {
   getGoal(customerId: string): Promise<Goal | null>;
@@ -9,13 +10,11 @@ export interface Db {
       target_amount: number;
       target_date: string;
       reason?: string;
-    }
+    },
   ): Promise<Goal>;
-  getPlan(customerId: string): Promise<Plan | null>;
-  savePlan(
-    customerId: string,
-    plan: { monthly_savings: number; categories: Record<string, number> }
-  ): Promise<Plan>;
+  getPlan(customerId: string): Promise<PlanRow[]>;
+  savePlan(customerId: string, entries: PlanEntryInput[]): Promise<PlanRow[]>;
+  getFinancialData(customerId: string): Promise<FinancialData>;
   getProgress(customerId: string): Promise<Progress>;
   detectWarnings(customerId: string): Promise<Warning[]>;
 }
