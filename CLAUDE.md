@@ -1,10 +1,10 @@
-# Project: Envelope Planner (team Holy Ravioli)
+# Project: Trip Coach (team Holy Ravioli)
 
 Junction 2026, S-Bank challenge. We have 48 hours. A working demo matters more than perfect code.
 
 ## What we build
 
-A mobile-first money coach. The user sees the state of their savings goal and envelopes (Home, Car, Kids, Groceries, Fun, Buffer, Dream) and talks to an AI agent in a chat. Plain code in the database layer does all the math. The agent explains, asks simple questions, and offers choices. Data is the synthetic S-Bank dataset in PostgreSQL on Aiven. Full idea: `docs/idea.md`.
+A goal-focused money coach. The user chats with an AI agent to define ONE goal (e.g., Alps trip) and create a plan to reach it. The agent coaches them, tracks progress, and gives encouragement + warnings when spending goes off-track. Plain code in the database layer does all the math. Data is the synthetic S-Bank dataset in PostgreSQL on Aiven. Full idea: `docs/idea.md`.
 
 ## Stack
 
@@ -14,18 +14,18 @@ Next.js (App Router) + TypeScript (strict) + Tailwind + shadcn/ui + Anthropic SD
 
 ```
 UI (Elya) --HTTP--> API: exactly 2 endpoints (Anna)
-                      GET  /api/status  --> db methods                      (plain code, no AI)
-                      POST /api/chat    --> agent --> tools --> db methods  (tools are thin wrappers)
+                      GET  /api/status  --> db methods                      (goal state, progress, warnings, no AI)
+                      POST /api/chat    --> agent --> tools --> db methods  (tools are thin wrappers; agent coaches user)
                                                                     |
-                                          database layer (Alex): SQL + all calculations
+                                          database layer (Alex): SQL + goal tracking + plan math
                                                                     |
                                                                PostgreSQL (Aiven)
 ```
 
-- Only two endpoints exist: `GET /api/status` (state of the goal) and `POST /api/chat`. Do not add more without asking
-- `POST /api/chat` takes only text and returns JSON: `reply` (text), `suggestions` (tappable follow-ups), `charts` (simple bar charts)
+- Only two endpoints exist: `GET /api/status` (goal + progress + warnings) and `POST /api/chat`. Do not add more without asking
+- `POST /api/chat` takes only text and returns JSON: `reply` (coaching text or encouragement/warning), `goal` (if just created), `actions` (suggested options on warning)
 - An agent tool is a thin wrapper: one tool = one method of the `Db` interface. No SQL, no math, no pool in the tools
-- All calculations live in `src/lib/db/*` (Alex). The model never calculates and never writes a number
+- All goal math lives in `src/lib/db/*` (Alex). The model never calculates and never writes a number
 
 ## Structure
 
@@ -35,24 +35,24 @@ src/app/api/status/      GET /api/status (Anna)
 src/app/api/chat/        POST /api/chat (Anna)
 src/components/          reusable UI components (Elya)
 src/mocks/               typed fixtures of the 2 API responses, so the UI works without a backend (Anna writes the first version)
-src/lib/ai/              the only place that uses the Anthropic client: client, model, prompts, tools, charts, run loop, checks (Anna)
+src/lib/ai/              the only place that uses the Anthropic client: client, model, prompts, tools, run loop, checks (Anna)
 src/lib/db/              the only place that talks to PostgreSQL (Alex)
   types.ts               the Db interface (shared contract)
   index.ts               implementation of Db
   queries/               SQL
-  logic/                 pure math: pace, zones, safe-to-spend, goal, what-if, rebalance
+  logic/                 pure goal math: plan generation, progress tracking, warning detection, monthly budget allocation
   fake.ts                fake Db with fixtures, for working before the real one is ready
 src/types/contracts.ts   shared types. Change only when all three agree
 db/migrations/           numbered SQL files (001_..., 004_...)
-scripts/                 data loading, derive.sql, demo_customer.py. Run by hand, not part of the app
+scripts/                 data loading, CSV import. Run by hand, not part of the app
 docs/                    idea.md, tasks.md, specs/
 ```
 
 ## Database
 
 - Aiven PostgreSQL. Connection from `DATABASE_URL` (and optional `DATABASE_CA`). Never commit credentials
-- Schema `junction`: raw `tx`, `cust` (from the CSV) and derived `customer_month`, `customer_profile`, `peer_stats`, `small_joys`. Read-only for the app
-- Schema `app`: state: `demo_clock`, `demo_customers`, `user_facts`, `goals`, `envelope_limits`, `sprints`, `chat_messages`, `pending_options`, `agent_log`
+- Schema `junction`: raw `tx`, `cust` (from the CSV). Read-only for the app
+- Schema `app`: goal state: `demo_clock`, `demo_customers`, `goals` (one per customer), `goal_plans` (monthly budget), `chat_messages`, `agent_log`
 - Schema changes only by a new numbered file in `db/migrations/`. Never edit a file that is already applied
 - All SQL lives in `src/lib/db/*`. Parameterized queries only (`$1, $2`)
 - The demo clock is applied inside the db layer. Nothing after `today` is ever returned
@@ -76,7 +76,7 @@ If a task needs changes in someone else's area, tell me before you do it.
 - API routes live in src/app/api/<name>/route.ts and validate input with zod. Only `status` and `chat`
 - The customer comes from the header `x-customer-id` (must be one of the demo customers), never from the body or from the model
 - The database is reached only via the `Db` interface from src/lib/db. The agent and the routes never import `pg`
-- Write-tools (save_fact, create_goal, apply_option, close_sprint) run only after the user said yes in the chat
+- Write-tools (create_goal, save_plan) run only after the user says yes in the chat and only via agent tool calls
 - Anthropic client only via src/lib/ai/*
 - Model name is one constant in src/lib/ai/model.ts
 - Never hardcode secrets, use process.env and keep .env.example updated
@@ -86,15 +86,15 @@ If a task needs changes in someone else's area, tell me before you do it.
 
 ### Product rules
 
-- Numbers come only from the database layer. The model never calculates or writes a number. If the reply or a suggestion contains a number that is not in the tool results, it is dropped and a fallback is used
-- Charts are built by code from tool results. The model only chooses which chart ids to show (max 2)
-- Charts are simple bars comparing values (usually 2 bars): spent vs limit, plan vs actual, you vs similar people, before vs after
-- Money is EUR. Show ranges for forecasts, not false precision
+- Numbers come only from the database layer. The model never calculates or writes a number. If the reply contains a number not in tool results, it is dropped and a fallback is used
+- One goal per customer. Goal has: name, target date, target amount, reason (optional). Plan has: monthly budget, spending categories and limits.
+- Encourage: "Great! You're €200 closer to your Alps trip. Spending is on track." Warn: "⚠️ Your laptop broke (€500). You're now €500 behind. Options: cut €500 elsewhere or delay trip 1 month."
+- Money is EUR. Use actual amounts, not ranges or forecasts, but ranges for "next month is Christmas" type warnings
 - Transfers (`salary_sweep`, `investment_deposit`, `investment_withdrawal`) are not spending
-- Do not detect children, hobbies or loans from transactions (not in the data). The agent asks in very simple words and offers the answers as suggestions
-- Similar-people data is for benchmarks only, not for forecasts
+- Spending categories are defined in the database (groceries, transport, dining, etc.), not inferred by the model
+- Agent coaching: ask simple questions ("What's your goal?", "When?", "How much?", "Where can you cut?") and guide user to confirm plan
 - The model sees only tool results (aggregates). No raw transaction lists, no ids of other customers
-- Texts for users: simple English, short sentences, all in `src/lib/copy.ts` or in the prompts
+- Texts for users: simple English, short sentences, motivating tone. All in `src/lib/copy.ts` or in the prompts
 
 ## Commands
 
