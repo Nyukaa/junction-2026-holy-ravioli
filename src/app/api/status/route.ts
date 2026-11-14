@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
       customerId,
     });
   } catch (error) {
+    console.error("Status error:", error);
     return NextResponse.json(
       { error: "Failed to get status" },
       { status: 500 }

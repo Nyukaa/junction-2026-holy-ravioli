@@ -1,5 +1,6 @@
 import { Db } from "./types";
 import { Goal, Progress, Plan, Warning } from "@/types/contracts";
+import { FakeDb } from "./fake";
 
 // TODO: Alex - implement this with real PostgreSQL queries
 // For now, this is a stub that returns empty/default values
@@ -51,7 +52,7 @@ let db: Db | null = null;
 
 export function getDb(): Db {
   if (!db) {
-    db = new DbImpl();
+    db = process.env.DB_BACKEND === "fake" ? new FakeDb() : new DbImpl();
   }
   return db;
 }
