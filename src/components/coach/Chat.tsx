@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { Capybara } from "./Capybara";
 import { Icon } from "./Icon";
 
 export type Message = { role: "user" | "assistant"; text: string };
@@ -67,20 +68,28 @@ export function Chat({
             ) : (
               <div
                 key={i}
-                className="prose prose-sm max-w-[90%] self-start rounded-2xl rounded-bl-md bg-white px-4 py-3 text-sm leading-relaxed text-slate-800 shadow-sm prose-strong:text-brand-green prose-headings:text-brand-green prose-ol:my-2 prose-ol:pl-5 prose-ul:my-2 prose-ul:pl-5 prose-li:my-0.5 prose-p:my-1"
+                className="flex max-w-[90%] items-end gap-2 self-start"
               >
-                <ReactMarkdown>{m.text}</ReactMarkdown>
+                <Capybara size={28} />
+                <div className="prose prose-sm max-w-none rounded-2xl rounded-bl-md bg-white px-4 py-3 text-sm leading-relaxed text-slate-800 shadow-sm prose-strong:text-brand-green prose-headings:text-brand-green prose-ol:my-2 prose-ol:pl-5 prose-ul:my-2 prose-ul:pl-5 prose-li:my-0.5 prose-p:my-1">
+                  <ReactMarkdown>{m.text}</ReactMarkdown>
+                </div>
               </div>
             ),
           )}
           {isThinking && (
-            <div className="flex w-fit items-center gap-2 self-start rounded-2xl bg-white px-4 py-3 shadow-sm">
-              <div className="flex gap-1">
-                <span className="h-2 w-2 animate-bounce rounded-full bg-green-700 [animation-delay:0ms]" />
-                <span className="h-2 w-2 animate-bounce rounded-full bg-green-700 [animation-delay:150ms]" />
-                <span className="h-2 w-2 animate-bounce rounded-full bg-green-700 [animation-delay:300ms]" />
+            <div className="flex items-end gap-2 self-start">
+              <Capybara size={28} />
+              <div className="flex w-fit items-center gap-2 rounded-2xl bg-white px-4 py-3 shadow-sm">
+                <div className="flex gap-1">
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-green-700 [animation-delay:0ms]" />
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-green-700 [animation-delay:150ms]" />
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-green-700 [animation-delay:300ms]" />
+                </div>
+                <span className="text-sm text-muted-foreground">
+                  Thinking...
+                </span>
               </div>
-              <span className="text-sm text-muted-foreground">Thinking...</span>
             </div>
           )}
         </div>
