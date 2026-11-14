@@ -2,6 +2,16 @@ import { Db } from "./types";
 import { Goal, Progress, Warning } from "@/types/contracts";
 import { FakeDb } from "./fake";
 import { getPool } from "./pool";
+import type { Pool, PoolClient } from "pg";
+import {
+  calculateProgress,
+  calculateWarnings,
+  centsToAmount,
+  createGoalSchema,
+  moneyToCents,
+  type CategoryBudget,
+  type GoalSnapshot,
+} from "./logic/goals";
 import {
   FinancialData,
   MonthlyCategoryTotal,
@@ -11,12 +21,58 @@ import {
   savePlanSchema,
 } from "./plans";
 
-// Goal/progress methods remain stubs until their database implementation is ready.
+interface GoalRow {
+  id: string;
+  customer_id: string;
+  name: string;
+  target_amount_eur: string;
+  target_date: string;
+  reason: string | null;
+  created_at: string;
+}
+
+const goalColumns = `
+  goal_id::text AS id, customer_id, name, target_amount_eur::text,
+  to_char(target_date, 'YYYY-MM-DD') AS target_date, reason,
+  to_char(created_at, 'YYYY-MM-DD"T"HH24:MI:SS') AS created_at`;
+
+function mapGoal(row: GoalRow): Goal {
+  return {
+    id: row.id,
+    customer_id: row.customer_id,
+    name: row.name,
+    target_amount: centsToAmount(moneyToCents(row.target_amount_eur)),
+    target_date: row.target_date,
+    ...(row.reason === null ? {} : { reason: row.reason }),
+    created_at: row.created_at,
+  };
+}
+
+async function readToday(queryable: Pool | PoolClient): Promise<string> {
+  const clock = await queryable.query<{ today: string }>(
+    "SELECT to_char(today, 'YYYY-MM-DD') AS today FROM app.demo_clock WHERE singleton = true",
+  );
+  if (!clock.rows[0]) throw new Error("Demo clock is not configured");
+  return clock.rows[0].today;
+}
+
+async function readGoal(
+  queryable: Pool | PoolClient,
+  customerId: string,
+  today: string,
+): Promise<Goal | null> {
+  const result = await queryable.query<GoalRow>(
+    `SELECT ${goalColumns} FROM app.goals
+     WHERE customer_id = $1 AND created_at::date <= $2::date`,
+    [customerId, today],
+  );
+  return result.rows[0] ? mapGoal(result.rows[0]) : null;
+}
 
 class DbImpl implements Db {
   async getGoal(customerId: string): Promise<Goal | null> {
-    // TODO: Query goals table for this customer
-    return null;
+    const pool = getPool();
+    return readGoal(pool, customerId, await readToday(pool));
   }
 
   async createGoal(
@@ -28,8 +84,47 @@ class DbImpl implements Db {
       reason?: string;
     },
   ): Promise<Goal> {
-    // TODO: Insert into goals table
-    throw new Error("Not implemented");
+    const validated = createGoalSchema.parse(goal);
+    const client = await getPool().connect();
+    try {
+      await client.query("BEGIN");
+      const today = await readToday(client);
+      if (validated.target_date <= today) {
+        throw new Error(
+          "Goal target date must be after the demo clock's current day",
+        );
+      }
+      const customer = await client.query(
+        "SELECT customer_id FROM junction.cust WHERE customer_id = $1",
+        [customerId],
+      );
+      if (customer.rowCount !== 1) throw new Error("Unknown customer");
+      const result = await client.query<GoalRow>(
+        `INSERT INTO app.goals
+           (customer_id, name, target_amount_eur, target_date, reason, created_at)
+         VALUES ($1, $2, $3::numeric(12,2), $4::date, $5, $6::date)
+         ON CONFLICT (customer_id) DO NOTHING
+         RETURNING ${goalColumns}`,
+        [
+          customerId,
+          validated.name,
+          validated.target_amount.toFixed(2),
+          validated.target_date,
+          validated.reason ?? null,
+          today,
+        ],
+      );
+      if (!result.rows[0]) {
+        throw new Error("This customer already has a goal");
+      }
+      await client.query("COMMIT");
+      return mapGoal(result.rows[0]);
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
   }
 
   async getPlan(customerId: string): Promise<PlanRow[]> {
@@ -63,19 +158,14 @@ class DbImpl implements Db {
         throw new Error("Unknown customer");
       }
 
-      const clock = await client.query<{ today: string }>(
-        "SELECT to_char(today, 'YYYY-MM-DD') AS today FROM app.demo_clock WHERE singleton = true",
-      );
-      if (!clock.rows[0]) {
-        throw new Error("Demo clock is not configured");
-      }
+      const today = await readToday(client);
       const known = await client.query<{
         category: string;
         transaction_type: string;
       }>(
         `SELECT DISTINCT category, transaction_type FROM junction.tx
          WHERE customer_id = $1 AND tx_date <= $2::date`,
-        [customerId, clock.rows[0].today],
+        [customerId, today],
       );
       const categories = new Set(known.rows.map((row) => row.category));
       const transactionTypes = new Set(
@@ -119,13 +209,7 @@ class DbImpl implements Db {
 
   async getFinancialData(customerId: string): Promise<FinancialData> {
     const pool = getPool();
-    const clock = await pool.query<{ today: string }>(
-      "SELECT to_char(today, 'YYYY-MM-DD') AS today FROM app.demo_clock WHERE singleton = true",
-    );
-    const today = clock.rows[0]?.today;
-    if (!today) {
-      throw new Error("Demo clock is not configured");
-    }
+    const today = await readToday(pool);
     const [actuals, plans] = await Promise.all([
       pool.query<MonthlyCategoryTotal>(
         `SELECT to_char(tx_date, 'YYYY-MM') AS month, category,
@@ -162,13 +246,84 @@ class DbImpl implements Db {
   }
 
   async getProgress(customerId: string): Promise<Progress> {
-    // TODO: Calculate progress based on goal and transactions
-    throw new Error("Not implemented");
+    return calculateProgress(await this.getGoalSnapshot(customerId));
   }
 
   async detectWarnings(customerId: string): Promise<Warning[]> {
-    // TODO: Check for spending over plan, upcoming events, etc.
-    return [];
+    return calculateWarnings(await this.getGoalSnapshot(customerId));
+  }
+
+  private async getGoalSnapshot(
+    customerId: string,
+  ): Promise<GoalSnapshot | null> {
+    const client = await getPool().connect();
+    try {
+      // Goal, clock, savings and budgets must describe the same database revision.
+      await client.query("BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY");
+      const today = await readToday(client);
+      const goal = await readGoal(client, customerId, today);
+      if (!goal) {
+        await client.query("COMMIT");
+        return null;
+      }
+
+      const savings = await client.query<{
+        actual_net_eur: string;
+        planned_net_eur: string;
+        has_plan: boolean;
+      }>(
+        `SELECT
+           COALESCE((SELECT SUM(tx_amount_eur) FROM junction.tx
+             WHERE customer_id = $1 AND tx_date > $2::date AND tx_date <= $3::date
+               AND transaction_type NOT IN
+                 ('salary_sweep', 'investment_deposit', 'investment_withdrawal')), 0)::text
+             AS actual_net_eur,
+           COALESCE((SELECT SUM(plan_amount_eur) FROM app.plans
+             WHERE customer_id = $1 AND plan_date > $2::date AND plan_date <= $3::date
+               AND transaction_type NOT IN
+                 ('salary_sweep', 'investment_deposit', 'investment_withdrawal')), 0)::text
+             AS planned_net_eur,
+           EXISTS (SELECT 1 FROM app.plans
+             WHERE customer_id = $1 AND plan_date > $2::date
+               AND transaction_type NOT IN
+                 ('salary_sweep', 'investment_deposit', 'investment_withdrawal')) AS has_plan`,
+        [customerId, goal.created_at.slice(0, 10), today],
+      );
+      const categories = await client.query<CategoryBudget>(
+        `WITH actuals AS (
+           SELECT category, SUM(tx_amount_eur) AS amount
+           FROM junction.tx
+           WHERE customer_id = $1
+             AND tx_date >= date_trunc('month', $2::date)::date
+             AND tx_date <= $2::date
+             AND transaction_type NOT IN
+               ('salary_sweep', 'investment_deposit', 'investment_withdrawal')
+           GROUP BY category
+         ), budgets AS (
+           SELECT category, SUM(plan_amount_eur) AS amount
+           FROM app.plans
+           WHERE customer_id = $1
+             AND plan_date >= date_trunc('month', $2::date)::date
+             AND plan_date < (date_trunc('month', $2::date) + INTERVAL '1 month')::date
+             AND transaction_type NOT IN
+               ('salary_sweep', 'investment_deposit', 'investment_withdrawal')
+           GROUP BY category
+         )
+         SELECT COALESCE(actuals.category, budgets.category) AS category,
+                COALESCE(actuals.amount, 0)::text AS actual_amount_eur,
+                budgets.amount::text AS plan_amount_eur
+         FROM actuals FULL OUTER JOIN budgets USING (category)
+         ORDER BY category`,
+        [customerId, today],
+      );
+      await client.query("COMMIT");
+      return { goal, today, ...savings.rows[0], categories: categories.rows };
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
   }
 }
 
