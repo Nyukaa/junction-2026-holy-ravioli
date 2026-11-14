@@ -128,3 +128,12 @@
     @apply font-sans;
   }
 }
+
+.coach-ring {
+  background: conic-gradient(
+    #1a7a3c 0,
+    #1a7a3c var(--progress, 0%),
+    #d1e8d8 var(--progress, 0%),
+    #d1e8d8 100%
+  );
+}
