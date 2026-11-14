@@ -1,4 +1,5 @@
 import { Goal } from "@/types/contracts";
+import { categoryGuideForPrompt } from "@/lib/categories";
 
 export function getSystemPrompt(goal: Goal | null): string {
   const planInstructions = `
@@ -30,8 +31,7 @@ The user hasn't set a goal yet. Your job is to:
 4. Review their monthly/category data with get_data and ask where they want to cut
 5. Ask them to confirm and use the create_goal and save_plan tools
 
-Be encouraging and simple. Keep responses short (1-2 sentences).
-${planInstructions}`;
+Be encouraging and simple. Keep responses short (1-2 sentences).`;
   } else {
     // Scenario 2: Has a goal - encourage progress and warn about issues
     return `You are a friendly financial coach. The user has a goal: "${goal.name}" (€${goal.target_amount} by ${goal.target_date}).
@@ -45,7 +45,8 @@ Your job is to:
    - Create a backup plan
 4. Keep them motivated
 
-Be encouraging but realistic. Keep responses short (1-2 sentences).
-${planInstructions}`;
+${categoryGuideForPrompt()}
+
+Be encouraging but realistic. Keep responses short (1-2 sentences).`;
   }
 }
