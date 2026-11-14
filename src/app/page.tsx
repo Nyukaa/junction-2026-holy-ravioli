@@ -8,7 +8,7 @@ import { Onboarding, type Plan } from "@/components/coach/Onboarding";
 import { PhoneShell } from "@/components/coach/PhoneShell";
 import { Progress } from "@/components/coach/Progress";
 import { fetchStatus, sendChat } from "@/lib/api-client";
-import type { Goal } from "@/types/contracts";
+import type { Goal, Progress as ApiProgress } from "@/types/contracts";
 
 type Step = "onboarding" | "progress" | "adapt";
 
@@ -61,6 +61,7 @@ function planFromGoal(goal: Goal, monthlyFromPlan?: number): Plan {
   const monthsTotal = monthsUntil(goal.target_date);
   return {
     goal: "holiday",
+    goalType: goal.name.toLowerCase(),
     name: goal.name,
     amount: goal.target_amount,
     deadline: formatDeadline(goal.target_date),
@@ -74,8 +75,10 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<Tab>("coach");
   const [step, setStep] = useState<Step>("onboarding");
   const [plan, setPlan] = useState<Plan | null>(null);
+  const [progress, setProgress] = useState<ApiProgress | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [bootError, setBootError] = useState<string | null>(null);
+  const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -85,7 +88,9 @@ export default function Home() {
         if (cancelled) return;
         if (status.goal) {
           setPlan(planFromGoal(status.goal));
+          setProgress(status.progress);
           setStep("progress");
+          setShowChat(true);
         }
       } catch (err) {
         if (!cancelled)
@@ -115,6 +120,36 @@ export default function Home() {
     }
   }
 
+  async function handleOnboardingSubmit(draft: Plan) {
+    const message = `I want to save ${draft.amount}€ for ${draft.goalType} by ${draft.deadline}`;
+    setMessages((m) => [...m, { role: "user", text: message }]);
+    try {
+      const { reply } = await sendChat(message);
+      setMessages((m) => [...m, { role: "assistant", text: reply }]);
+    } catch {
+      setMessages((m) => [
+        ...m,
+        {
+          role: "assistant",
+          text: "I couldn't reach the coach. Please try again.",
+        },
+      ]);
+    }
+    try {
+      const status = await fetchStatus();
+      if (status.goal) {
+        setPlan(planFromGoal(status.goal));
+        setProgress(status.progress);
+        setStep("progress");
+        setShowChat(true);
+      } else {
+        setTimeout(() => setShowChat(true), 1000);
+      }
+    } catch {
+      setTimeout(() => setShowChat(true), 1000);
+    }
+  }
+
   return (
     <PhoneShell nav={<BottomNav active={activeTab} onChange={setActiveTab} />}>
       {activeTab === "coach" ? (
@@ -125,21 +160,20 @@ export default function Home() {
             </div>
           )}
           {step === "onboarding" && (
-            <Onboarding
-              onCreate={(p) => {
-                setPlan(p);
-                setStep("progress");
-              }}
-            />
+            <Onboarding onCreate={handleOnboardingSubmit} />
           )}
           {step === "progress" && plan && (
-            <Progress plan={plan} onAdapt={() => setStep("adapt")} />
+            <Progress
+              plan={plan}
+              progress={progress}
+              onAdapt={() => setStep("adapt")}
+            />
           )}
           {step === "adapt" && plan && (
             <Adaptive onBack={() => setStep("progress")} />
           )}
 
-          {plan && (
+          {showChat && (
             <Chat
               messages={messages}
               onSend={handleSend}

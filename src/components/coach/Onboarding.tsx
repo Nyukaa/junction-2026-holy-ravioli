@@ -1,6 +1,6 @@
 "use client";
 
-import { PartyPopper } from "lucide-react";
+import { Loader2, PartyPopper } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,7 @@ export type Goal = "holiday" | "home" | "emergency" | "other";
 
 export type Plan = {
   goal: Goal;
+  goalType: string;
   name: string;
   amount: number;
   deadline: string;
@@ -86,11 +87,16 @@ function formatMonth(value: string) {
   });
 }
 
-export function Onboarding({ onCreate }: { onCreate: (plan: Plan) => void }) {
+export function Onboarding({
+  onCreate,
+}: {
+  onCreate: (plan: Plan) => Promise<void> | void;
+}) {
   const [goal, setGoal] = useState<Goal | null>(null);
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("1200");
   const [deadline, setDeadline] = useState(defaultDeadline);
+  const [submitting, setSubmitting] = useState(false);
 
   const activeGoal = goal ? goals.find((g) => g.id === goal)! : null;
   const amountNum = Math.max(
@@ -106,16 +112,22 @@ export function Onboarding({ onCreate }: { onCreate: (plan: Plan) => void }) {
     if (!name) setName(preset.defaultName);
   }
 
-  function submit() {
-    if (!goal || amountNum <= 0) return;
-    onCreate({
-      goal,
-      name: name.trim() || activeGoal!.defaultName,
-      amount: amountNum,
-      deadline: formatMonth(deadline),
-      monthsTotal: months,
-      monthlySaving: monthly,
-    });
+  async function submit() {
+    if (!goal || amountNum <= 0 || submitting) return;
+    setSubmitting(true);
+    try {
+      await onCreate({
+        goal,
+        goalType: activeGoal!.title.toLowerCase(),
+        name: name.trim() || activeGoal!.defaultName,
+        amount: amountNum,
+        deadline: formatMonth(deadline),
+        monthsTotal: months,
+        monthlySaving: monthly,
+      });
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -269,10 +281,18 @@ export function Onboarding({ onCreate }: { onCreate: (plan: Plan) => void }) {
 
             <Button
               onClick={submit}
-              disabled={amountNum <= 0}
+              disabled={amountNum <= 0 || submitting}
               className="mt-5 h-12 w-full rounded-2xl bg-brand-green text-base font-semibold text-white hover:bg-brand-green-dark disabled:opacity-50"
             >
-              Start saving <Icon name="arrow" size={18} />
+              {submitting ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" /> Starting…
+                </>
+              ) : (
+                <>
+                  Start saving <Icon name="arrow" size={18} />
+                </>
+              )}
             </Button>
           </div>
 

@@ -3,40 +3,21 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import type { Progress as ApiProgress } from "@/types/contracts";
 import { CoachHeader } from "./CoachHeader";
 import type { Plan } from "./Onboarding";
 
-type Status = "on-track" | "slightly-behind" | "behind" | "ahead";
-
-function getStatus(
-  saved: number,
-  goalAmount: number,
-  monthsPassed: number,
-  monthsTotal: number,
-): Status {
-  const actual = saved / goalAmount;
-  const planned = monthsPassed / monthsTotal;
-  const delta = actual - planned;
-  if (delta >= 0.05) return "ahead";
-  if (delta >= -0.05) return "on-track";
-  if (delta >= -0.15) return "slightly-behind";
-  return "behind";
-}
+type Status = "on-track" | "behind";
 
 const insights: Record<Status, string> = {
   "on-track": "You're right on schedule. Keep it up!",
-  ahead: "You're ahead of plan — nice work. You could reach your goal sooner.",
-  "slightly-behind":
-    "You're a bit behind. A small top-up next month would bring you back on track.",
   behind:
-    "You're more than 15% below pace. Let's adjust so your goal stays realistic.",
+    "You're a bit behind. A small top-up next month would bring you back on track.",
 };
 
 const statusStyles: Record<Status, { fill: string; text: string }> = {
   "on-track": { fill: "bg-brand-green", text: "text-brand-green" },
-  ahead: { fill: "bg-brand-green", text: "text-brand-green" },
-  "slightly-behind": { fill: "bg-[#f59e0b]", text: "text-[#b45309]" },
-  behind: { fill: "bg-[#f97316]", text: "text-[#c2410c]" },
+  behind: { fill: "bg-[#f59e0b]", text: "text-[#b45309]" },
 };
 
 const chevronClip = "polygon(0 0, 80% 0, 100% 50%, 80% 100%, 0 100%, 20% 50%)";
@@ -75,21 +56,21 @@ function ArrowBar({ percent, color }: { percent: number; color: string }) {
 
 export function Progress({
   plan,
+  progress,
   onAdapt,
 }: {
   plan: Plan;
+  progress: ApiProgress | null;
   onAdapt: () => void;
 }) {
-  const [showDetails, setShowDetails] = useState(false);
   const [animatedPercent, setAnimatedPercent] = useState(0);
   const [insightVisible, setInsightVisible] = useState(false);
 
-  // Demo state — these would come from real data in production
-  const saved = Math.round(plan.amount * 0.35);
-  const monthsPassed = Math.max(1, Math.round(plan.monthsTotal * 0.33));
-  const percent = (saved / plan.amount) * 100;
+  const saved = progress?.saved_amount ?? 0;
+  const percent = progress?.percentage ?? 0;
+  const onTrack = progress?.on_track ?? true;
 
-  const status = getStatus(saved, plan.amount, monthsPassed, plan.monthsTotal);
+  const status: Status = onTrack ? "on-track" : "behind";
   const styles = statusStyles[status];
   const insight = insights[status];
 
@@ -152,41 +133,8 @@ export function Progress({
           >
             Change plan
           </Button>
-          <button
-            onClick={() => setShowDetails((v) => !v)}
-            className="mt-2 w-full text-center text-sm font-semibold text-brand-green hover:underline"
-          >
-            {showDetails ? "Hide details" : "Show details"}
-          </button>
         </div>
-
-        {showDetails && (
-          <div className="animate-in fade-in-0 slide-in-from-top-2 mt-4 space-y-2 rounded-2xl bg-slate-50 p-3 duration-300">
-            <div className="flex items-center justify-between text-xs text-slate-700">
-              <span>Oct · Monthly saving</span>
-              <strong className="text-slate-900">+€{plan.monthlySaving}</strong>
-            </div>
-            <div className="flex items-center justify-between text-xs text-slate-700">
-              <span>Sep · Monthly saving</span>
-              <strong className="text-slate-900">+€{plan.monthlySaving}</strong>
-            </div>
-            <div className="flex items-center justify-between text-xs text-slate-700">
-              <span>Aug · Partial</span>
-              <strong className="text-slate-900">
-                +€{Math.round(plan.monthlySaving * 0.6)}
-              </strong>
-            </div>
-            <div className="mt-2 flex items-center justify-between border-t border-slate-200 pt-2 text-xs">
-              <span className="text-slate-500">Target per month</span>
-              <strong className="text-slate-900">€{plan.monthlySaving}</strong>
-            </div>
-          </div>
-        )}
       </Card>
-
-      <p className="px-5 text-center text-[11px] text-slate-400">
-        Illustrative insights based on synthetic financial data.
-      </p>
     </main>
   );
 }
