@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 
     let response = await client.messages.create({
       model: MODEL,
-      max_tokens: 1024,
+      max_tokens: 8192,
       system: systemPrompt,
       messages,
       tools,
@@ -71,11 +71,17 @@ export async function POST(req: NextRequest) {
 
       response = await client.messages.create({
         model: MODEL,
-        max_tokens: 1024,
+        max_tokens: 8192,
         system: systemPrompt,
         messages,
         tools,
       });
+    }
+
+    if (response.stop_reason === "max_tokens") {
+      console.error(
+        "Chat response hit max_tokens before finishing (likely a large save_plan call)"
+      );
     }
 
     // Extract final text response
