@@ -1,24 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import type { Progress as ApiProgress } from "@/types/contracts";
 import { CoachHeader } from "./CoachHeader";
 import type { Plan } from "./Onboarding";
-
-type Status = "on-track" | "behind";
-
-const insights: Record<Status, string> = {
-  "on-track": "You're right on schedule. Keep it up!",
-  behind:
-    "You're a bit behind. A small top-up next month would bring you back on track.",
-};
-
-const statusStyles: Record<Status, { fill: string; text: string }> = {
-  "on-track": { fill: "bg-brand-green", text: "text-brand-green" },
-  behind: { fill: "bg-[#f59e0b]", text: "text-[#b45309]" },
-};
 
 const chevronClip = "polygon(0 0, 80% 0, 100% 50%, 80% 100%, 0 100%, 20% 50%)";
 
@@ -68,11 +55,40 @@ export function Progress({
 
   const saved = progress?.saved_amount ?? 0;
   const percent = progress?.percentage ?? 0;
-  const onTrack = progress?.on_track ?? true;
+  const isOnTrack = progress?.on_track ?? true;
 
-  const status: Status = onTrack ? "on-track" : "behind";
-  const styles = statusStyles[status];
-  const insight = insights[status];
+  const barColor = isOnTrack ? "bg-green-700" : "bg-yellow-400";
+  const accentColor = isOnTrack ? "text-green-700" : "text-yellow-500";
+
+  const statusMessages = [
+    "💡 You're right on schedule. Keep it up!",
+    "🚀 Great pace! You're making solid progress.",
+    "✨ Everything is going according to plan. Stay focused!",
+    "🔥 You're crushing it! Keep that momentum going.",
+    "🎯 Right on target. You've got this!",
+    "⚡ Steady progress! Keep pushing forward.",
+    "🌟 Looking good! You're right where you need to be.",
+    "💪 Great rhythm! Stay on track and finish strong.",
+    "📈 Smooth sailing so far. Keep up the great work!",
+    "🏆 Spot on! Your consistency is paying off.",
+  ];
+
+  const budgetTips = [
+    "Save on food delivery to rescue your Friday coffee and cake.",
+    "Choose a walk instead of a taxi — your budget will thank you.",
+    "Cook dinner at home tonight so you can treat yourself later.",
+    "Brew tea in a thermos and put the savings toward your goal.",
+    "Skip one impulse buy and get closer to your dream vacation.",
+    "Walk a couple of stops and earn a bonus for dessert.",
+    "Set aside your spare change to throw yourself a little treat at the end of the week.",
+  ];
+
+  const insight = useMemo(() => {
+    const arr = isOnTrack ? statusMessages : budgetTips;
+    // eslint-disable-next-line react-hooks/purity
+    return arr[Math.floor(Math.random() * arr.length)];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOnTrack]);
 
   useEffect(() => {
     const t1 = setTimeout(() => setAnimatedPercent(percent), 50);
@@ -95,7 +111,7 @@ export function Progress({
       <Card className="mx-5 gap-0 rounded-2xl bg-white p-5 shadow-sm ring-0">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-slate-900">{plan.name}</h2>
-          <span className="text-base font-semibold text-brand-green">
+          <span className={`text-base font-semibold ${accentColor}`}>
             {Math.round(percent)}%
           </span>
         </div>
@@ -104,7 +120,7 @@ export function Progress({
         </div>
 
         <div className="mt-4">
-          <ArrowBar percent={animatedPercent} color={styles.fill} />
+          <ArrowBar percent={animatedPercent} color={barColor} />
           <div className="mt-2 flex items-center justify-between text-sm">
             <span className="font-semibold text-slate-900">
               €{saved.toLocaleString("en-GB")} saved
@@ -120,9 +136,6 @@ export function Progress({
             insightVisible ? "opacity-100" : "opacity-0"
           }`}
         >
-          <span className="text-lg leading-none" aria-hidden="true">
-            💡
-          </span>
           <p className="text-sm leading-relaxed text-slate-700">{insight}</p>
         </div>
 

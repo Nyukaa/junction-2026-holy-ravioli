@@ -56,12 +56,6 @@ const goals: {
   },
 ];
 
-function defaultDeadline() {
-  const d = new Date();
-  d.setMonth(d.getMonth() + 12);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-}
-
 function parseMonth(value: string) {
   const [y, m] = value.split("-").map(Number);
   if (!y || !m) return null;
@@ -95,7 +89,15 @@ export function Onboarding({
   const [goal, setGoal] = useState<Goal | null>(null);
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("1200");
-  const [deadline, setDeadline] = useState(defaultDeadline);
+  const [deadline, setDeadline] = useState("");
+
+  useEffect(() => {
+    const d = new Date();
+    d.setMonth(d.getMonth() + 12);
+    const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setDeadline(value);
+  }, []);
   const [submitting, setSubmitting] = useState(false);
   const [showSteps, setShowSteps] = useState(true);
   const chatRef = useRef<HTMLDivElement>(null);

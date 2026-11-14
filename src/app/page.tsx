@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Adaptive } from "@/components/coach/Adaptive";
 import { BottomNav, type Tab } from "@/components/coach/BottomNav";
@@ -79,6 +80,7 @@ export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [bootError, setBootError] = useState<string | null>(null);
   const [showChat, setShowChat] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
@@ -92,11 +94,14 @@ export default function Home() {
           setStep("progress");
           setShowChat(true);
         }
+        setLoading(false);
       } catch (err) {
-        if (!cancelled)
+        if (!cancelled) {
           setBootError(
             err instanceof Error ? err.message : "Could not load status",
           );
+          setLoading(false);
+        }
       }
     })();
     return () => {
@@ -151,34 +156,40 @@ export default function Home() {
   return (
     <PhoneShell nav={<BottomNav active={activeTab} onChange={setActiveTab} />}>
       {activeTab === "coach" ? (
-        <>
-          {bootError && (
-            <div className="mx-5 mt-3 rounded-xl bg-amber-50 p-3 text-xs text-amber-800">
-              {bootError}
-            </div>
-          )}
-          {step === "onboarding" && (
-            <Onboarding onCreate={handleOnboardingSubmit} />
-          )}
-          {step === "progress" && plan && (
-            <Progress
-              plan={plan}
-              progress={progress}
-              onAdapt={() => setStep("adapt")}
-            />
-          )}
-          {step === "adapt" && plan && (
-            <Adaptive onBack={() => setStep("progress")} />
-          )}
+        loading ? (
+          <main className="flex h-full items-center justify-center">
+            <Loader2 className="animate-spin text-brand-green" size={32} />
+          </main>
+        ) : (
+          <>
+            {bootError && (
+              <div className="mx-5 mt-3 rounded-xl bg-amber-50 p-3 text-xs text-amber-800">
+                {bootError}
+              </div>
+            )}
+            {step === "onboarding" && (
+              <Onboarding onCreate={handleOnboardingSubmit} />
+            )}
+            {step === "progress" && plan && (
+              <Progress
+                plan={plan}
+                progress={progress}
+                onAdapt={() => setStep("adapt")}
+              />
+            )}
+            {step === "adapt" && plan && (
+              <Adaptive onBack={() => setStep("progress")} />
+            )}
 
-          {showChat && (
-            <Chat
-              messages={messages}
-              onSend={handleSend}
-              showSuggestions={step === "progress"}
-            />
-          )}
-        </>
+            {showChat && (
+              <Chat
+                messages={messages}
+                onSend={handleSend}
+                showSuggestions={step === "progress"}
+              />
+            )}
+          </>
+        )
       ) : (
         <Placeholder tab={activeTab} />
       )}
