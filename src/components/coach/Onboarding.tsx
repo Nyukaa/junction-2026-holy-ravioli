@@ -286,11 +286,11 @@ export function Onboarding({
             >
               {submitting ? (
                 <>
-                  <Loader2 size={18} className="animate-spin" /> Starting…
+                  <Loader2 size={18} className="animate-spin" /> Setting up…
                 </>
               ) : (
                 <>
-                  Start saving <Icon name="arrow" size={18} />
+                  Let&apos;s set a goal! <Icon name="arrow" size={18} />
                 </>
               )}
             </Button>

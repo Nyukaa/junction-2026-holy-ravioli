@@ -1,6 +1,5 @@
 import { Db } from "./types";
 import { Goal, Progress, Warning } from "@/types/contracts";
-import { FakeDb } from "./fake";
 import { getPool } from "./pool";
 import type { Pool, PoolClient } from "pg";
 import {
@@ -331,7 +330,7 @@ let db: Db | null = null;
 
 export function getDb(): Db {
   if (!db) {
-    db = process.env.DB_BACKEND === "fake" ? new FakeDb() : new DbImpl();
+    db = new DbImpl();
   }
   return db;
 }

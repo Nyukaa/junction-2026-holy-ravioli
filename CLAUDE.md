@@ -41,7 +41,6 @@ src/lib/db/              the only place that talks to PostgreSQL (Alex)
   index.ts               implementation of Db
   queries/               SQL
   logic/                 pure goal math: plan generation, progress tracking, warning detection, monthly budget allocation
-  fake.ts                fake Db with fixtures, for working before the real one is ready
 src/types/contracts.ts   shared types. Change only when all three agree
 db/migrations/           numbered SQL files (001_..., 004_...)
 scripts/                 data loading, CSV import. Run by hand, not part of the app
