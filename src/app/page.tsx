@@ -178,7 +178,10 @@ export default function Home() {
               />
             )}
             {step === "adapt" && plan && (
-              <Adaptive onBack={() => setStep("progress")} />
+              <Adaptive
+                onBack={() => setStep("progress")}
+                onAutoSend={handleSend}
+              />
             )}
 
             {showChat && (
