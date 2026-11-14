@@ -1,7 +1,7 @@
-# Project Tasks — Trip Coach
+# Project Tasks — Money Polku
 
 **Hackathon deadline:** 48 hours from kickoff  
-**Scenario 1 (goal creation):** User opens app for first time. Chats with AI to define goal (Alps trip, 3 months, €2000). Agent suggests plan (save €700/month by cutting dining). User confirms. Goal saved.  
+**Scenario 1 (goal creation):** User opens app for first time. The AI looks at the data and asks "Is this you?". Chats with AI to define goal (Alps trip, 3 months, €2000). Agent suggests plan (save €700/month by cutting dining). User confirms. Goal saved.  
 **Scenario 2 (on track + warning):** User opens app. Sees progress "€600/€2000 saved". Warning: "⚠️ Laptop broke (€500). Now €500 behind. Options: (1) cut spending, (2) delay trip."
 
 | Priority | Task | Owner | Status | Notes |
@@ -17,6 +17,11 @@
 | **P1** | Agent prompts: coach user to create goal, then encourage/warn | Anna | — | System prompt: ask questions in Scenario 1, give feedback in Scenario 2 |
 | **P1** | UI: chat interface, message list, input | Elya | — | Fetch from /api/chat, show messages, handle loading + errors |
 | **P1** | UI: home page with goal progress + warning alert | Elya | — | Show "€X/€Y saved", motivation text, warning banner if issues detected |
+| **P1** | Agent: "Is this you?" step: summarize patterns from the data, ask the user to confirm | Anna | — | Uses db tool results only. User confirms or corrects before the plan |
+| **P1** | Database: sprint (weekly limit + reward), forecast line vs real savings, status 🟢/🟡/🔴 | Alex | — | Plain code. Texts built by code |
+| **P1** | Database + agent: yellow zone and rescue quest (2 days, never above the overspend) | Alex, Anna | — | Category over its limit gives a quest, not a ban |
+| **P1** | UI: sprint card, forecast vs real chart (dashed vs solid green line), status bar colors, buttons Change goal / Explain | Elya | — | Contract for the new fields: agree in `src/types/contracts.ts` first |
+| **P2** | Cleanup: remove `src/app/api/ask/route.ts` (starter leftover) and `src/backend/` (old Python draft) | Anna | — | The rule is two endpoints only. The stack is TypeScript |
 | **P2** | Testing: manual walk-through Scenario 1 + Scenario 2 | All | — | Browser on phone size, verify end-to-end flow |
 | **P2** | Documentation: spec files (ui.md, api-and-agent.md, database.md) | Each | — | One per owner, reference _template.md |
 | **P2** | TypeScript strict + linting + formatting | All | — | `npx tsc --noEmit`, `npm run lint` must pass |

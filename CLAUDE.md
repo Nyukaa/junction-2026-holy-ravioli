@@ -1,10 +1,10 @@
-# Project: Trip Coach (team Holy Ravioli)
+# Project: Money Polku (team Holy Ravioli)
 
 Junction 2026, S-Bank challenge. We have 48 hours. A working demo matters more than perfect code.
 
 ## What we build
 
-A goal-focused money coach. The user chats with an AI agent to define ONE goal (e.g., Alps trip) and create a plan to reach it. The agent coaches them, tracks progress, and gives encouragement + warnings when spending goes off-track. Plain code in the database layer does all the math. Data is the synthetic S-Bank dataset in PostgreSQL on Aiven. Full idea: `docs/idea.md`.
+An AI money planner. It finds spending patterns from S-Bank (S-Pankki) mock data, asks the user "Is this right?", then shows what the user can afford (the goal), when, and what to change to reach it. The home screen shows dream progress, a weekly sprint, a forecast-vs-actual chart and a status (🟢 on track, 🟡 spending too fast). When spending goes off course, the AI gives a rescue quest (one clear action for 2 days). The user can tap **Change goal** or **Explain**. Plain code in the database layer does all the math. Data is the synthetic S-Bank dataset in PostgreSQL on Aiven. Full idea: `docs/idea.md`.
 
 ## Stack
 
@@ -14,7 +14,7 @@ Next.js (App Router) + TypeScript (strict) + Tailwind + shadcn/ui + Anthropic SD
 
 ```
 UI (Elya) --HTTP--> API: exactly 2 endpoints (Anna)
-                      GET  /api/status  --> db methods                      (goal state, progress, warnings, no AI)
+                      GET  /api/status  --> db methods                      (goal, progress, sprint, forecast line, status, quest, no AI)
                       POST /api/chat    --> agent --> tools --> db methods  (tools are thin wrappers; agent coaches user)
                                                                     |
                                           database layer (Alex): SQL + goal tracking + plan math
@@ -23,7 +23,7 @@ UI (Elya) --HTTP--> API: exactly 2 endpoints (Anna)
 ```
 
 - Only two endpoints exist: `GET /api/status` (goal + progress + warnings) and `POST /api/chat`. Do not add more without asking
-- `POST /api/chat` takes only text and returns JSON: `reply` (coaching text or encouragement/warning), `goal` (if just created), `actions` (suggested options on warning)
+- `POST /api/chat` takes only text and returns JSON: `reply` (coaching text or encouragement/warning), `goal` (if just created), `actions` (buttons: options on a warning, **Change goal**, **Explain**)
 - An agent tool is a thin wrapper: one tool = one method of the `Db` interface. No SQL, no math, no pool in the tools
 - All goal math lives in `src/lib/db/*` (Alex). The model never calculates and never writes a number
 
@@ -88,6 +88,9 @@ If a task needs changes in someone else's area, tell me before you do it.
 
 - Numbers come only from the database layer. The model never calculates or writes a number. If the reply contains a number not in tool results, it is dropped and a fallback is used
 - One goal per customer. Goal has: name, target date, target amount, reason (optional). Plan has: monthly budget, spending categories and limits.
+- Before making a plan, the agent shows what it found in the user's data and asks "Is this you?". The user confirms or corrects
+- Status: 🟢 on track, 🟡 spending a bit faster than the forecast, 🔴 far behind. Status texts and the chart lines (forecast vs real savings) are built by code from the database
+- Yellow zone: when one category goes over its limit, give a rescue quest (one clear action for 2 days, never a ban). The amount to save never goes above the overspend
 - Encourage: "Great! You're €200 closer to your Alps trip. Spending is on track." Warn: "⚠️ Your laptop broke (€500). You're now €500 behind. Options: cut €500 elsewhere or delay trip 1 month."
 - Money is EUR. Use actual amounts, not ranges or forecasts, but ranges for "next month is Christmas" type warnings
 - Transfers (`salary_sweep`, `investment_deposit`, `investment_withdrawal`) are not spending
