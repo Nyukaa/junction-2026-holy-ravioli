@@ -1,10 +1,12 @@
 import { Db } from "@/lib/db/types";
+import { savePlanSchema } from "@/lib/db/plans";
+import { z } from "zod";
 
 export async function executeTool(
   toolName: string,
   toolInput: Record<string, unknown>,
   db: Db,
-  customerId: string
+  customerId: string,
 ): Promise<string> {
   try {
     switch (toolName) {
@@ -32,14 +34,17 @@ export async function executeTool(
       }
 
       case "save_plan": {
-        const plan = await db.savePlan(customerId, {
-          monthly_savings: toolInput.monthly_savings as number,
-          categories: toolInput.categories as Record<string, number>,
-        });
+        const { entries } = savePlanSchema.parse(toolInput);
+        const plan = await db.savePlan(customerId, entries);
         return JSON.stringify({
           message: "Plan saved and is now active",
           plan,
         });
+      }
+
+      case "get_data": {
+        z.object({}).strict().parse(toolInput);
+        return JSON.stringify(await db.getFinancialData(customerId));
       }
 
       case "detect_issues": {
@@ -51,6 +56,7 @@ export async function executeTool(
         return JSON.stringify({ error: `Unknown tool: ${toolName}` });
     }
   } catch (error) {
+    console.error(`Tool ${toolName} failed:`, error);
     const message = error instanceof Error ? error.message : "Unknown error";
     return JSON.stringify({ error: message });
   }
