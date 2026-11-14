@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Capybara } from "./Capybara";
+import ReactMarkdown from "react-markdown";
 import { Icon } from "./Icon";
 
 export type Message = { role: "user" | "assistant"; text: string };
@@ -17,29 +17,25 @@ export function Chat({
   messages,
   onSend,
   showSuggestions = true,
+  isThinking = false,
 }: {
   messages: Message[];
   onSend: (text: string) => void | Promise<void>;
   showSuggestions?: boolean;
+  isThinking?: boolean;
 }) {
   const [draft, setDraft] = useState("");
-  const [loading, setLoading] = useState(false);
 
   async function submit(text: string) {
     const value = text.trim();
-    if (!value || loading) return;
-    setLoading(true);
+    if (!value || isThinking) return;
     setDraft("");
-    try {
-      await onSend(value);
-    } finally {
-      setLoading(false);
-    }
+    await onSend(value);
   }
 
   return (
     <section className="mx-5 mt-2 mb-6 flex flex-col gap-3">
-      {showSuggestions && messages.length === 0 && (
+      {showSuggestions && messages.length === 0 && !isThinking && (
         <>
           <h2 className="text-sm font-bold text-slate-900">
             What would you like to know?
@@ -58,7 +54,7 @@ export function Chat({
         </>
       )}
 
-      {messages.length > 0 && (
+      {(messages.length > 0 || isThinking) && (
         <div className="flex flex-col gap-2">
           {messages.map((m, i) =>
             m.role === "user" ? (
@@ -71,21 +67,20 @@ export function Chat({
             ) : (
               <div
                 key={i}
-                className="flex max-w-[90%] items-end gap-2 self-start"
+                className="prose prose-sm max-w-[90%] self-start rounded-2xl rounded-bl-md bg-white px-4 py-3 text-sm leading-relaxed text-slate-800 shadow-sm prose-strong:text-brand-green prose-headings:text-brand-green prose-ol:my-2 prose-ol:pl-5 prose-ul:my-2 prose-ul:pl-5 prose-li:my-0.5 prose-p:my-1"
               >
-                <Capybara size={28} />
-                <div className="rounded-2xl rounded-bl-md bg-white px-3.5 py-2 text-sm leading-relaxed text-slate-800 shadow-sm">
-                  {m.text}
-                </div>
+                <ReactMarkdown>{m.text}</ReactMarkdown>
               </div>
             ),
           )}
-          {loading && (
-            <div className="flex items-end gap-2 self-start">
-              <Capybara size={28} />
-              <div className="rounded-2xl rounded-bl-md bg-white px-3.5 py-2 text-sm text-slate-400 shadow-sm">
-                Thinking…
+          {isThinking && (
+            <div className="flex w-fit items-center gap-2 self-start rounded-2xl bg-white px-4 py-3 shadow-sm">
+              <div className="flex gap-1">
+                <span className="h-2 w-2 animate-bounce rounded-full bg-green-700 [animation-delay:0ms]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-green-700 [animation-delay:150ms]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-green-700 [animation-delay:300ms]" />
               </div>
+              <span className="text-sm text-muted-foreground">Thinking...</span>
             </div>
           )}
         </div>
@@ -107,7 +102,7 @@ export function Chat({
         />
         <button
           type="submit"
-          disabled={loading || !draft.trim()}
+          disabled={isThinking || !draft.trim()}
           aria-label="Send question"
           className="grid size-9 place-items-center rounded-full bg-brand-green text-white transition-opacity disabled:opacity-40"
         >

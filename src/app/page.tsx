@@ -81,6 +81,7 @@ export default function Home() {
   const [bootError, setBootError] = useState<string | null>(null);
   const [showChat, setShowChat] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isThinking, setIsThinking] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -111,6 +112,7 @@ export default function Home() {
 
   async function handleSend(text: string) {
     setMessages((m) => [...m, { role: "user", text }]);
+    setIsThinking(true);
     try {
       const { reply } = await sendChat(text);
       setMessages((m) => [...m, { role: "assistant", text: reply }]);
@@ -122,6 +124,8 @@ export default function Home() {
           text: "I couldn't reach the coach. Please try again.",
         },
       ]);
+    } finally {
+      setIsThinking(false);
     }
   }
 
@@ -129,6 +133,7 @@ export default function Home() {
     setShowChat(true);
     const message = `I want to save ${draft.amount}€ for ${draft.goalType} by ${draft.deadline}`;
     setMessages((m) => [...m, { role: "user", text: message }]);
+    setIsThinking(true);
     try {
       const { reply } = await sendChat(message);
       setMessages((m) => [...m, { role: "assistant", text: reply }]);
@@ -140,6 +145,8 @@ export default function Home() {
           text: "I couldn't reach the coach. Please try again.",
         },
       ]);
+    } finally {
+      setIsThinking(false);
     }
     try {
       const status = await fetchStatus();
@@ -189,6 +196,7 @@ export default function Home() {
                 messages={messages}
                 onSend={handleSend}
                 showSuggestions={step === "progress"}
+                isThinking={isThinking}
               />
             )}
           </>
