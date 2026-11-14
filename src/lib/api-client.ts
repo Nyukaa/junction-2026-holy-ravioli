@@ -1,6 +1,6 @@
 import type { Goal, Progress, Warning } from "@/types/contracts";
 
-const DEMO_CUSTOMER = "CUST00001";
+const DEMO_CUSTOMER = "CUST00009";
 
 export type StatusResponse = {
   goal: Goal | null;

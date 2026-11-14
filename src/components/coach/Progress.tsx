@@ -74,7 +74,13 @@ export function Progress({
   ];
 
   const budgetTips = [
-    "🍰 Save on food delivery to rescue your Friday coffee and cake.", "🚶‍♂️ Choose a walk instead of a taxi — your budget will thank you.", "🍳 Cook dinner at home tonight so you can treat yourself later.", "🫖 Brew tea in a thermos and put the savings toward your goal.", "🛍️ Skip one impulse buy and get closer to your dream vacation.", "👟 Walk a couple of stops and earn a bonus for dessert.", "🎉 Set aside your spare change to throw yourself a little treat at the end of the week.",
+    "🍰 Save on food delivery to rescue your Friday coffee and cake.",
+    "🚶‍♂️ Choose a walk instead of a taxi — your budget will thank you.",
+    "🍳 Cook dinner at home tonight so you can treat yourself later.",
+    "🫖 Brew tea in a thermos and put the savings toward your goal.",
+    "🛍️ Skip one impulse buy and get closer to your dream vacation.",
+    "👟 Walk a couple of stops and earn a bonus for dessert.",
+    "🎉 Set aside your spare change to throw yourself a little treat at the end of the week.",
   ];
 
   const insight = useMemo(() => {
@@ -83,6 +89,23 @@ export function Progress({
     return arr[Math.floor(Math.random() * arr.length)];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOnTrack]);
+
+  const greetingName = useMemo(() => {
+    const names = [
+      "Alex",
+      "Mia",
+      "Oliver",
+      "Emma",
+      "Noah",
+      "Sofia",
+      "Lucas",
+      "Ava",
+      "Leo",
+      "Nora",
+    ];
+    // eslint-disable-next-line react-hooks/purity
+    return names[Math.floor(Math.random() * names.length)];
+  }, []);
 
   useEffect(() => {
     const t1 = setTimeout(() => setAnimatedPercent(percent), 50);
@@ -96,8 +119,8 @@ export function Progress({
   return (
     <main className="flex flex-col gap-5 pb-2">
       <CoachHeader
-        eyebrow="GOOD MORNING, ALEX"
-        title={`Your ${plan.goal === "holiday" ? "holiday" : "goal"} is getting closer.`}
+        eyebrow={`GOOD MORNING, ${greetingName.toUpperCase()}`}
+        title="Your goal is getting closer."
         copy="Here's how your plan is progressing."
         compact
       />
