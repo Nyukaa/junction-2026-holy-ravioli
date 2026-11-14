@@ -74,13 +74,7 @@ export function Progress({
   ];
 
   const budgetTips = [
-    "Save on food delivery to rescue your Friday coffee and cake.",
-    "Choose a walk instead of a taxi — your budget will thank you.",
-    "Cook dinner at home tonight so you can treat yourself later.",
-    "Brew tea in a thermos and put the savings toward your goal.",
-    "Skip one impulse buy and get closer to your dream vacation.",
-    "Walk a couple of stops and earn a bonus for dessert.",
-    "Set aside your spare change to throw yourself a little treat at the end of the week.",
+    "🍰 Save on food delivery to rescue your Friday coffee and cake.", "🚶‍♂️ Choose a walk instead of a taxi — your budget will thank you.", "🍳 Cook dinner at home tonight so you can treat yourself later.", "🫖 Brew tea in a thermos and put the savings toward your goal.", "🛍️ Skip one impulse buy and get closer to your dream vacation.", "👟 Walk a couple of stops and earn a bonus for dessert.", "🎉 Set aside your spare change to throw yourself a little treat at the end of the week.",
   ];
 
   const insight = useMemo(() => {
