@@ -16,7 +16,7 @@ export function CoachHeader({
       <Capybara size={compact ? 42 : 54} />
       <div className="flex-1">
         {eyebrow && (
-          <div className="text-[11px] font-bold tracking-[0.14em] text-[#1a7a3c]">
+          <div className="text-[11px] font-bold tracking-[0.14em] text-brand-green">
             {eyebrow}
           </div>
         )}

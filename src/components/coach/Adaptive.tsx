@@ -46,11 +46,11 @@ export function Adaptive({ onBack }: { onBack: () => void }) {
   if (confirmed) {
     return (
       <main className="flex flex-col items-center gap-4 px-6 py-10 text-center">
-        <div className="grid size-14 place-items-center rounded-full bg-[#1a7a3c] text-white">
+        <div className="grid size-14 place-items-center rounded-full bg-brand-green text-white">
           <Icon name="check" size={28} />
         </div>
         <Capybara size={84} />
-        <span className="text-[11px] font-bold tracking-[0.14em] text-[#1a7a3c]">
+        <span className="text-[11px] font-bold tracking-[0.14em] text-brand-green">
           PLAN UPDATED
         </span>
         <h1 className="text-2xl font-bold text-slate-900">
@@ -78,7 +78,7 @@ export function Adaptive({ onBack }: { onBack: () => void }) {
 
         <Button
           onClick={onBack}
-          className="h-12 w-full rounded-full bg-[#1a7a3c] text-base font-semibold text-white hover:bg-[#166a34]"
+          className="h-12 w-full rounded-2xl bg-brand-green text-base font-semibold text-white hover:bg-brand-green-dark"
         >
           Back to my goal <Icon name="arrow" size={18} />
         </Button>
@@ -144,7 +144,7 @@ export function Adaptive({ onBack }: { onBack: () => void }) {
           </div>
         </div>
         <div className="mt-3 flex items-start gap-2 rounded-xl bg-[#f0f7f2] p-3 text-xs leading-relaxed text-slate-600">
-          <span className="mt-0.5 text-[#1a7a3c]">
+          <span className="mt-0.5 text-brand-green">
             <Icon name="spark" size={14} />
           </span>
           <span>
@@ -155,7 +155,7 @@ export function Adaptive({ onBack }: { onBack: () => void }) {
       </section>
 
       <section className="mx-5">
-        <span className="flex items-center gap-1.5 text-[11px] font-bold tracking-[0.14em] text-[#1a7a3c]">
+        <span className="flex items-center gap-1.5 text-[11px] font-bold tracking-[0.14em] text-brand-green">
           <Icon name="spark" size={14} /> COACH RECOMMENDATION
         </span>
         <h2 className="mt-1 text-lg font-bold text-slate-900">
@@ -174,15 +174,15 @@ export function Adaptive({ onBack }: { onBack: () => void }) {
                 onClick={() => setSelected(option.id)}
                 className={`flex items-center gap-3 rounded-2xl border p-3 text-left shadow-sm transition ${
                   active
-                    ? "border-[#1a7a3c] bg-[#d1e8d8]/40"
+                    ? "border-brand-green bg-[#d1e8d8]/40"
                     : "border-transparent bg-white hover:border-black/10"
                 }`}
               >
                 <span
                   className={`grid size-9 shrink-0 place-items-center rounded-xl text-sm font-bold ${
                     active
-                      ? "bg-[#1a7a3c] text-white"
-                      : "bg-[#d1e8d8] text-[#1a7a3c]"
+                      ? "bg-brand-green text-white"
+                      : "bg-[#d1e8d8] text-brand-green"
                   }`}
                 >
                   {option.number}
@@ -191,7 +191,7 @@ export function Adaptive({ onBack }: { onBack: () => void }) {
                   <strong className="block text-sm font-bold text-slate-900">
                     {option.title}
                   </strong>
-                  <b className="mt-0.5 block text-xs font-medium text-[#1a7a3c]">
+                  <b className="mt-0.5 block text-xs font-medium text-brand-green">
                     {option.detail}
                   </b>
                   <small className="mt-0.5 block text-xs leading-snug text-slate-500">
@@ -200,11 +200,11 @@ export function Adaptive({ onBack }: { onBack: () => void }) {
                 </span>
                 <span
                   className={`grid size-5 shrink-0 place-items-center rounded-full border-2 ${
-                    active ? "border-[#1a7a3c]" : "border-slate-300"
+                    active ? "border-brand-green" : "border-slate-300"
                   }`}
                 >
                   {active && (
-                    <i className="size-2.5 rounded-full bg-[#1a7a3c]" />
+                    <i className="size-2.5 rounded-full bg-brand-green" />
                   )}
                 </span>
               </button>
@@ -231,7 +231,7 @@ export function Adaptive({ onBack }: { onBack: () => void }) {
               Your updated plan
             </h2>
           </div>
-          <span className="text-[#1a7a3c]">
+          <span className="text-brand-green">
             <Icon name="trend" size={22} />
           </span>
         </div>
@@ -263,7 +263,7 @@ export function Adaptive({ onBack }: { onBack: () => void }) {
         </div>
 
         <div className="mt-4 h-3 w-full overflow-hidden rounded-full bg-[#d1e8d8]">
-          <div className="h-full w-[35%] rounded-full bg-[#1a7a3c]" />
+          <div className="h-full w-[35%] rounded-full bg-brand-green" />
         </div>
         <div className="mt-1.5 flex items-center justify-between text-[11px] text-slate-500">
           <span>€420 saved</span>
@@ -272,7 +272,7 @@ export function Adaptive({ onBack }: { onBack: () => void }) {
 
         <Button
           onClick={() => setConfirmed(true)}
-          className="mt-4 h-12 w-full rounded-full bg-[#1a7a3c] text-base font-semibold text-white hover:bg-[#166a34]"
+          className="mt-4 h-12 w-full rounded-2xl bg-brand-green text-base font-semibold text-white hover:bg-brand-green-dark"
         >
           Confirm new plan <Icon name="check" size={18} />
         </Button>

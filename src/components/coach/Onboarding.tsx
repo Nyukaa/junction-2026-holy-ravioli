@@ -133,7 +133,7 @@ export function Onboarding({ onCreate }: { onCreate: (plan: Plan) => void }) {
 
       <section className="px-5">
         <div className="mb-3 flex items-center gap-2">
-          <span className="grid size-6 place-items-center rounded-full bg-[#1a7a3c] text-[11px] font-bold text-white">
+          <span className="grid size-6 place-items-center rounded-full bg-brand-green text-[11px] font-bold text-white">
             1
           </span>
           <h2 className="text-base font-bold text-slate-900">
@@ -149,15 +149,15 @@ export function Onboarding({ onCreate }: { onCreate: (plan: Plan) => void }) {
                 onClick={() => pickGoal(item.id)}
                 className={`relative flex flex-col items-start gap-1.5 rounded-2xl border p-3 text-left shadow-sm transition ${
                   selected
-                    ? "border-[#1a7a3c] bg-[#d1e8d8]/40"
+                    ? "border-brand-green bg-[#d1e8d8]/40"
                     : "border-transparent bg-white hover:border-black/10"
                 }`}
               >
                 <span
                   className={`grid size-9 place-items-center rounded-xl ${
                     selected
-                      ? "bg-[#1a7a3c] text-white"
-                      : "bg-[#d1e8d8] text-[#1a7a3c]"
+                      ? "bg-brand-green text-white"
+                      : "bg-[#d1e8d8] text-brand-green"
                   }`}
                 >
                   {item.id === "holiday" ? (
@@ -173,7 +173,7 @@ export function Onboarding({ onCreate }: { onCreate: (plan: Plan) => void }) {
                   {item.description}
                 </span>
                 {selected && (
-                  <span className="absolute top-2 right-2 grid size-5 place-items-center rounded-full bg-[#1a7a3c] text-white">
+                  <span className="absolute top-2 right-2 grid size-5 place-items-center rounded-full bg-brand-green text-white">
                     <Icon name="check" size={12} />
                   </span>
                 )}
@@ -189,7 +189,7 @@ export function Onboarding({ onCreate }: { onCreate: (plan: Plan) => void }) {
           className="animate-in fade-in-0 slide-in-from-bottom-2 flex flex-col gap-4 px-5 duration-500"
         >
           <div className="flex items-center gap-2">
-            <span className="grid size-6 place-items-center rounded-full bg-[#1a7a3c] text-[11px] font-bold text-white">
+            <span className="grid size-6 place-items-center rounded-full bg-brand-green text-[11px] font-bold text-white">
               2
             </span>
             <h2 className="text-base font-bold text-slate-900">
@@ -230,7 +230,7 @@ export function Onboarding({ onCreate }: { onCreate: (plan: Plan) => void }) {
           </div>
 
           <div className="rounded-2xl bg-white p-5 shadow-sm">
-            <div className="flex items-center gap-1.5 text-[11px] font-bold tracking-[0.14em] text-[#1a7a3c]">
+            <div className="flex items-center gap-1.5 text-[11px] font-bold tracking-[0.14em] text-brand-green">
               <Icon name="spark" size={14} /> AI PLAN PREVIEW
             </div>
             <h2 className="mt-2 text-xl font-bold text-slate-900">
@@ -246,7 +246,7 @@ export function Onboarding({ onCreate }: { onCreate: (plan: Plan) => void }) {
                 {formatMonth(deadline)}
               </strong>
               , you&apos;d set aside about{" "}
-              <strong className="font-bold text-[#1a7a3c]">
+              <strong className="font-bold text-brand-green">
                 €{monthly.toLocaleString("en-GB")} per month
               </strong>
               .
@@ -270,7 +270,7 @@ export function Onboarding({ onCreate }: { onCreate: (plan: Plan) => void }) {
             <Button
               onClick={submit}
               disabled={amountNum <= 0}
-              className="mt-5 h-12 w-full rounded-full bg-[#1a7a3c] text-base font-semibold text-white hover:bg-[#166a34] disabled:opacity-50"
+              className="mt-5 h-12 w-full rounded-2xl bg-brand-green text-base font-semibold text-white hover:bg-brand-green-dark disabled:opacity-50"
             >
               Start saving <Icon name="arrow" size={18} />
             </Button>

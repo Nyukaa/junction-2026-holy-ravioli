@@ -32,7 +32,7 @@ function Placeholder({ tab }: { tab: Exclude<Tab, "coach"> }) {
   const info = comingSoonCopy[tab];
   return (
     <main className="flex h-full flex-col items-center justify-center gap-3 px-8 text-center">
-      <span className="text-[11px] font-bold tracking-[0.14em] text-[#1a7a3c]">
+      <span className="text-[11px] font-bold tracking-[0.14em] text-brand-green">
         COMING SOON
       </span>
       <h1 className="text-2xl font-bold text-slate-900">{info.title}</h1>

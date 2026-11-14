@@ -42,7 +42,7 @@ export function BottomNav({
             onClick={() => onChange(tab.id)}
             className={`flex flex-1 flex-col items-center gap-0.5 rounded-lg px-2 py-1.5 transition ${
               isActive
-                ? "text-[#16a34a]"
+                ? "text-brand-green"
                 : "text-[#9ca3af] hover:text-slate-600"
             }`}
           >

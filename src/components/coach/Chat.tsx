@@ -49,7 +49,7 @@ export function Chat({
               <button
                 key={q}
                 onClick={() => submit(q)}
-                className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm hover:text-[#1a7a3c]"
+                className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm hover:text-brand-green"
               >
                 {q}
               </button>
@@ -64,7 +64,7 @@ export function Chat({
             m.role === "user" ? (
               <div
                 key={i}
-                className="max-w-[85%] self-end rounded-2xl rounded-br-md bg-[#1a7a3c] px-3.5 py-2 text-sm text-white"
+                className="max-w-[85%] self-end rounded-2xl rounded-br-md bg-brand-green px-3.5 py-2 text-sm text-white"
               >
                 {m.text}
               </div>
@@ -109,7 +109,7 @@ export function Chat({
           type="submit"
           disabled={loading || !draft.trim()}
           aria-label="Send question"
-          className="grid size-9 place-items-center rounded-full bg-[#1a7a3c] text-white transition-opacity disabled:opacity-40"
+          className="grid size-9 place-items-center rounded-full bg-brand-green text-white transition-opacity disabled:opacity-40"
         >
           <Icon name="send" size={16} />
         </button>
