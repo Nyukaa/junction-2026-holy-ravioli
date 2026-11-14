@@ -43,7 +43,7 @@ export const tools: Tool[] = [
       "Get this customer's actual transactions and confirmed plans grouped by month and category. " +
       "Returns signed EUR totals, entry counts, transaction types, and plan reasons. " +
       "Actuals stop at the database demo clock (as_of); plans include future months. " +
-      "Transfers (salary_sweep, investment_deposit, investment_withdrawal) are excluded from both. " +
+      "Transfers (Salary Sweep, Invest Deposit, Invest Withdraw) are excluded from both. " +
       "Use only returned category/type names and amounts; do not calculate new amounts.",
     input_schema: {
       type: "object",
