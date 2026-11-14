@@ -10,6 +10,7 @@ import {
   moneyToCents,
   type CategoryBudget,
   type GoalSnapshot,
+  type MonthlyCategoryBudget,
 } from "./logic/goals";
 import {
   FinancialData,
@@ -267,16 +268,10 @@ class DbImpl implements Db {
       }
 
       const savings = await client.query<{
-        actual_net_eur: string;
         planned_net_eur: string;
         has_plan: boolean;
       }>(
         `SELECT
-           COALESCE((SELECT SUM(tx_amount_eur) FROM junction.tx
-             WHERE customer_id = $1 AND tx_date > $2::date AND tx_date <= $3::date
-               AND transaction_type NOT IN
-                 ('salary_sweep', 'investment_deposit', 'investment_withdrawal')), 0)::text
-             AS actual_net_eur,
            COALESCE((SELECT SUM(plan_amount_eur) FROM app.plans
              WHERE customer_id = $1 AND plan_date > $2::date AND plan_date <= $3::date
                AND transaction_type NOT IN
@@ -286,6 +281,32 @@ class DbImpl implements Db {
              WHERE customer_id = $1 AND plan_date > $2::date
                AND transaction_type NOT IN
                  ('salary_sweep', 'investment_deposit', 'investment_withdrawal')) AS has_plan`,
+        [customerId, goal.created_at.slice(0, 10), today],
+      );
+      const savingsCategories = await client.query<MonthlyCategoryBudget>(
+        `WITH actuals AS (
+           SELECT to_char(tx_date, 'YYYY-MM') AS month, category,
+                  SUM(tx_amount_eur) AS amount
+           FROM junction.tx
+           WHERE customer_id = $1 AND tx_date > $2::date AND tx_date <= $3::date
+             AND transaction_type NOT IN
+               ('salary_sweep', 'investment_deposit', 'investment_withdrawal')
+           GROUP BY to_char(tx_date, 'YYYY-MM'), category
+         ), budgets AS (
+           SELECT to_char(plan_date, 'YYYY-MM') AS month, category,
+                  SUM(plan_amount_eur) AS amount
+           FROM app.plans
+           WHERE customer_id = $1 AND plan_date > $2::date AND plan_date <= $3::date
+             AND plan_amount_eur < 0
+             AND transaction_type NOT IN
+               ('salary_sweep', 'investment_deposit', 'investment_withdrawal')
+           GROUP BY to_char(plan_date, 'YYYY-MM'), category
+         )
+         SELECT budgets.month, budgets.category,
+                COALESCE(actuals.amount, 0)::text AS actual_amount_eur,
+                budgets.amount::text AS plan_amount_eur
+         FROM budgets LEFT JOIN actuals USING (month, category)
+         ORDER BY budgets.month, budgets.category`,
         [customerId, goal.created_at.slice(0, 10), today],
       );
       const categories = await client.query<CategoryBudget>(
@@ -316,7 +337,13 @@ class DbImpl implements Db {
         [customerId, today],
       );
       await client.query("COMMIT");
-      return { goal, today, ...savings.rows[0], categories: categories.rows };
+      return {
+        goal,
+        today,
+        ...savings.rows[0],
+        savings_categories: savingsCategories.rows,
+        categories: categories.rows,
+      };
     } catch (error) {
       await client.query("ROLLBACK");
       throw error;

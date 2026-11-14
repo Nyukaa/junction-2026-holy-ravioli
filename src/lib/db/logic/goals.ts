@@ -16,10 +16,14 @@ export interface CategoryBudget {
   plan_amount_eur: string | null;
 }
 
+export interface MonthlyCategoryBudget extends CategoryBudget {
+  month: string;
+}
+
 export interface GoalSnapshot {
   goal: Goal;
   today: string;
-  actual_net_eur: string;
+  savings_categories: MonthlyCategoryBudget[];
   planned_net_eur: string;
   has_plan: boolean;
   categories: CategoryBudget[];
@@ -58,6 +62,14 @@ function nonNegative(value: bigint): bigint {
   return value > BigInt(0) ? value : BigInt(0);
 }
 
+function savedFromPlan(snapshot: GoalSnapshot): bigint {
+  return snapshot.savings_categories.reduce((saved, category) => {
+    const budget = nonNegative(-moneyToCents(category.plan_amount_eur ?? "0"));
+    const spent = nonNegative(-moneyToCents(category.actual_amount_eur));
+    return saved + nonNegative(budget - spent);
+  }, BigInt(0));
+}
+
 function dateDay(date: string): number {
   const [year, month, day] = date.slice(0, 10).split("-").map(Number);
   return Date.UTC(year, month - 1, day) / 86400000;
@@ -89,8 +101,7 @@ export function calculateProgress(snapshot: GoalSnapshot | null): Progress {
       on_track: true,
     };
   }
-  const actual = moneyToCents(snapshot.actual_net_eur);
-  const saved = nonNegative(actual);
+  const saved = savedFromPlan(snapshot);
   const target = targetCents(snapshot.goal);
   const percentage = Number(
     (saved * BigInt(100) + target / BigInt(2)) / target,
@@ -99,7 +110,7 @@ export function calculateProgress(snapshot: GoalSnapshot | null): Progress {
     saved_amount: centsToAmount(saved),
     remaining_amount: centsToAmount(nonNegative(target - saved)),
     percentage: Math.min(100, percentage),
-    on_track: actual >= expectedSavings(snapshot),
+    on_track: saved >= expectedSavings(snapshot),
   };
 }
 
@@ -128,8 +139,8 @@ export function calculateWarnings(snapshot: GoalSnapshot | null): Warning[] {
     }
   }
 
-  const behind =
-    expectedSavings(snapshot) - moneyToCents(snapshot.actual_net_eur);
+  const saved = savedFromPlan(snapshot);
+  const behind = expectedSavings(snapshot) - saved;
   if (behind > BigInt(0)) {
     const overdue = snapshot.today >= snapshot.goal.target_date;
     warnings.push({
@@ -146,7 +157,7 @@ export function calculateWarnings(snapshot: GoalSnapshot | null): Warning[] {
     snapshot.today >= `${year}-11-25` &&
     snapshot.today < christmas &&
     snapshot.goal.target_date >= christmas &&
-    moneyToCents(snapshot.actual_net_eur) < targetCents(snapshot.goal)
+    saved < targetCents(snapshot.goal)
   ) {
     warnings.push({
       type: "upcoming_event",

@@ -10,18 +10,25 @@ Each customer can have one goal. Creating another goal fails without replacing
 the existing one. The target must be a positive EUR amount with at most two
 decimal places, and its date must follow the demo clock's current day.
 
-Goals are created on `app.demo_clock.today`. Savings start at zero and include
-net income minus spending on later days, through the current demo day. Existing
-balances and transactions on the creation day do not count. Transfers
+Goals are created on `app.demo_clock.today`. Savings come from spending less than
+planned, compared separately for each calendar month and category. Only positive
+differences count; overspending in one group does not reduce savings from another.
+Spending without a plan does not earn savings.
+
+Both actual transactions and planned expenses must fall after the goal's creation
+day and on or before the current demo day. The current month's positive difference
+counts immediately and can change as spending continues. Future planned expenses
+do not earn savings early. Starting balances and income are not goal savings;
+only negative planned spending entries define the budgets. Transfers
 (`salary_sweep`, `investment_deposit`, `investment_withdrawal`) are excluded.
-Refunds offset spending.
+Refunds offset actual spending, which is never treated as negative spending.
 
 Saved amounts cannot display below zero; remaining amounts cannot display below
-zero; percentage is rounded to a whole number and capped at 100. A negative net
-cash flow still affects whether the goal is on track.
+zero; percentage is rounded to a whole number and capped at 100.
 
-When a dated plan exists, on-track status compares actual net savings with the
-signed plan cash flow due by today. This allows planned expenses before income.
+On-track status and behind-plan warnings use these same plan-based savings.
+The expected savings calculation is unchanged: when a dated plan exists, it uses
+the signed plan cash flow due by today, including planned income and expenses.
 Without a plan, the expected savings follow the elapsed fraction of the goal's
 timeline. At or after the target date, the target amount must be reached.
 Expected savings never exceed the goal target, even if the plan would save more.
