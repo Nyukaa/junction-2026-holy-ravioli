@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader2, PartyPopper } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CoachHeader } from "./CoachHeader";
@@ -97,6 +97,14 @@ export function Onboarding({
   const [amount, setAmount] = useState("1200");
   const [deadline, setDeadline] = useState(defaultDeadline);
   const [submitting, setSubmitting] = useState(false);
+  const [showSteps, setShowSteps] = useState(true);
+  const chatRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!showSteps) {
+      chatRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [showSteps]);
 
   const activeGoal = goal ? goals.find((g) => g.id === goal)! : null;
   const amountNum = Math.max(
@@ -115,6 +123,7 @@ export function Onboarding({
   async function submit() {
     if (!goal || amountNum <= 0 || submitting) return;
     setSubmitting(true);
+    setShowSteps(false);
     try {
       await onCreate({
         goal,
@@ -143,59 +152,61 @@ export function Onboarding({
         </p>
       </section>
 
-      <section className="px-5">
-        <div className="mb-3 flex items-center gap-2">
-          <span className="grid size-6 place-items-center rounded-full bg-brand-green text-[11px] font-bold text-white">
-            1
-          </span>
-          <h2 className="text-base font-bold text-slate-900">
-            What would you like to save for?
-          </h2>
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          {goals.map((item) => {
-            const selected = goal === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => pickGoal(item.id)}
-                className={`relative flex flex-col items-start gap-1.5 rounded-2xl border p-3 text-left shadow-sm transition ${
-                  selected
-                    ? "border-brand-green bg-[#d1e8d8]/40"
-                    : "border-transparent bg-white hover:border-black/10"
-                }`}
-              >
-                <span
-                  className={`grid size-9 place-items-center rounded-xl ${
+      {showSteps && (
+        <section className="px-5">
+          <div className="mb-3 flex items-center gap-2">
+            <span className="grid size-6 place-items-center rounded-full bg-brand-green text-[11px] font-bold text-white">
+              1
+            </span>
+            <h2 className="text-base font-bold text-slate-900">
+              What would you like to save for?
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {goals.map((item) => {
+              const selected = goal === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => pickGoal(item.id)}
+                  className={`relative flex flex-col items-start gap-1.5 rounded-2xl border p-3 text-left shadow-sm transition ${
                     selected
-                      ? "bg-brand-green text-white"
-                      : "bg-[#d1e8d8] text-brand-green"
+                      ? "border-brand-green bg-[#d1e8d8]/40"
+                      : "border-transparent bg-white hover:border-black/10"
                   }`}
                 >
-                  {item.id === "holiday" ? (
-                    <PartyPopper size={20} />
-                  ) : (
-                    <Icon name={item.icon} size={20} />
-                  )}
-                </span>
-                <span className="text-sm font-bold text-slate-900">
-                  {item.title}
-                </span>
-                <span className="text-xs leading-snug text-slate-500">
-                  {item.description}
-                </span>
-                {selected && (
-                  <span className="absolute top-2 right-2 grid size-5 place-items-center rounded-full bg-brand-green text-white">
-                    <Icon name="check" size={12} />
+                  <span
+                    className={`grid size-9 place-items-center rounded-xl ${
+                      selected
+                        ? "bg-brand-green text-white"
+                        : "bg-[#d1e8d8] text-brand-green"
+                    }`}
+                  >
+                    {item.id === "holiday" ? (
+                      <PartyPopper size={20} />
+                    ) : (
+                      <Icon name={item.icon} size={20} />
+                    )}
                   </span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </section>
+                  <span className="text-sm font-bold text-slate-900">
+                    {item.title}
+                  </span>
+                  <span className="text-xs leading-snug text-slate-500">
+                    {item.description}
+                  </span>
+                  {selected && (
+                    <span className="absolute top-2 right-2 grid size-5 place-items-center rounded-full bg-brand-green text-white">
+                      <Icon name="check" size={12} />
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
-      {goal && (
+      {showSteps && goal && (
         <section
           key={goal}
           className="animate-in fade-in-0 slide-in-from-bottom-2 flex flex-col gap-4 px-5 duration-500"
@@ -301,6 +312,8 @@ export function Onboarding({
           </p>
         </section>
       )}
+
+      <div ref={chatRef} />
     </main>
   );
 }

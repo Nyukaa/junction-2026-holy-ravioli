@@ -121,6 +121,7 @@ export default function Home() {
   }
 
   async function handleOnboardingSubmit(draft: Plan) {
+    setShowChat(true);
     const message = `I want to save ${draft.amount}€ for ${draft.goalType} by ${draft.deadline}`;
     setMessages((m) => [...m, { role: "user", text: message }]);
     try {
@@ -141,12 +142,9 @@ export default function Home() {
         setPlan(planFromGoal(status.goal));
         setProgress(status.progress);
         setStep("progress");
-        setShowChat(true);
-      } else {
-        setTimeout(() => setShowChat(true), 1000);
       }
     } catch {
-      setTimeout(() => setShowChat(true), 1000);
+      // Status unavailable — chat is still shown.
     }
   }
 
