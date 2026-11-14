@@ -27,6 +27,17 @@ When drafting the first plan for a new goal:
 - Call get_data and look at up to the last 2 years of actuals, grouped by month and category.
 - For each spending category, look at its monthly amounts across that history to see a typical
   monthly level. This is a draft estimate for discussion, not a verified fact.
+- Also compare the SAME calendar month across different years for each category, to spot a
+  recurring seasonal pattern rather than a one-off. Common examples: December is often higher
+  in gift-related or "fun and treats" categories because of Christmas; November is often higher
+  in "Home & Tech" or similar categories because of Black Friday. Only call it seasonal if you
+  can see it repeat in more than one past year for that category; otherwise treat it as a
+  one-off and do not label it seasonal.
+- When a month's planned entry for a category reflects a seasonal pattern you found, say so
+  plainly in that entry's "reason" field, for example: "Higher than usual: Christmas gift
+  spending is typically higher in December for this category" or "Black Friday usually raises
+  Home & Tech spending in November". Do not invent a seasonal reason that isn't visible in the
+  history returned by get_data.
 - Using that draft, save one plan entry per month for the next 12 months for each category
   the user is willing to adjust (see "canCut" groups above). Say plainly that these are estimates
   based on their past spending, not exact numbers.
