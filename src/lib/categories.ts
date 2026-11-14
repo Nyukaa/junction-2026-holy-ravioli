@@ -6,7 +6,7 @@
  * Challenge baskets: 1 = mandatory and regular, 2 = mandatory and irregular, 3 = everyday.
  */
 
-export type CategoryGroupId = "income" | "moves" | "fixed" | "daily" | "fun" | "surprise";
+export type CategoryGroupId = "income" | "moves" | "invest" | "fixed" | "daily" | "fun" | "surprise";
 
 export interface CategoryGroup {
   id: CategoryGroupId;
@@ -15,7 +15,9 @@ export interface CategoryGroup {
   categories: string[];
   basket?: 1 | 2 | 3; // not set for income and moves
   isSpending: boolean;
-  canCut: "no" | "a_little" | "yes"; // can the agent suggest cutting here?
+  // can the agent suggest cutting here? "warn" = allowed, but only after an
+  // explicit warning and the user's explicit yes to a direct confirmation question
+  canCut: "no" | "a_little" | "yes" | "warn";
   hint: string; // one line for the system prompt
 }
 
@@ -33,10 +35,26 @@ export const CATEGORY_GROUPS: CategoryGroup[] = [
     id: "moves",
     label: "Moves between your own pockets",
     emoji: "🔁",
-    categories: ["Salary Sweep", "Invest Deposit", "Invest Withdraw"],
+    categories: ["Salary Sweep", "Invest Withdraw"],
     isSpending: false,
     canCut: "no",
-    hint: "Money moved to savings, investments or another account. NOT spending. Never count it as spending.",
+    hint: "Money moved to savings or another account, or withdrawn from investments. NOT spending. Never count it as spending, and never suggest changing it.",
+  },
+  {
+    id: "invest",
+    label: "Your investments",
+    emoji: "🏦",
+    categories: ["Invest Deposit"],
+    isSpending: false,
+    canCut: "warn",
+    hint:
+      "Money you've been putting into investments each month. NOT spending. It can act as a " +
+      "piggy bank for this goal if the user reduces how much they invest, but this is different " +
+      "from cutting spending: it means touching their investments. Only suggest this after Fun and " +
+      "treats (and a little of Daily life) have already been considered, and only after you clearly " +
+      "warn the user and ask directly, for example: \"This would mean using your investment deposits " +
+      "as a piggy bank for this goal instead of investing that money. Are you sure you want to do " +
+      "that?\" Only include it in a plan after the user gives an explicit yes to that question.",
   },
   {
     id: "fixed",
@@ -97,8 +115,15 @@ export function categoryGuideForPrompt(): string {
 ${lines.join("\n")}
 
 Rules for categories:
-- Only "Fun and treats" and "Daily life" can get a monthly limit in save_plan. Use only these category names as keys: ${LIMIT_CATEGORIES.join(", ")}.
-- When the user needs to save more, look at "Fun and treats" first, then a little at "Daily life". Never "Fixed bills" or "Surprises".
-- "Moves between your own pockets" and "Money in" are never spending.
+- "Fun and treats", "Daily life", and "Your investments" (with the warning below) can get a
+  monthly limit in save_plan. Use only these category names as keys: ${LIMIT_CATEGORIES.join(", ")}.
+- When the user needs to save more, look at "Fun and treats" first, then a little at "Daily life".
+  Never "Fixed bills" or "Surprises".
+- "Your investments" (Invest Deposit) is a special case: only suggest reducing it as a last resort,
+  after Fun and treats and Daily life, and only after you clearly warn the user that this means
+  using their investment transfers as a piggy bank for this goal, then get an explicit yes to a
+  direct confirmation question. Never add or change an Invest Deposit entry without that explicit yes.
+- "Moves between your own pockets" (Salary Sweep, Invest Withdraw) and "Money in" are never spending
+  and are never a piggy bank option.
 - Talk about groups in simple words ("fun and treats", "daily life"). Say the exact category (for example Restaurants) only when it helps.`;
 }
