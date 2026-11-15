@@ -1,6 +1,6 @@
 import type { Goal, Progress, Warning } from "@/types/contracts";
 
-const DEMO_CUSTOMER = "CUST00009";
+const DEMO_CUSTOMER = `CUST${String(Math.floor(Math.random() * 39) + 1).padStart(5, "0")}`;
 
 export type StatusResponse = {
   goal: Goal | null;
