@@ -131,7 +131,18 @@ Open http://localhost:3000. The customer is selected via the `x-customer-id` hea
 - `npm run lint` — run ESLint
 - `npx tsc --noEmit` — type check
 - `psql "$DATABASE_URL" -f db/migrations/<file>.sql` — apply a migration
+## Data findings
 
+We checked the S-Bank dataset before building the forecast. It is synthetic: 5,100 customers, 3.6M transactions, Oct 2024 – Sep 2026.
+
+- **Fixed payments are easy to predict.** Housing and salary come once a month with almost the same amount. Using last month's fixed payments as the forecast gives a median error of about 5%.
+- **Everyday spending is noisy.** Forecasting next month's purchases from the last 12 months gives a median error of about 31% (about 18% for the total with fixed payments). A plan needs a buffer.
+- **Seasonality is real by category, not in total.** Travel peaks in July (+28%), Home & Tech in November (+28%), Health in February (+20%). Midsummer Eve is +39% and May Day +21%. Friday and Saturday are about 27% above an average day.
+- **Copying last year is worse than recent months** (45% vs 31% error for purchases). So we use seasonal indexes per category.
+- **Merchant-based subscription detection does not work here.** Only 35 customer-merchant pairs look monthly. We use transaction type (housing, utilities, salary) instead.
+- **Rent and mortgage look almost the same** in payments (median €1,191 with a mortgage record vs €1,036 without). So the app asks the user with one simple question.
+- **Salary sweeps and investment deposits are not spending.** We exclude them from the forecast.
+- **"People like you" did not beat the user's own history** in our backtest. It is most useful when the history is short.
 ## What's next
 
 - **Recurring payments** — detect rent or mortgage, car costs and loan payments from categories, MCC codes, merchants, amounts and timing.
