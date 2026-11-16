@@ -1,23 +1,46 @@
 # Money Polku
 
-*Polku* is Finnish for "path". **Money Polku** is an AI money planner built for the Junction 2026 S-Bank challenge (team Holy Ravioli).
+**Your money has a past. Let's plan its future.**
 
-It reads spending patterns from S-Bank (S-Pankki) data, , then shows what they can afford (their goal), when they'll get there, and what to change to stay on track.
+*Polku* is Finnish for "path". **Money Polku** is an AI financial coach that turns your bank transactions into a personal action plan. Built at Junction 2026 for the S-Bank (S-Pankki) challenge by team Holy Ravioli.
 
-## What it does
+## The problem
 
-1. **You choose a goal.** You chat with the AI coach: what, when, how much.
-2. **The AI checks your data first.** It reads your transactions and asks "Is this you?" (e.g. "You spend about €280/month on dining out. Right?"). You confirm or correct before any plan is made.
-3. **You get a home screen:**
-   - **Dream progress** — a bar like "€600 / €2,000" with a status: 🟢 on track, 🟡 not on tracka 
+Bank apps show what already happened. People want to know what is coming and what they can do about it.
+
+"Can I afford a trip to the Alps in 3 months?" or "What do I need to cut to build an emergency fund?" are hard to answer from a list of transactions.
+
+## What Money Polku does
+
+1. **You tell it your goal.** You chat with the AI coach: what, when, how much. For example: "I want to save €2,000 for a trip to the Alps in 3 months."
+2. **The AI checks your data first.** It reads your transactions, finds spending patterns and asks "Is this you?" (e.g. "You spend about €280/month on dining out. Right?"). You confirm or correct before any plan is made. If something is missing, it asks one simple question instead of a long form.
+3. **You get a realistic plan.** The coach tells you if the goal is possible, how much to save each month and where you can cut back. You can still change the plan as you like.
+4. **You see your progress on the home screen:**
+   - **Dream progress** — a bar like "€600 / €2,000" with a status: 🟢 on track, 🟡 plan needs adjusting.
    - **Weekly sprint** — a short, concrete challenge ("Stay under budget until Friday").
-   - **Forecast vs. actual chart** — AI forecast (dashed) against real savings (solid).
-4. **Off course?** The AI gives a **rescue quest** — one clear action for 2 days, never a ban, and never asking to save more than the overspend.
-5. **You stay in control** — tap **Change goal** or **Explain** anytime.
+   - **Forecast vs. actual chart** — the forecast (dashed) against real savings (solid).
+5. **Off course?** The app gives clear options and a **rescue quest**: one small action for 2 days. It is never a ban, and it never asks you to save more than the overspend.
+6. **You stay in control.** Tap **Change goal** or **Explain** anytime. **Explain** shows the steps behind the numbers.
 
-All numbers (goal, progress, chart, warnings) come from the database. The model never calculates or invents a number — see [Architecture](#architecture).
+Money Polku works with one goal at a time. This makes saving easy to start.
 
-Full product write-up: [`docs/idea.md`](docs/idea.md). Task board: [`docs/tasks.md`](docs/tasks.md).
+## What makes it different
+
+- **Personal** — your plan is based on your own transaction history, not on averages.
+- **Transparent** — all numbers (goal, progress, chart, warnings) come from the database and are calculated in code. The model never calculates or invents a number — see [Architecture](#architecture).
+- **Action-oriented** — small weekly challenges help turn a plan into a habit.
+
+AI advises. Your data decides. You stay in control.
+
+## Demo scenarios
+
+**Scenario 1 — first time**
+
+User: "I want to save for a snowboarding trip to the Alps in 3 months." The agent checks the user's data, asks "Is this you?", asks how much and where they can cut back, then saves the goal and plan: "€2,000 for the Alps trip, save ~€700/month by cutting dining out."
+
+**Scenario 2 — regular use**
+
+The user opens the app and sees "€600 / €2,000" and the weekly sprint. An unexpected €500 laptop repair triggers a warning: "You're now €500 behind. Options: cut €500 elsewhere, or delay the trip 1 month."
 
 ## Architecture
 
@@ -33,6 +56,7 @@ UI (Next.js) --HTTP--> API: exactly 2 endpoints
 
 - Only two API routes exist. The agent's tools are thin wrappers, one tool per `Db` method — no SQL and no math in the agent layer.
 - All goal math (progress, warnings, monthly budget allocation) is plain TypeScript in `src/lib/db/logic/`, never the model.
+- The web app is mobile-first, so it could be embedded in S-mobiili.
 
 ## Tech stack
 
@@ -71,11 +95,11 @@ cp .env.example .env.local   # fill in the values below
 
 ### Environment variables
 
-| Variable            | What for                                                           |
-| -------------------- | ------------------------------------------------------------------- |
+| Variable            | What for                                                            |
+| ------------------- | ------------------------------------------------------------------- |
 | `ANTHROPIC_API_KEY` | Claude API key (server only)                                        |
-| `DATABASE_URL`      | Aiven PostgreSQL connection string                                   |
-| `DATABASE_CA`       | Trusted CA certificate for Aiven: PEM contents or a local file path  |
+| `DATABASE_URL`      | Aiven PostgreSQL connection string                                  |
+| `DATABASE_CA`       | Trusted CA certificate for Aiven: PEM contents or a local file path |
 
 Never commit `.env.local`, certificates, or real keys.
 
@@ -89,7 +113,7 @@ Never commit `.env.local`, certificates, or real keys.
    psql "$DATABASE_URL" -f db/migrations/003_app_demo_clock.sql
    psql "$DATABASE_URL" -f db/migrations/004_app_goals.sql
    ```
-3. Load the raw S-Bank synthetic dataset into `junction.*` with `scripts/build-junction-sql.ps1` (generates `COPY` SQL from the dataset CSVs, then run with `psql`). The raw CSVs and generated seed SQL are git-ignored — never commit them.
+3. Load the S-Bank synthetic dataset into `junction.*` with `scripts/build-junction-sql.ps1`. It generates `COPY` SQL from the dataset CSVs; run the result with `psql`. The raw CSVs and the generated seed SQL are git-ignored — never commit them.
    Dataset link: _add here_.
 4. Details on how goal progress, plans and warnings are computed: [`db/README.md`](db/README.md).
 
@@ -99,7 +123,7 @@ Never commit `.env.local`, certificates, or real keys.
 npm run dev
 ```
 
-Open http://localhost:3000. The customer is selected via the `x-customer-id` header (must be a real `junction.cust.customer_id` — no mock/demo fallback customer exists).
+Open http://localhost:3000. The customer is selected via the `x-customer-id` header. It must be a real `junction.cust.customer_id` — there is no mock or demo fallback customer.
 
 ## Scripts
 
@@ -108,27 +132,25 @@ Open http://localhost:3000. The customer is selected via the `x-customer-id` hea
 - `npx tsc --noEmit` — type check
 - `psql "$DATABASE_URL" -f db/migrations/<file>.sql` — apply a migration
 
-## Ownership
+## What's next
 
-| Area                   | Owner | Paths                                                                |
-| ----------------------- | ----- | --------------------------------------------------------------------- |
-| UI                      | Elya  | `src/app/*` pages (not `api`), `src/components/*`, `src/lib/api-client.ts`, `src/lib/copy.ts` |
-| API + AI agent + tools  | Anna  | `src/app/api/*`, `src/lib/ai/*`, `src/mocks/*`                        |
-| Database + logic        | Alex  | `src/lib/db/*` (except `types.ts`), `db/*`, `scripts/*`               |
-| Shared                  | all   | `src/types/*`, `src/lib/db/types.ts`, `docs/*`, `.env.example`         |
+- **Recurring payments** — detect rent or mortgage, car costs and loan payments from categories, MCC codes, merchants, amounts and timing.
+- **Seasonality** — use Finnish holidays and seasons (Christmas, summer holidays, back-to-school) and spending from past years, so the forecast is not just an average.
+- **More goals per person** — today the app focuses on one goal at a time.
+- **More banks** — a multi-bank view with PSD2 for a full financial picture.
+- **People like you** — benchmarks from similar customers, also useful when your own history is short. Open data from Statistics Finland can make these benchmarks better.
+- **Proactive alerts** before a tight month.
+- **Prompt evaluation** for more reliable coaching.
 
-If a task touches someone else's area, tell them first. Full rules: [`CLAUDE.md`](CLAUDE.md).
+## Team
 
-## Demo scenarios
+Holy Ravioli — Anna, Alex, Elya.
 
-**Scenario 1 — first time:**
-User: "I want to save for a snowboarding trip to the Alps in 3 months." The agent checks the user's data, asks "Is this you?", asks how much and where they can cut back, then saves the goal and plan: "€2,000 for the Alps trip, save ~€700/month by cutting dining out."
+| Area                   | Owner | Paths                                                                                         |
+| ---------------------- | ----- | --------------------------------------------------------------------------------------------- |
+| UI                     | Elya  | `src/app/*` pages (not `api`), `src/components/*`, `src/lib/api-client.ts`, `src/lib/copy.ts` |
+| API + AI agent + tools | Anna  | `src/app/api/*`, `src/lib/ai/*`, `src/mocks/*`                                                |
+| Database + logic       | Alex  | `src/lib/db/*` (except `types.ts`), `db/*`, `scripts/*`                                       |
+| Shared                 | all   | `src/types/*`, `src/lib/db/types.ts`, `docs/*`, `.env.example`                                |
 
-**Scenario 2 — regular use:**
-User opens the app, sees "€600 / €2,000" and the weekly sprint. An unexpected €500 laptop repair triggers a warning: "You're now €500 behind. Options: cut €500 elsewhere, or delay the trip 1 month."
-
-## Done means
-
-- Works in the browser with both demo scenarios above, on a phone-size window
-- `npx tsc --noEmit` and `npm run lint` pass
-- Committed and pushed
+Working rules for contributors: [`CLAUDE.md`](CLAUDE.md). Product write-up: [`docs/idea.md`](docs/idea.md). Task board: [`docs/tasks.md`](docs/tasks.md).
