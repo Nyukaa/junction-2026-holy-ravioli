@@ -114,7 +114,7 @@ Never commit `.env.local`, certificates, or real keys.
    psql "$DATABASE_URL" -f db/migrations/004_app_goals.sql
    ```
 3. Load the S-Bank synthetic dataset into `junction.*` with `scripts/build-junction-sql.ps1`. It generates `COPY` SQL from the dataset CSVs; run the result with `psql`. The raw CSVs and the generated seed SQL are git-ignored — never commit them.
-   Dataset link: _add here_.
+   Dataset link: https://github.com/hackjunction/Junction-2026-S-pankki
 4. Details on how goal progress, plans and warnings are computed: [`db/README.md`](db/README.md).
 
 ### Run
