@@ -131,6 +131,7 @@ Open http://localhost:3000. The customer is selected via the `x-customer-id` hea
 - `npm run lint` — run ESLint
 - `npx tsc --noEmit` — type check
 - `psql "$DATABASE_URL" -f db/migrations/<file>.sql` — apply a migration
+
 ## Data findings
 
 We checked the S-Bank dataset before building the forecast. It is synthetic: 5,100 customers, 3.6M transactions, Oct 2024 – Sep 2026.
@@ -143,6 +144,7 @@ We checked the S-Bank dataset before building the forecast. It is synthetic: 5,1
 - **Rent and mortgage look almost the same** in payments (median €1,191 with a mortgage record vs €1,036 without). So the app asks the user with one simple question.
 - **Salary sweeps and investment deposits are not spending.** We exclude them from the forecast.
 - **"People like you" did not beat the user's own history** in our backtest. It is most useful when the history is short.
+
 ## What's next
 
 - **Recurring payments** — detect rent or mortgage, car costs and loan payments from categories, MCC codes, merchants, amounts and timing.

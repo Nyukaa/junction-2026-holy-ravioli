@@ -6,6 +6,7 @@ import { executeTool } from "@/lib/ai/tool-handler";
 import { getSystemPrompt } from "@/lib/ai/prompts";
 import { MODEL } from "@/lib/ai/model";
 import { getHistory, appendHistory } from "@/lib/ai/chat-history";
+import { createTurnUsage, addUsage, formatTurnUsage } from "@/lib/ai/usage";
 
 export const maxDuration = 60;
 
@@ -32,6 +33,9 @@ export async function POST(req: NextRequest) {
       userMessage,
     ];
 
+    const turnUsage = createTurnUsage();
+    const toolSizes: Record<string, number> = {};
+
     let response = await client.messages.create({
       model: MODEL,
       max_tokens: 8192,
@@ -39,6 +43,7 @@ export async function POST(req: NextRequest) {
       messages,
       tools,
     });
+    addUsage(turnUsage, response.usage);
 
     // Agent loop: handle tool calls. Claude may call several tools in one
     // turn, so every tool_use block must get a matching tool_result block.
@@ -58,6 +63,8 @@ export async function POST(req: NextRequest) {
           db,
           customerId
         );
+        toolSizes[toolUseBlock.name] =
+          (toolSizes[toolUseBlock.name] ?? 0) + toolResult.length;
         toolResults.push({
           type: "tool_result",
           tool_use_id: toolUseBlock.id,
@@ -76,7 +83,16 @@ export async function POST(req: NextRequest) {
         messages,
         tools,
       });
+      addUsage(turnUsage, response.usage);
     }
+
+    console.log(formatTurnUsage(customerId, turnUsage));
+    console.log(
+      "[tools] " +
+        (Object.entries(toolSizes)
+          .map(([name, chars]) => `${name}=${chars}chars`)
+          .join(" ") || "none")
+    );
 
     if (response.stop_reason === "max_tokens") {
       console.error(
