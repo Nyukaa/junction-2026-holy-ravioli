@@ -4,6 +4,12 @@
 
 *Polku* is Finnish for "path". **Money Polku** is an AI financial coach that turns your bank transactions into a personal action plan. Built at Junction 2026 for the S-Bank (S-Pankki) challenge by team Holy Ravioli.
 
+<p align="center">
+  <img src="docs/screenshots/01-choose-goal.png" alt="Money Polku: choose what to save for" width="200">
+  <img src="docs/screenshots/04-on-track-chat.png" alt="Money Polku: goal on track and coach chat" width="200">
+  <img src="docs/screenshots/05-behind-plan-home.png" alt="Money Polku: goal that needs adjusting" width="200">
+</p>
+
 ## The problem
 
 Bank apps show what already happened. People want to know what is coming and what they can do about it.
@@ -23,6 +29,63 @@ Bank apps show what already happened. People want to know what is coming and wha
 6. **You stay in control.** Tap **Change goal** or **Explain** anytime. **Explain** shows the steps behind the numbers.
 
 Money Polku works with one goal at a time. This makes saving easy to start.
+
+## App in action
+
+Real screens from the running app, using customers from the S-Bank synthetic dataset.
+
+### 1. Start with a goal that matters to you
+
+The coach asks what you want to save for. After that, it looks at your past spending and suggests where you can cut. You choose the limits. The goal and the plan are saved only after you say "yes".
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/01-choose-goal.png" alt="Choose a goal: holiday, first home, emergency fund or something else" width="280"><br>
+      <sub><b>Pick a goal.</b> Four simple starting points, or your own.</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/02-goal-and-plan-saved.png" alt="Coach proposes a plan with limits for Restaurants and Lifestyle, user confirms" width="280"><br>
+      <sub><b>Confirm the plan.</b> Restaurants €250 and Lifestyle €200 per month. The amounts come from past spending, so the coach calls them estimates.</sub>
+    </td>
+  </tr>
+</table>
+
+### 2. See where you stand
+
+The home screen shows the goal, the saved amount and a clear status. Green means on track. Yellow means the plan needs a small change. The coach gives one short tip for today.
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/04-on-track-chat.png" alt="Buy a used car, 58 percent saved, on track. User asks if the goal can be reached sooner" width="280"><br>
+      <sub>🟢 <b>On track.</b> €3,768.22 of €6,500 saved (58%). The user asks "Can I reach my goal sooner?" and the coach suggests monthly limits on fun and treats.</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/03-behind-plan-rainy-day.png" alt="Rainy-day fund, 22 percent saved, plan needs adjusting" width="280"><br>
+      <sub>🟡 <b>Needs adjusting.</b> €657.12 of €3,000 saved (22%). Quick questions are one tap away.</sub>
+    </td>
+  </tr>
+</table>
+
+### 3. Change the plan when life changes
+
+Behind on the goal? Tap **Change plan** and talk to the coach. It shows exactly what will change and what stays the same. Nothing is saved until you confirm.
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/05-behind-plan-home.png" alt="Family holiday, 16 percent saved, yellow status, with quick questions" width="280"><br>
+      <sub><b>Behind plan.</b> €655.34 of €4,000 saved (16%). The status is yellow, and the Change plan button is right on the card.</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/06-change-plan-confirm.png" alt="Coach shows the proposed change to the Restaurants limit and the user confirms with yes" width="280"><br>
+      <sub><b>You confirm every change.</b> The coach lists what changes and what stays. The user replies "yes" and the new plan is saved.</sub>
+    </td>
+  </tr>
+</table>
+
+> All numbers on these screens (saved amount, percent, status, limits) come from the database and are calculated in code. The model only explains them. See [Architecture](#architecture).
 
 ## What makes it different
 
@@ -83,7 +146,7 @@ src/types/contracts.ts   shared types between UI, API and db layer
 db/migrations/           numbered SQL files, applied in order
 db/README.md             how goal tracking, plans and warnings actually work
 scripts/                 CSV → SQL loader for the raw S-Bank dataset (run by hand)
-docs/                    idea.md, tasks.md, specs/
+docs/                    idea.md, tasks.md, specs/, screenshots/
 ```
 
 ## Getting started
