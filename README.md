@@ -161,4 +161,4 @@ Want to run it locally? See [`docs/SETUP.md`](docs/SETUP.md).
 
 ## 👥 Team
 
-**Holy Ravioli** — **Anna** (API, AI agent and tools) · **Alex** (database and goal logic) · **Elya** (UI)
+**Holy Ravioli** — [**Anna**](https://github.com/Nyukaa/) (API, AI agent and tools) · **Alex** (database and goal logic) · [**Elya**](https://github.com/Kopiika) (UI)
