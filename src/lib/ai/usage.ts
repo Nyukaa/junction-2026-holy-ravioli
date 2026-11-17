@@ -29,7 +29,7 @@ export function addUsage(acc: TurnUsage, usage: Anthropic.Messages.Usage): void 
   acc.cacheWrite += usage.cache_creation_input_tokens ?? 0;
 }
 
-function estimateCost(acc: TurnUsage): number {
+export function estimateCost(acc: TurnUsage): number {
   return (
     (acc.input * INPUT_PRICE_PER_MTOK +
       acc.output * OUTPUT_PRICE_PER_MTOK +

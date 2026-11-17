@@ -43,3 +43,7 @@ next-env.d.ts
 
 # generated dataset SQL (scripts/build-junction-sql.ps1)
 /db/seed/
+
+# generated agent eval report (src/lib/ai/eval/run-eval.ts)
+/eval-output.json
+/eval-output.html

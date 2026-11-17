@@ -1,0 +1,926 @@
+{
+  "customerId": "CUST05024",
+  "financialData": {
+    "as_of": "2026-11-14",
+    "actuals": [
+      {
+        "month": "2024-10",
+        "category": "Entertainment",
+        "amount_eur": "-105.55",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-10",
+        "category": "Groceries",
+        "amount_eur": "-94.47",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-10",
+        "category": "Lifestyle",
+        "amount_eur": "-263.45",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-10",
+        "category": "Restaurants",
+        "amount_eur": "-40.13",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-10",
+        "category": "Salary",
+        "amount_eur": "3324.91",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2024-10",
+        "category": "Transportation",
+        "amount_eur": "-34.25",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-11",
+        "category": "Entertainment",
+        "amount_eur": "-754.63",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-11",
+        "category": "Health",
+        "amount_eur": "-452.39",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-11",
+        "category": "Home & Tech",
+        "amount_eur": "-266.11",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-11",
+        "category": "Salary",
+        "amount_eur": "6873.14",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2024-12",
+        "category": "Entertainment",
+        "amount_eur": "-327.03",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-12",
+        "category": "Groceries",
+        "amount_eur": "-418.06",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-12",
+        "category": "Lifestyle",
+        "amount_eur": "-221.86",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-12",
+        "category": "Other Income",
+        "amount_eur": "6777.97",
+        "entry_count": 1,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2024-12",
+        "category": "Salary",
+        "amount_eur": "4719.46",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2024-12",
+        "category": "Travel",
+        "amount_eur": "-131.05",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-01",
+        "category": "Other Income",
+        "amount_eur": "14035.73",
+        "entry_count": 2,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-01",
+        "category": "Salary",
+        "amount_eur": "7555.73",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-01",
+        "category": "Travel",
+        "amount_eur": "-4186.80",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-02",
+        "category": "Entertainment",
+        "amount_eur": "-303.26",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-02",
+        "category": "Health",
+        "amount_eur": "-295.56",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-02",
+        "category": "Lifestyle",
+        "amount_eur": "-185.65",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-02",
+        "category": "Other Income",
+        "amount_eur": "3465.79",
+        "entry_count": 1,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-02",
+        "category": "Salary",
+        "amount_eur": "4336.47",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-03",
+        "category": "Home & Tech",
+        "amount_eur": "-1112.51",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-03",
+        "category": "Salary",
+        "amount_eur": "7169.57",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-03",
+        "category": "Travel",
+        "amount_eur": "-420.39",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-04",
+        "category": "Entertainment",
+        "amount_eur": "-94.39",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-04",
+        "category": "Groceries",
+        "amount_eur": "-88.16",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-04",
+        "category": "Health",
+        "amount_eur": "-199.50",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-04",
+        "category": "Home & Tech",
+        "amount_eur": "-119.92",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-04",
+        "category": "Lifestyle",
+        "amount_eur": "-116.79",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-04",
+        "category": "Other Income",
+        "amount_eur": "519.37",
+        "entry_count": 1,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-04",
+        "category": "Restaurants",
+        "amount_eur": "-140.82",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-04",
+        "category": "Salary",
+        "amount_eur": "5410.63",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-05",
+        "category": "Home & Tech",
+        "amount_eur": "-3172.59",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-05",
+        "category": "Other Income",
+        "amount_eur": "14305.91",
+        "entry_count": 4,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-05",
+        "category": "Salary",
+        "amount_eur": "5536.44",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-06",
+        "category": "Restaurants",
+        "amount_eur": "-1891.81",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-06",
+        "category": "Salary",
+        "amount_eur": "5731.73",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-06",
+        "category": "Travel",
+        "amount_eur": "-642.50",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-07",
+        "category": "Salary",
+        "amount_eur": "5686.20",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-07",
+        "category": "Travel",
+        "amount_eur": "-93.61",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-08",
+        "category": "Groceries",
+        "amount_eur": "-133.45",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-08",
+        "category": "Home & Tech",
+        "amount_eur": "-63.75",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-08",
+        "category": "Lifestyle",
+        "amount_eur": "-15.69",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-08",
+        "category": "Other Income",
+        "amount_eur": "8913.49",
+        "entry_count": 3,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-08",
+        "category": "Restaurants",
+        "amount_eur": "-35.79",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-08",
+        "category": "Salary",
+        "amount_eur": "5107.58",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-08",
+        "category": "Transportation",
+        "amount_eur": "-42.77",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-09",
+        "category": "Groceries",
+        "amount_eur": "-658.51",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-09",
+        "category": "Health",
+        "amount_eur": "-2456.53",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-09",
+        "category": "Salary",
+        "amount_eur": "6607.80",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-10",
+        "category": "Groceries",
+        "amount_eur": "-37.63",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-10",
+        "category": "Health",
+        "amount_eur": "-87.61",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-10",
+        "category": "Lifestyle",
+        "amount_eur": "-121.48",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-10",
+        "category": "Other Income",
+        "amount_eur": "6698.84",
+        "entry_count": 2,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-10",
+        "category": "Salary",
+        "amount_eur": "5365.48",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-11",
+        "category": "Restaurants",
+        "amount_eur": "-42.62",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-11",
+        "category": "Salary",
+        "amount_eur": "4561.76",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-11",
+        "category": "Travel",
+        "amount_eur": "-11.89",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-12",
+        "category": "Health",
+        "amount_eur": "-670.08",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-12",
+        "category": "Other Income",
+        "amount_eur": "12615.25",
+        "entry_count": 4,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-12",
+        "category": "Salary",
+        "amount_eur": "5010.06",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2026-01",
+        "category": "Home & Tech",
+        "amount_eur": "-719.11",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-01",
+        "category": "Lifestyle",
+        "amount_eur": "-251.89",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-01",
+        "category": "Other Income",
+        "amount_eur": "6819.92",
+        "entry_count": 1,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2026-01",
+        "category": "Salary",
+        "amount_eur": "6235.61",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2026-02",
+        "category": "Entertainment",
+        "amount_eur": "-457.82",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-02",
+        "category": "Health",
+        "amount_eur": "-497.50",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-02",
+        "category": "Home & Tech",
+        "amount_eur": "-390.76",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-02",
+        "category": "Salary",
+        "amount_eur": "4409.44",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2026-02",
+        "category": "Travel",
+        "amount_eur": "-113.19",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-03",
+        "category": "Groceries",
+        "amount_eur": "-39.43",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-03",
+        "category": "Health",
+        "amount_eur": "-16.03",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-03",
+        "category": "Home & Tech",
+        "amount_eur": "-192.99",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Groceries",
+        "amount_eur": "-474.38",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Home & Tech",
+        "amount_eur": "-805.69",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Lifestyle",
+        "amount_eur": "-381.11",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Restaurants",
+        "amount_eur": "-114.64",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Salary",
+        "amount_eur": "3916.07",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2026-05",
+        "category": "Groceries",
+        "amount_eur": "-171.65",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Entertainment",
+        "amount_eur": "-27.13",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Groceries",
+        "amount_eur": "-342.09",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Health",
+        "amount_eur": "-168.59",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Home & Tech",
+        "amount_eur": "-31.82",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Other Income",
+        "amount_eur": "19183.49",
+        "entry_count": 4,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Restaurants",
+        "amount_eur": "-438.92",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Transportation",
+        "amount_eur": "-106.71",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Travel",
+        "amount_eur": "-486.38",
+        "entry_count": 3,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-07",
+        "category": "Restaurants",
+        "amount_eur": "-1509.02",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-07",
+        "category": "Salary",
+        "amount_eur": "5396.78",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2026-08",
+        "category": "Entertainment",
+        "amount_eur": "-12.84",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-08",
+        "category": "Groceries",
+        "amount_eur": "-12.86",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-08",
+        "category": "Other Income",
+        "amount_eur": "18472.46",
+        "entry_count": 4,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2026-08",
+        "category": "Salary",
+        "amount_eur": "5069.27",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2026-08",
+        "category": "Travel",
+        "amount_eur": "-34.87",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-09",
+        "category": "Entertainment",
+        "amount_eur": "-96.54",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-09",
+        "category": "Home & Tech",
+        "amount_eur": "-110.61",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-09",
+        "category": "Other Income",
+        "amount_eur": "15740.30",
+        "entry_count": 4,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2026-09",
+        "category": "Salary",
+        "amount_eur": "5912.73",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      }
+    ],
+    "plans": []
+  },
+  "goal": null,
+  "progress": {
+    "saved_amount": 0,
+    "remaining_amount": 0,
+    "percentage": 0,
+    "on_track": true
+  },
+  "warnings": []
+}

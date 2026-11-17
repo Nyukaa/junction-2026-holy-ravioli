@@ -1,0 +1,1583 @@
+{
+  "customerId": "CUST05066",
+  "financialData": {
+    "as_of": "2026-11-14",
+    "actuals": [
+      {
+        "month": "2024-10",
+        "category": "Groceries",
+        "amount_eur": "-39.77",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-10",
+        "category": "Housing",
+        "amount_eur": "-2377.96",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2024-10",
+        "category": "Other Income",
+        "amount_eur": "9975.44",
+        "entry_count": 3,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2024-10",
+        "category": "Travel",
+        "amount_eur": "-55.69",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-10",
+        "category": "Utilities",
+        "amount_eur": "-118.31",
+        "entry_count": 5,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2024-11",
+        "category": "Entertainment",
+        "amount_eur": "-62.06",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-11",
+        "category": "Housing",
+        "amount_eur": "-2331.38",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2024-11",
+        "category": "Other Income",
+        "amount_eur": "5024.51",
+        "entry_count": 2,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2024-11",
+        "category": "Travel",
+        "amount_eur": "-23.29",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-11",
+        "category": "Utilities",
+        "amount_eur": "-221.21",
+        "entry_count": 3,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2024-12",
+        "category": "Home & Tech",
+        "amount_eur": "-11541.36",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2024-12",
+        "category": "Housing",
+        "amount_eur": "-2202.38",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2024-12",
+        "category": "Other Income",
+        "amount_eur": "7034.48",
+        "entry_count": 2,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2024-12",
+        "category": "Salary",
+        "amount_eur": "3388.79",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2024-12",
+        "category": "Utilities",
+        "amount_eur": "-228.69",
+        "entry_count": 1,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2025-01",
+        "category": "Groceries",
+        "amount_eur": "-229.17",
+        "entry_count": 4,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-01",
+        "category": "Health",
+        "amount_eur": "-564.34",
+        "entry_count": 5,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-01",
+        "category": "Home & Tech",
+        "amount_eur": "-108.10",
+        "entry_count": 3,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-01",
+        "category": "Housing",
+        "amount_eur": "-2195.77",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2025-01",
+        "category": "Lifestyle",
+        "amount_eur": "-479.80",
+        "entry_count": 5,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-01",
+        "category": "Restaurants",
+        "amount_eur": "-69.04",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-01",
+        "category": "Salary",
+        "amount_eur": "2271.69",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-01",
+        "category": "Transportation",
+        "amount_eur": "-93.33",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-01",
+        "category": "Travel",
+        "amount_eur": "-155.14",
+        "entry_count": 4,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-01",
+        "category": "Utilities",
+        "amount_eur": "-128.91",
+        "entry_count": 1,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2025-02",
+        "category": "Entertainment",
+        "amount_eur": "-52.01",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-02",
+        "category": "Home & Tech",
+        "amount_eur": "-21.62",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-02",
+        "category": "Housing",
+        "amount_eur": "-2318.19",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2025-02",
+        "category": "Other Income",
+        "amount_eur": "2584.87",
+        "entry_count": 2,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-02",
+        "category": "Restaurants",
+        "amount_eur": "-289.41",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-02",
+        "category": "Salary",
+        "amount_eur": "2337.36",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-02",
+        "category": "Travel",
+        "amount_eur": "-291.99",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-02",
+        "category": "Utilities",
+        "amount_eur": "-106.48",
+        "entry_count": 1,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2025-03",
+        "category": "Health",
+        "amount_eur": "-318.48",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-03",
+        "category": "Housing",
+        "amount_eur": "-2247.66",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2025-03",
+        "category": "Other Income",
+        "amount_eur": "3382.23",
+        "entry_count": 2,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-03",
+        "category": "Restaurants",
+        "amount_eur": "-916.54",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-03",
+        "category": "Utilities",
+        "amount_eur": "-140.72",
+        "entry_count": 3,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2025-04",
+        "category": "Housing",
+        "amount_eur": "-2186.97",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2025-04",
+        "category": "Lifestyle",
+        "amount_eur": "-64.08",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-04",
+        "category": "Other Income",
+        "amount_eur": "2177.04",
+        "entry_count": 1,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-04",
+        "category": "Salary",
+        "amount_eur": "2136.13",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-04",
+        "category": "Utilities",
+        "amount_eur": "-85.46",
+        "entry_count": 1,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2025-05",
+        "category": "Entertainment",
+        "amount_eur": "-243.99",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-05",
+        "category": "Groceries",
+        "amount_eur": "-596.06",
+        "entry_count": 4,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-05",
+        "category": "Health",
+        "amount_eur": "-72.04",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-05",
+        "category": "Home & Tech",
+        "amount_eur": "-137.81",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-05",
+        "category": "Housing",
+        "amount_eur": "-2365.95",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2025-05",
+        "category": "Lifestyle",
+        "amount_eur": "-295.19",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-05",
+        "category": "Other Income",
+        "amount_eur": "7995.33",
+        "entry_count": 3,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-05",
+        "category": "Restaurants",
+        "amount_eur": "-373.44",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-05",
+        "category": "Salary",
+        "amount_eur": "2071.30",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-05",
+        "category": "Travel",
+        "amount_eur": "-291.35",
+        "entry_count": 3,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-05",
+        "category": "Utilities",
+        "amount_eur": "-210.09",
+        "entry_count": 2,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2025-06",
+        "category": "Groceries",
+        "amount_eur": "-23.80",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-06",
+        "category": "Health",
+        "amount_eur": "-15.84",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-06",
+        "category": "Housing",
+        "amount_eur": "-2387.89",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2025-06",
+        "category": "Other Income",
+        "amount_eur": "7671.18",
+        "entry_count": 3,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-06",
+        "category": "Restaurants",
+        "amount_eur": "-40.81",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-06",
+        "category": "Salary",
+        "amount_eur": "3076.86",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-06",
+        "category": "Transportation",
+        "amount_eur": "-11.86",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-06",
+        "category": "Utilities",
+        "amount_eur": "-78.85",
+        "entry_count": 3,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2025-07",
+        "category": "Groceries",
+        "amount_eur": "-258.28",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-07",
+        "category": "Health",
+        "amount_eur": "-83.17",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-07",
+        "category": "Housing",
+        "amount_eur": "-2206.69",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2025-07",
+        "category": "Restaurants",
+        "amount_eur": "-21.00",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-07",
+        "category": "Transportation",
+        "amount_eur": "-20.55",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-07",
+        "category": "Travel",
+        "amount_eur": "-184.67",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-07",
+        "category": "Utilities",
+        "amount_eur": "-109.10",
+        "entry_count": 2,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2025-08",
+        "category": "Groceries",
+        "amount_eur": "-37.47",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-08",
+        "category": "Housing",
+        "amount_eur": "-2401.76",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2025-08",
+        "category": "Other Income",
+        "amount_eur": "6228.54",
+        "entry_count": 3,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-08",
+        "category": "Salary",
+        "amount_eur": "2203.30",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-08",
+        "category": "Travel",
+        "amount_eur": "-28.63",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-08",
+        "category": "Utilities",
+        "amount_eur": "-85.24",
+        "entry_count": 3,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2025-09",
+        "category": "Health",
+        "amount_eur": "-21.73",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-09",
+        "category": "Housing",
+        "amount_eur": "-2201.67",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2025-09",
+        "category": "Lifestyle",
+        "amount_eur": "-95.25",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-09",
+        "category": "Other Income",
+        "amount_eur": "6027.62",
+        "entry_count": 3,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-09",
+        "category": "Salary",
+        "amount_eur": "3899.41",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-09",
+        "category": "Utilities",
+        "amount_eur": "-143.79",
+        "entry_count": 5,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2025-10",
+        "category": "Home & Tech",
+        "amount_eur": "-10.43",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-10",
+        "category": "Housing",
+        "amount_eur": "-2385.97",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2025-10",
+        "category": "Lifestyle",
+        "amount_eur": "-43.28",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-10",
+        "category": "Utilities",
+        "amount_eur": "-161.85",
+        "entry_count": 3,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2025-11",
+        "category": "Entertainment",
+        "amount_eur": "-327.60",
+        "entry_count": 3,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-11",
+        "category": "Groceries",
+        "amount_eur": "-184.03",
+        "entry_count": 8,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-11",
+        "category": "Health",
+        "amount_eur": "-31.57",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-11",
+        "category": "Home & Tech",
+        "amount_eur": "-233.49",
+        "entry_count": 8,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-11",
+        "category": "Housing",
+        "amount_eur": "-2315.40",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2025-11",
+        "category": "Lifestyle",
+        "amount_eur": "-184.41",
+        "entry_count": 8,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-11",
+        "category": "Other Income",
+        "amount_eur": "5775.86",
+        "entry_count": 3,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2025-11",
+        "category": "Salary",
+        "amount_eur": "2073.45",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2025-11",
+        "category": "Transportation",
+        "amount_eur": "-57.36",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-11",
+        "category": "Utilities",
+        "amount_eur": "-122.49",
+        "entry_count": 4,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2025-12",
+        "category": "Housing",
+        "amount_eur": "-2310.15",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2025-12",
+        "category": "Transportation",
+        "amount_eur": "-541.49",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-12",
+        "category": "Travel",
+        "amount_eur": "-770.85",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2025-12",
+        "category": "Utilities",
+        "amount_eur": "-95.84",
+        "entry_count": 1,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2026-01",
+        "category": "Home & Tech",
+        "amount_eur": "-11.53",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-01",
+        "category": "Housing",
+        "amount_eur": "-2396.38",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2026-01",
+        "category": "Other Income",
+        "amount_eur": "9048.64",
+        "entry_count": 3,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2026-01",
+        "category": "Restaurants",
+        "amount_eur": "-37.34",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-01",
+        "category": "Salary",
+        "amount_eur": "1911.43",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2026-01",
+        "category": "Transportation",
+        "amount_eur": "-4.21",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-01",
+        "category": "Travel",
+        "amount_eur": "-4.26",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-01",
+        "category": "Utilities",
+        "amount_eur": "-219.53",
+        "entry_count": 4,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2026-02",
+        "category": "Entertainment",
+        "amount_eur": "-24.88",
+        "entry_count": 3,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-02",
+        "category": "Groceries",
+        "amount_eur": "-8.86",
+        "entry_count": 3,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-02",
+        "category": "Health",
+        "amount_eur": "-7.42",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-02",
+        "category": "Home & Tech",
+        "amount_eur": "-5.75",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-02",
+        "category": "Housing",
+        "amount_eur": "-2342.97",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2026-02",
+        "category": "Restaurants",
+        "amount_eur": "-7.11",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-02",
+        "category": "Salary",
+        "amount_eur": "2377.04",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2026-02",
+        "category": "Travel",
+        "amount_eur": "-17.30",
+        "entry_count": 6,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-02",
+        "category": "Utilities",
+        "amount_eur": "-78.24",
+        "entry_count": 5,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2026-03",
+        "category": "Groceries",
+        "amount_eur": "-207.26",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-03",
+        "category": "Home & Tech",
+        "amount_eur": "-436.77",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-03",
+        "category": "Housing",
+        "amount_eur": "-2330.23",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2026-03",
+        "category": "Lifestyle",
+        "amount_eur": "-52.82",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-03",
+        "category": "Other Income",
+        "amount_eur": "4938.77",
+        "entry_count": 4,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2026-03",
+        "category": "Salary",
+        "amount_eur": "2188.59",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2026-03",
+        "category": "Travel",
+        "amount_eur": "-99.81",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-03",
+        "category": "Utilities",
+        "amount_eur": "-175.93",
+        "entry_count": 2,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Entertainment",
+        "amount_eur": "-109.55",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Groceries",
+        "amount_eur": "-67.77",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Health",
+        "amount_eur": "-573.92",
+        "entry_count": 7,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Home & Tech",
+        "amount_eur": "-249.29",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Housing",
+        "amount_eur": "-2204.29",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Restaurants",
+        "amount_eur": "-726.12",
+        "entry_count": 6,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Salary",
+        "amount_eur": "2785.94",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Transportation",
+        "amount_eur": "-49.36",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Travel",
+        "amount_eur": "-51.62",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-04",
+        "category": "Utilities",
+        "amount_eur": "-197.81",
+        "entry_count": 2,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2026-05",
+        "category": "Groceries",
+        "amount_eur": "-5.49",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-05",
+        "category": "Health",
+        "amount_eur": "-12.93",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-05",
+        "category": "Home & Tech",
+        "amount_eur": "-16.18",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-05",
+        "category": "Housing",
+        "amount_eur": "-2222.62",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2026-05",
+        "category": "Lifestyle",
+        "amount_eur": "-32.62",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-05",
+        "category": "Salary",
+        "amount_eur": "2240.87",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2026-05",
+        "category": "Utilities",
+        "amount_eur": "-139.33",
+        "entry_count": 1,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Groceries",
+        "amount_eur": "-55.74",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Health",
+        "amount_eur": "-109.12",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Home & Tech",
+        "amount_eur": "-37.59",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Housing",
+        "amount_eur": "-2275.51",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Lifestyle",
+        "amount_eur": "-85.47",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Transportation",
+        "amount_eur": "-228.93",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Travel",
+        "amount_eur": "-276.56",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-06",
+        "category": "Utilities",
+        "amount_eur": "-125.39",
+        "entry_count": 3,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2026-07",
+        "category": "Entertainment",
+        "amount_eur": "-255.41",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-07",
+        "category": "Health",
+        "amount_eur": "-1017.68",
+        "entry_count": 7,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-07",
+        "category": "Home & Tech",
+        "amount_eur": "-2826.58",
+        "entry_count": 10,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-07",
+        "category": "Housing",
+        "amount_eur": "-2368.75",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2026-07",
+        "category": "Lifestyle",
+        "amount_eur": "-123.70",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-07",
+        "category": "Restaurants",
+        "amount_eur": "-523.33",
+        "entry_count": 8,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-07",
+        "category": "Salary",
+        "amount_eur": "2477.23",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2026-07",
+        "category": "Transportation",
+        "amount_eur": "-2313.25",
+        "entry_count": 6,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-07",
+        "category": "Travel",
+        "amount_eur": "-1375.23",
+        "entry_count": 6,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-07",
+        "category": "Utilities",
+        "amount_eur": "-170.71",
+        "entry_count": 5,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2026-08",
+        "category": "Entertainment",
+        "amount_eur": "-49.09",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-08",
+        "category": "Health",
+        "amount_eur": "-122.37",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-08",
+        "category": "Housing",
+        "amount_eur": "-2203.21",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2026-08",
+        "category": "Lifestyle",
+        "amount_eur": "-58.11",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-08",
+        "category": "Transportation",
+        "amount_eur": "-359.56",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-08",
+        "category": "Utilities",
+        "amount_eur": "-210.49",
+        "entry_count": 3,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      },
+      {
+        "month": "2026-09",
+        "category": "Entertainment",
+        "amount_eur": "-670.74",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-09",
+        "category": "Health",
+        "amount_eur": "-398.90",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-09",
+        "category": "Housing",
+        "amount_eur": "-2266.81",
+        "entry_count": 1,
+        "transaction_types": [
+          "housing_payment"
+        ]
+      },
+      {
+        "month": "2026-09",
+        "category": "Lifestyle",
+        "amount_eur": "-238.35",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-09",
+        "category": "Other Income",
+        "amount_eur": "6769.61",
+        "entry_count": 4,
+        "transaction_types": [
+          "other_income"
+        ]
+      },
+      {
+        "month": "2026-09",
+        "category": "Restaurants",
+        "amount_eur": "-312.34",
+        "entry_count": 2,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-09",
+        "category": "Salary",
+        "amount_eur": "2154.43",
+        "entry_count": 1,
+        "transaction_types": [
+          "salary"
+        ]
+      },
+      {
+        "month": "2026-09",
+        "category": "Transportation",
+        "amount_eur": "-327.68",
+        "entry_count": 1,
+        "transaction_types": [
+          "purchase"
+        ]
+      },
+      {
+        "month": "2026-09",
+        "category": "Utilities",
+        "amount_eur": "-162.81",
+        "entry_count": 3,
+        "transaction_types": [
+          "utilities_payment"
+        ]
+      }
+    ],
+    "plans": []
+  },
+  "goal": null,
+  "progress": {
+    "saved_amount": 0,
+    "remaining_amount": 0,
+    "percentage": 0,
+    "on_track": true
+  },
+  "warnings": []
+}
