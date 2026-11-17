@@ -1,232 +1,142 @@
-# Money Polku
+# 🧭 Money Polku — AI Financial Coach
 
 **Your money has a past. Let's plan its future.**
 
-*Polku* is Finnish for "path". **Money Polku** is an AI financial coach that turns your bank transactions into a personal action plan. Built at Junction 2026 for the S-Bank (S-Pankki) challenge by team Holy Ravioli.
+*Polku* is Finnish for "path". Money Polku turns your bank transactions into a personal savings plan and a coach you can talk to. Built at **Junction 2026** for the **S-Bank (S-Pankki)** challenge by team **Holy Ravioli**.
 
-<p align="center">
-  <img src="docs/screenshots/01-choose-goal.png" alt="Money Polku: choose what to save for" width="200">
-  <img src="docs/screenshots/04-on-track-chat.png" alt="Money Polku: goal on track and coach chat" width="200">
-  <img src="docs/screenshots/05-behind-plan-home.png" alt="Money Polku: goal that needs adjusting" width="200">
-</p>
+## 💡 The idea
 
-## The problem
+Bank apps show what already happened. People want to know what is coming and what they can do about it. "Can I afford this trip?" or "What do I cut to build an emergency fund?" are hard questions to answer from a list of transactions.
 
-Bank apps show what already happened. People want to know what is coming and what they can do about it.
+Money Polku answers them from **your own data**. The AI coaches, the code does the math, and you stay in control.
 
-"Can I afford a trip to the Alps in 3 months?" or "What do I need to cut to build an emergency fund?" are hard to answer from a list of transactions.
-
-## What Money Polku does
-
-1. **You tell it your goal.** You chat with the AI coach: what, when, how much. For example: "I want to save €2,000 for a trip to the Alps in 3 months."
-2. **The AI checks your data first.** It reads your transactions, finds spending patterns and asks "Is this you?" (e.g. "You spend about €280/month on dining out. Right?"). You confirm or correct before any plan is made. If something is missing, it asks one simple question instead of a long form.
-3. **You get a realistic plan.** The coach tells you if the goal is possible, how much to save each month and where you can cut back. You can still change the plan as you like.
-4. **You see your progress on the home screen:**
-   - **Dream progress** — a bar like "€600 / €2,000" with a status: 🟢 on track, 🟡 plan needs adjusting.
-   - **Weekly sprint** — a short, concrete challenge ("Stay under budget until Friday").
-   - **Forecast vs. actual chart** — the forecast (dashed) against real savings (solid).
-5. **Off course?** The app gives clear options and a **rescue quest**: one small action for 2 days. It is never a ban, and it never asks you to save more than the overspend.
-6. **You stay in control.** Tap **Change goal** or **Explain** anytime. **Explain** shows the steps behind the numbers.
-
-Money Polku works with one goal at a time. This makes saving easy to start.
-
-## App in action
-
-Real screens from the running app, using customers from the S-Bank synthetic dataset.
-
-### 1. Start with a goal that matters to you
-
-The coach asks what you want to save for. After that, it looks at your past spending and suggests where you can cut. You choose the limits. The goal and the plan are saved only after you say "yes".
+## 📸 Screenshots
 
 <table>
   <tr>
-    <td align="center" width="50%">
-      <img src="docs/screenshots/01-choose-goal.png" alt="Choose a goal: holiday, first home, emergency fund or something else" width="280"><br>
-      <sub><b>Pick a goal.</b> Four simple starting points, or your own.</sub>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/01-choose-goal.png" alt="Choose a goal" width="230"><br>
+      <sub><b>Pick a goal</b><br>Holiday, first home, emergency fund or your own.</sub>
     </td>
-    <td align="center" width="50%">
-      <img src="docs/screenshots/02-goal-and-plan-saved.png" alt="Coach proposes a plan with limits for Restaurants and Lifestyle, user confirms" width="280"><br>
-      <sub><b>Confirm the plan.</b> Restaurants €250 and Lifestyle €200 per month. The amounts come from past spending, so the coach calls them estimates.</sub>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/02-goal-and-plan-saved.png" alt="Coach proposes a plan and the user confirms" width="230"><br>
+      <sub><b>Confirm the plan</b><br>Limits come from your past spending. Nothing is saved before "yes".</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/04-on-track-chat.png" alt="Goal on track, user asks the coach" width="230"><br>
+      <sub><b>🟢 On track</b><br>Ask the coach anything about your goal.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/03-behind-plan-rainy-day.png" alt="Rainy-day fund needs adjusting" width="230"><br>
+      <sub><b>🟡 Needs adjusting</b><br>Status is clear at a glance.</sub>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/05-behind-plan-home.png" alt="Family holiday behind plan with quick questions" width="230"><br>
+      <sub><b>Behind plan?</b><br>Tap <i>Change plan</i> or use a quick question.</sub>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/06-change-plan-confirm.png" alt="Coach shows the proposed change and the user confirms" width="230"><br>
+      <sub><b>You confirm every change</b><br>The coach shows what changes and what stays.</sub>
     </td>
   </tr>
 </table>
 
-### 2. See where you stand
+## ✨ Key Features
 
-The home screen shows the goal, the saved amount and a clear status. Green means on track. Yellow means the plan needs a small change. The coach gives one short tip for today.
+- **Personal** — the plan is built from your own transaction history. The coach finds patterns and asks "Is this you?" before it plans anything.
+- **Realistic** — one goal at a time. The coach says if the goal is possible, how much to save each month and where to cut back.
+- **Clear progress** — a goal bar with status (🟢 on track, 🟡 needs adjusting), a weekly sprint and a forecast vs. actual chart.
+- **Rescue quest, not a ban** — if you go off course, you get one small action for 2 days. It never asks you to save more than the overspend.
+- **You stay in control** — every plan change needs your "yes". Tap **Change plan** or **Explain** anytime.
+- **Numbers come from code, not from the model** — goal, progress, warnings and limits are calculated in TypeScript from the database. The model never calculates or invents a number.
 
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <img src="docs/screenshots/04-on-track-chat.png" alt="Buy a used car, 58 percent saved, on track. User asks if the goal can be reached sooner" width="280"><br>
-      <sub>🟢 <b>On track.</b> €3,768.22 of €6,500 saved (58%). The user asks "Can I reach my goal sooner?" and the coach suggests monthly limits on fun and treats.</sub>
-    </td>
-    <td align="center" width="50%">
-      <img src="docs/screenshots/03-behind-plan-rainy-day.png" alt="Rainy-day fund, 22 percent saved, plan needs adjusting" width="280"><br>
-      <sub>🟡 <b>Needs adjusting.</b> €657.12 of €3,000 saved (22%). Quick questions are one tap away.</sub>
-    </td>
-  </tr>
-</table>
+## 🛠 Tech Stack
 
-### 3. Change the plan when life changes
+| Layer    | Tools                                                    |
+| -------- | -------------------------------------------------------- |
+| Frontend | Next.js 16 (App Router), TypeScript (strict), Tailwind CSS, shadcn/ui |
+| AI       | Anthropic SDK (Claude) with tool use                     |
+| Backend  | Next.js API routes, zod validation                       |
+| Database | PostgreSQL on Aiven (`pg` driver)                        |
 
-Behind on the goal? Tap **Change plan** and talk to the coach. It shows exactly what will change and what stays the same. Nothing is saved until you confirm.
+## 🧠 Architecture
 
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <img src="docs/screenshots/05-behind-plan-home.png" alt="Family holiday, 16 percent saved, yellow status, with quick questions" width="280"><br>
-      <sub><b>Behind plan.</b> €655.34 of €4,000 saved (16%). The status is yellow, and the Change plan button is right on the card.</sub>
-    </td>
-    <td align="center" width="50%">
-      <img src="docs/screenshots/06-change-plan-confirm.png" alt="Coach shows the proposed change to the Restaurants limit and the user confirms with yes" width="280"><br>
-      <sub><b>You confirm every change.</b> The coach lists what changes and what stays. The user replies "yes" and the new plan is saved.</sub>
-    </td>
-  </tr>
-</table>
+```mermaid
+flowchart LR
+    UI["📱 Web app<br/>Next.js, mobile-first"]
 
-> All numbers on these screens (saved amount, percent, status, limits) come from the database and are calculated in code. The model only explains them. See [Architecture](#architecture).
+    subgraph API["API · only 2 endpoints"]
+        S["GET /api/status"]
+        C["POST /api/chat"]
+    end
 
-## What makes it different
+    AG["🤖 Coaching agent<br/>Claude + tools"]
+    DB["⚙️ Database layer<br/>SQL · goal tracking · plan math"]
+    PG[("🗄️ PostgreSQL<br/>Aiven")]
 
-- **Personal** — your plan is based on your own transaction history, not on averages.
-- **Transparent** — all numbers (goal, progress, chart, warnings) come from the database and are calculated in code. The model never calculates or invents a number — see [Architecture](#architecture).
-- **Action-oriented** — small weekly challenges help turn a plan into a habit.
+    UI --> S
+    UI --> C
+    S -->|"no AI"| DB
+    C --> AG
+    AG -->|"tool calls"| DB
+    DB --> PG
 
-AI advises. Your data decides. You stay in control.
-
-## Demo scenarios
-
-**Scenario 1 — first time**
-
-User: "I want to save for a snowboarding trip to the Alps in 3 months." The agent checks the user's data, asks "Is this you?", asks how much and where they can cut back, then saves the goal and plan: "€2,000 for the Alps trip, save ~€700/month by cutting dining out."
-
-**Scenario 2 — regular use**
-
-The user opens the app and sees "€600 / €2,000" and the weekly sprint. An unexpected €500 laptop repair triggers a warning: "You're now €500 behind. Options: cut €500 elsewhere, or delay the trip 1 month."
-
-## Architecture
-
-```
-UI (Next.js) --HTTP--> API: exactly 2 endpoints
-                         GET  /api/status  --> db methods            (goal, progress, sprint, forecast, status, quest — no AI)
-                         POST /api/chat    --> agent --> tools --> db methods   (tools are thin wrappers; agent coaches the user)
-                                                             |
-                                       database layer: SQL + goal tracking + plan math
-                                                             |
-                                                        PostgreSQL (Aiven)
+    classDef ai fill:#d1e7dd,stroke:#1a5f3c,color:#0f3d26
+    classDef code fill:#e8f1fb,stroke:#3b6ea5,color:#1c3d63
+    class AG ai
+    class DB,S code
 ```
 
-- Only two API routes exist. The agent's tools are thin wrappers, one tool per `Db` method — no SQL and no math in the agent layer.
-- All goal math (progress, warnings, monthly budget allocation) is plain TypeScript in `src/lib/db/logic/`, never the model.
-- The web app is mobile-first, so it could be embedded in S-mobiili.
+- **Two API routes only.** `/api/status` reads the home screen data with no AI. `/api/chat` talks to the agent.
+- **Thin tools.** One agent tool per `Db` method. No SQL and no math in the agent layer.
+- **All goal math is plain TypeScript** in `src/lib/db/logic/`, so every number can be traced and tested.
 
-## Tech stack
+## 📊 Data Findings
 
-- **Next.js 16** (App Router) + **TypeScript** (strict) + **Tailwind CSS** + **shadcn/ui**
-- **Anthropic SDK** for the coaching agent
-- **PostgreSQL on Aiven** via the `pg` driver
-- **zod** for input validation
+We checked the S-Bank dataset (synthetic: 5,100 customers, 3.6M transactions, Oct 2024 – Sep 2026) before building the forecast.
 
-## Project structure
+- **Fixed payments are easy to predict.** Housing and salary: about 5% median error using last month.
+- **Everyday spending is noisy.** About 31% median error for purchases, so every plan needs a buffer.
+- **Seasonality is real by category, not in total.** Travel peaks in July (+28%), Home & Tech in November (+28%), Health in February (+20%). Friday and Saturday spending is about 27% above average.
+- **Recent months beat "same as last year"** (31% vs 45% error), so we use seasonal indexes per category.
+- **Merchant-based subscription detection does not work** on this data. We use transaction type instead.
+- **"People like you" did not beat the user's own history** in our backtest. It helps most when the history is short.
+
+## 🗂 Project Structure
+
+<details>
+<summary>Show structure</summary>
 
 ```
 src/app/                 pages and layouts (UI)
 src/app/api/status/      GET /api/status
 src/app/api/chat/        POST /api/chat
 src/components/          UI components (home screen, chat, coach widgets)
-src/lib/ai/              Anthropic client, model constant, prompts, tools, run loop
+src/lib/ai/              Anthropic client, prompts, tools, run loop
 src/lib/db/              the only place that talks to PostgreSQL
-  types.ts               the Db interface (shared contract)
-  index.ts               implementation of Db
   logic/goals.ts         pure goal math: progress, savings, warnings
-  plans.ts               plan read/write
-  pool.ts                pg connection pool
 src/types/contracts.ts   shared types between UI, API and db layer
-db/migrations/           numbered SQL files, applied in order
-db/README.md             how goal tracking, plans and warnings actually work
-scripts/                 CSV → SQL loader for the raw S-Bank dataset (run by hand)
-docs/                    idea.md, tasks.md, specs/, screenshots/
+db/migrations/           numbered SQL files
+scripts/                 CSV → SQL loader for the S-Bank dataset
+docs/                    idea, tasks, specs, screenshots, setup
 ```
 
-## Getting started
+</details>
 
-```bash
-npm install
-cp .env.example .env.local   # fill in the values below
-```
+Want to run it locally? See [`docs/SETUP.md`](docs/SETUP.md).
 
-### Environment variables
+## 🔭 Roadmap
 
-| Variable            | What for                                                            |
-| ------------------- | ------------------------------------------------------------------- |
-| `ANTHROPIC_API_KEY` | Claude API key (server only)                                        |
-| `DATABASE_URL`      | Aiven PostgreSQL connection string                                  |
-| `DATABASE_CA`       | Trusted CA certificate for Aiven: PEM contents or a local file path |
-
-Never commit `.env.local`, certificates, or real keys.
-
-### Database setup
-
-1. Get access to an Aiven PostgreSQL instance and set `DATABASE_URL` / `DATABASE_CA`.
-2. Apply the migrations in order:
-   ```bash
-   psql "$DATABASE_URL" -f db/migrations/001_junction_schema.sql
-   psql "$DATABASE_URL" -f db/migrations/002_app_plans.sql
-   psql "$DATABASE_URL" -f db/migrations/003_app_demo_clock.sql
-   psql "$DATABASE_URL" -f db/migrations/004_app_goals.sql
-   ```
-3. Load the S-Bank synthetic dataset into `junction.*` with `scripts/build-junction-sql.ps1`. It generates `COPY` SQL from the dataset CSVs; run the result with `psql`. The raw CSVs and the generated seed SQL are git-ignored — never commit them.
-   Dataset link: https://github.com/hackjunction/Junction-2026-S-pankki
-4. Details on how goal progress, plans and warnings are computed: [`db/README.md`](db/README.md).
-
-### Run
-
-```bash
-npm run dev
-```
-
-Open http://localhost:3000. The customer is selected via the `x-customer-id` header. It must be a real `junction.cust.customer_id` — there is no mock or demo fallback customer.
-
-## Scripts
-
-- `npm run dev` — start the dev server
-- `npm run lint` — run ESLint
-- `npx tsc --noEmit` — type check
-- `psql "$DATABASE_URL" -f db/migrations/<file>.sql` — apply a migration
-
-## Data findings
-
-We checked the S-Bank dataset before building the forecast. It is synthetic: 5,100 customers, 3.6M transactions, Oct 2024 – Sep 2026.
-
-- **Fixed payments are easy to predict.** Housing and salary come once a month with almost the same amount. Using last month's fixed payments as the forecast gives a median error of about 5%.
-- **Everyday spending is noisy.** Forecasting next month's purchases from the last 12 months gives a median error of about 31% (about 18% for the total with fixed payments). A plan needs a buffer.
-- **Seasonality is real by category, not in total.** Travel peaks in July (+28%), Home & Tech in November (+28%), Health in February (+20%). Midsummer Eve is +39% and May Day +21%. Friday and Saturday are about 27% above an average day.
-- **Copying last year is worse than recent months** (45% vs 31% error for purchases). So we use seasonal indexes per category.
-- **Merchant-based subscription detection does not work here.** Only 35 customer-merchant pairs look monthly. We use transaction type (housing, utilities, salary) instead.
-- **Rent and mortgage look almost the same** in payments (median €1,191 with a mortgage record vs €1,036 without). So the app asks the user with one simple question.
-- **Salary sweeps and investment deposits are not spending.** We exclude them from the forecast.
-- **"People like you" did not beat the user's own history** in our backtest. It is most useful when the history is short.
-
-## What's next
-
-- **Recurring payments** — detect rent or mortgage, car costs and loan payments from categories, MCC codes, merchants, amounts and timing.
-- **Seasonality** — use Finnish holidays and seasons (Christmas, summer holidays, back-to-school) and spending from past years, so the forecast is not just an average.
+- **Recurring payments** — detect rent, mortgage, car and loan payments from categories, MCC codes and timing.
+- **Smarter seasonality** — Finnish holidays and seasons, plus spending from past years.
 - **More goals per person** — today the app focuses on one goal at a time.
-- **More banks** — a multi-bank view with PSD2 for a full financial picture.
-- **People like you** — benchmarks from similar customers, also useful when your own history is short. Open data from Statistics Finland can make these benchmarks better.
+- **More banks** — a multi-bank view with PSD2.
+- **People like you** — benchmarks from similar customers, with open data from Statistics Finland.
 - **Proactive alerts** before a tight month.
 - **Prompt evaluation** for more reliable coaching.
 
-## Team
+## 👥 Team
 
-Holy Ravioli — Anna, Alex, Elya.
-
-| Area                   | Owner | Paths                                                                                         |
-| ---------------------- | ----- | --------------------------------------------------------------------------------------------- |
-| UI                     | Elya  | `src/app/*` pages (not `api`), `src/components/*`, `src/lib/api-client.ts`, `src/lib/copy.ts` |
-| API + AI agent + tools | Anna  | `src/app/api/*`, `src/lib/ai/*`, `src/mocks/*`                                                |
-| Database + logic       | Alex  | `src/lib/db/*` (except `types.ts`), `db/*`, `scripts/*`                                       |
-| Shared                 | all   | `src/types/*`, `src/lib/db/types.ts`, `docs/*`, `.env.example`                                |
-
-Working rules for contributors: [`CLAUDE.md`](CLAUDE.md). Product write-up: [`docs/idea.md`](docs/idea.md). Task board: [`docs/tasks.md`](docs/tasks.md).
+**Holy Ravioli** — **Anna** (API, AI agent and tools) · **Alex** (database and goal logic) · **Elya** (UI)
