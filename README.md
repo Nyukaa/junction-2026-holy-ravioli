@@ -12,33 +12,55 @@ Money Polku answers them from **your own data**. The AI coaches, the code does t
 
 ## 📸 Screenshots
 
+Real flows from the app, using customers from the S-Bank dataset.
+
+### 1. Start with a goal that matters to you
+
+The coach asks what you want to save for, looks at your past spending and suggests where to cut. You choose the limits. The goal and plan are saved only after you say "yes".
+
 <table>
   <tr>
-    <td align="center" width="33%">
-      <img src="docs/screenshots/01-choose-goal.png" alt="Choose a goal" width="230"><br>
-      <sub><b>Pick a goal</b><br>Holiday, first home, emergency fund or your own.</sub>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/01-choose-goal.png" alt="Choose a goal: holiday, first home, emergency fund or something else" width="260"><br>
+      <sub><b>Pick a goal.</b> Four simple starting points, or your own.</sub>
     </td>
-    <td align="center" width="33%">
-      <img src="docs/screenshots/02-goal-and-plan-saved.png" alt="Coach proposes a plan and the user confirms" width="230"><br>
-      <sub><b>Confirm the plan</b><br>Limits come from your past spending. Nothing is saved before "yes".</sub>
-    </td>
-    <td align="center" width="33%">
-      <img src="docs/screenshots/04-on-track-chat.png" alt="Goal on track, user asks the coach" width="230"><br>
-      <sub><b>🟢 On track</b><br>Ask the coach anything about your goal.</sub>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/02-goal-and-plan-saved.png" alt="Coach proposes limits for Restaurants and Lifestyle, user confirms" width="260"><br>
+      <sub><b>Confirm the plan.</b> Restaurants €250 and Lifestyle €200 per month. The amounts come from past spending, so the coach calls them estimates.</sub>
     </td>
   </tr>
+</table>
+
+### 2. See where you stand
+
+The home screen shows the goal, the saved amount and a clear status. 🟢 means on track. 🟡 means the plan needs a small change.
+
+<table>
   <tr>
-    <td align="center">
-      <img src="docs/screenshots/03-behind-plan-rainy-day.png" alt="Rainy-day fund needs adjusting" width="230"><br>
-      <sub><b>🟡 Needs adjusting</b><br>Status is clear at a glance.</sub>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/04-on-track-chat.png" alt="Buy a used car, 58 percent saved, on track, user asks if the goal can be reached sooner" width="260"><br>
+      <sub>🟢 <b>On track.</b> €3,768.22 of €6,500 saved (58%). The user asks "Can I reach my goal sooner?" and the coach suggests monthly limits.</sub>
     </td>
-    <td align="center">
-      <img src="docs/screenshots/05-behind-plan-home.png" alt="Family holiday behind plan with quick questions" width="230"><br>
-      <sub><b>Behind plan?</b><br>Tap <i>Change plan</i> or use a quick question.</sub>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/03-behind-plan-rainy-day.png" alt="Rainy-day fund, 22 percent saved, plan needs adjusting" width="260"><br>
+      <sub>🟡 <b>Needs adjusting.</b> €657.12 of €3,000 saved (22%). The coach gives one small tip and quick questions are one tap away.</sub>
     </td>
-    <td align="center">
-      <img src="docs/screenshots/06-change-plan-confirm.png" alt="Coach shows the proposed change and the user confirms" width="230"><br>
-      <sub><b>You confirm every change</b><br>The coach shows what changes and what stays.</sub>
+  </tr>
+</table>
+
+### 3. Change the plan when life changes
+
+Behind on the goal? Tap **Change plan** and talk to the coach. It shows what changes and what stays the same. Nothing is saved until you confirm.
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/05-behind-plan-home.png" alt="Family holiday, 16 percent saved, yellow status, Change plan button" width="260"><br>
+      <sub><b>Behind plan.</b> €655.34 of €4,000 saved (16%). The Change plan button is right on the card.</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/06-change-plan-confirm.png" alt="Coach shows the proposed change to the Restaurants limit and the user confirms with yes" width="260"><br>
+      <sub><b>You confirm every change.</b> The user replies "yes" and the new plan is saved.</sub>
     </td>
   </tr>
 </table>
@@ -48,7 +70,7 @@ Money Polku answers them from **your own data**. The AI coaches, the code does t
 - **Personal** — the plan is built from your own transaction history. The coach finds patterns and asks "Is this you?" before it plans anything.
 - **Realistic** — one goal at a time. The coach says if the goal is possible, how much to save each month and where to cut back.
 - **Clear progress** — a goal bar with status (🟢 on track, 🟡 needs adjusting), a weekly sprint and a forecast vs. actual chart.
-- **Rescue quest, not a ban** — if you go off course, you get one small action for 2 days. It never asks you to save more than the overspend.
+- **Rescue quest, not a ban** — if you go off course, you get one small action. It never asks you to save more than the overspend.
 - **You stay in control** — every plan change needs your "yes". Tap **Change plan** or **Explain** anytime.
 - **Numbers come from code, not from the model** — goal, progress, warnings and limits are calculated in TypeScript from the database. The model never calculates or invents a number.
 
