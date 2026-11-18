@@ -55,6 +55,7 @@ in the same conversation.
 ---
 
 ## Step 1b — make the system prompt static (optional, do after Step 1 works)
+Step 1b: skipped — benefit (cross-customer cache) doesn’t apply to production use, risk not worth it
 
 **Files:** `src/lib/ai/prompts.ts`, `src/app/api/chat/route.ts`
 

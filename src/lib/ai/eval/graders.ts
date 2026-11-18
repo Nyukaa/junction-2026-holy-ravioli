@@ -48,13 +48,19 @@ function closeTo(a: number, b: number, eps = 0.01): boolean {
 // Shared number extraction, used by no-invented-numbers.
 
 const DATE_RE = /\b\d{4}-\d{2}-\d{2}\b/g;
-const NUMBER_RE = /€?\s?\d[\d  ]*(?:[.,]\d+)?%?/g;
+// The thousands-grouped alternative (\d{1,3}(?:,\d{3})+\.\d+) must come
+// first so "2,508.49" matches whole instead of splitting into "2,508" and
+// ".49".
+const NUMBER_RE = /€?\s?(?:\d{1,3}(?:,\d{3})+\.\d+|\d[\d  ]*(?:[.,]\d+)?)%?/g;
+const THOUSANDS_DECIMAL_RE = /^\d{1,3}(?:,\d{3})+\.\d+$/;
 
-/** "1 200,50" / "1200.5" / "€1200" / "16%" -> 1200.5 / 1200.5 / 1200 / 16 */
+/** "1 200,50" / "1200.5" / "€1200" / "16%" / "2,508.49" -> 1200.5 / 1200.5 / 1200 / 16 / 2508.49 */
 function normalizeNumberToken(token: string): number | null {
   let s = token.trim().replace(/[€%]/g, "").trim();
   s = s.replace(/[  ]/g, "");
-  if (s.includes(",") && s.includes(".")) {
+  if (THOUSANDS_DECIMAL_RE.test(s)) {
+    s = s.replace(/,/g, "");
+  } else if (s.includes(",") && s.includes(".")) {
     s = s.replace(/\./g, "").replace(",", ".");
   } else if (s.includes(",")) {
     s = /,\d{1,2}$/.test(s) ? s.replace(",", ".") : s.replace(/,/g, "");

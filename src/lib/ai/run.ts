@@ -28,6 +28,12 @@ export async function runAgentTurn(args: {
   // Get user's goal to customize prompt
   const goal = await db.getGoal(customerId);
   const systemPrompt = getSystemPrompt(goal);
+  // Request prefix order is tools -> system -> messages, so one breakpoint at
+  // the end of system covers the tool schemas too. Reused as-is (same object)
+  // on every call in this turn so the cache actually hits.
+  const system: Anthropic.Messages.TextBlockParam[] = [
+    { type: "text", text: systemPrompt, cache_control: { type: "ephemeral" } },
+  ];
 
   const userMessage: Anthropic.Messages.MessageParam = {
     role: "user",
@@ -41,7 +47,7 @@ export async function runAgentTurn(args: {
   let response = await client.messages.create({
     model: MODEL,
     max_tokens: 8192,
-    system: systemPrompt,
+    system,
     messages,
     tools,
   });
@@ -84,7 +90,7 @@ export async function runAgentTurn(args: {
     response = await client.messages.create({
       model: MODEL,
       max_tokens: 8192,
-      system: systemPrompt,
+      system,
       messages,
       tools,
     });
