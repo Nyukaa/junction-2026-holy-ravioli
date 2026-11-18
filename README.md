@@ -126,6 +126,17 @@ We checked the S-Bank dataset (synthetic: 5,100 customers, 3.6M transactions, Oc
 - **Merchant-based subscription detection does not work** on this data. We use transaction type instead.
 - **"People like you" did not beat the user's own history** in our backtest. It helps most when the history is short.
 
+## 📉 Measuring and Optimizing the Agent
+ 
+After the hackathon, I added prompt evaluation (fixed test scenarios with automatic checks)
+and used it to measure and optimize the agent's token usage: prompt caching, compact data
+formatting, history compaction, and slimmer tool responses.
+ 
+**Results:** input tokens down 58% overall across the evaluation scenarios (up to 77% in some).
+In live conversations, creating a goal needed 65% fewer input tokens (cost
+$0.269 → $0.139), and a follow-up chat used 73% fewer tokens on repeat questions. All
+safety checks (correct tool order, nothing saved without the user's "yes", only real
+categories used) held throughout.
 ## 🗂 Project Structure
 
 <details>
@@ -152,12 +163,11 @@ Want to run it locally? See [`docs/SETUP.md`](docs/SETUP.md).
 ## 🔭 Roadmap
 
 - **Recurring payments** — detect rent, mortgage, car and loan payments from categories, MCC codes and timing.
-- **Smarter seasonality** — Finnish holidays and seasons, plus spending from past years.
 - **More goals per person** — today the app focuses on one goal at a time.
 - **More banks** — a multi-bank view with PSD2.
 - **People like you** — benchmarks from similar customers, with open data from Statistics Finland.
 - **Proactive alerts** before a tight month.
-- **Prompt evaluation** for more reliable coaching.
+
 
 ## 👥 Team
 
