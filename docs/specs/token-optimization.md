@@ -138,6 +138,12 @@ following message. A big `get_data` result gets paid for again on each later tur
 across the three messages instead of climbing. The agent should still answer follow-ups
 correctly, calling `get_data` again when it actually needs numbers.
 
+**Known limitation — unverified, pending Anthropic API usage cap reset on 2026-12-01:**
+the third follow-up of a live scenario-2b walk (the one that hit `max_tokens` in the
+original baseline, see `docs/token-baseline.md`'s "Bug found while measuring") has not
+been re-run against Steps 1-3 - the session's API key hit its own usage cap first. The
+first two follow-ups measured fine. Re-run the third turn once the cap resets.
+
 **Expected:** the saving grows with conversation length. In a short demo it is small, in a
 long one it is the difference between working and hitting the context limit.
 
@@ -167,6 +173,11 @@ measure table gets smaller.
 
 Add an "after" column per step, so the file shows what each change actually did. This is the
 material for the Junction write-up / pitch as well.
+
+Done for scenarios 1 and 2, and for the first two of scenario 2b's three follow-ups.
+Scenario 2b's third follow-up and the `max_tokens` dead end it originally hit are marked
+in `docs/token-baseline.md` as a **known limitation — unverified, pending Anthropic API
+usage cap reset on 2026-12-01**, not as done.
 
 ---
 
