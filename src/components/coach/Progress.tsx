@@ -73,15 +73,15 @@ export function Progress({
     "🏆 Spot on! Your consistency is paying off.",
   ];
 
-  const budgetTips = [
-    "🍰 Save on food delivery to rescue your Friday coffee and cake.",
-    "🚶‍♂️ Choose a walk instead of a taxi — your budget will thank you.",
-    "🍳 Cook dinner at home tonight so you can treat yourself later.",
-    "🫖 Brew tea in a thermos and put the savings toward your goal.",
-    "🛍️ Skip one impulse buy and get closer to your dream vacation.",
-    "👟 Walk a couple of stops and earn a bonus for dessert.",
-    "🎉 Set aside your spare change to throw yourself a little treat at the end of the week.",
-  ];
+const budgetTips = [
+  "🍳 Cook at home today and keep the savings for your goal.",
+  "🚶 Choose a walk instead of a taxi today and keep the difference for your goal.",
+  "🫖 Brew tea in a thermos and put the savings toward your goal.",
+  "🛍️ Skip one impulse buy and get closer to your dream.",
+  "📦 Pause one non-essential order this week and keep the money for your goal.",
+  "🥪 Pack lunch once this week and see how much you keep.",
+  "🎯 Move a small amount to savings today. Every bit counts.",
+];
 
   const insight = useMemo(() => {
     const arr = isOnTrack ? statusMessages : budgetTips;
