@@ -1,10 +1,20 @@
 # 🧭 Money Polku — AI Financial Coach
-
+ 
 **Your money has a past. Let's plan its future.**
-
-<img src="docs/screenshots/money-polku-demo.gif" width="320" alt="Money Polku demo">
-
-*Polku* is Finnish for "path". Money Polku turns your bank transactions into a personal savings plan and a coach you can talk to. Built at **Junction 2026** for the **S-Bank (S-Pankki)** challenge by team **Holy Ravioli**.
+ 
+<table>
+  <tr>
+    <td width="320" valign="top">
+      <img src="docs/screenshots/money-polku-demo.gif" width="320" alt="Money Polku demo">
+    </td>
+    <td valign="top">
+*Polku* is Finnish for "path". Money Polku turns your bank transactions into a personal savings plan and a coach you can talk to.
+ 
+Built at **Junction 2026** for the **S-Bank (S-Pankki)** challenge by team **Holy Ravioli**.
+ 
+    </td>
+  </tr>
+</table>
 
 ## 💡 The idea
 
