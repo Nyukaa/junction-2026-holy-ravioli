@@ -31,22 +31,24 @@ math, which is why this is split into small, separately-verified steps.
 
 ---
 
-## Step 1 — migration
+## Step 1 — migration (make the column nullable, don't drop it yet)
 
-**File:** `db/migrations/005_plans_drop_transaction_type.sql` (new — never edit 002)
+**File:** `db/migrations/005_plans_transaction_type_nullable.sql` (new — never edit 002)
 
 ```sql
 -- Apply after 004_app_goals.sql.
 -- transaction_type on app.plans was never used for any decision (always a
--- placeholder for planned entries). junction.tx keeps its real transaction_type
--- untouched; this only drops the column from the app-owned plans table.
-ALTER TABLE app.plans DROP COLUMN transaction_type;
+-- placeholder for planned entries). This only drops the NOT NULL constraint so
+-- Steps 2-7 can stop writing it; the column itself is dropped later, in Step 8,
+-- once nothing in the app reads or writes it anymore. junction.tx keeps its
+-- real transaction_type untouched throughout.
+ALTER TABLE app.plans ALTER COLUMN transaction_type DROP NOT NULL;
 ```
 
-Apply it: `psql "$DATABASE_URL" -f db/migrations/005_plans_drop_transaction_type.sql`
+Apply it: `psql "$DATABASE_URL" -f db/migrations/005_plans_transaction_type_nullable.sql`
 
-**Done when:** column is gone on Aiven. Don't touch app code yet — it will be broken
-until Step 2, that's expected and fine for one commit.
+**Done when:** the column is nullable on Aiven. App code still writes/reads it until
+Step 2, so nothing breaks yet — this migration is safe to apply ahead of the code change.
 
 ---
 
@@ -71,7 +73,9 @@ until Step 2, that's expected and fine for one commit.
 ## Step 3 — db/index.ts: savePlan
 
 - Remove the `transactionTypes` set and the `!transactionTypes.has(entry.transaction_type)`
-  check from the validation loop — keep only the `!categories.has(entry.category)` check.
+  check from the validation loop — **keep** the `!categories.has(entry.category)` check
+  exactly as it is. Category validation against known categories is not going away; only
+  the transaction-type half of this validation is being removed.
 - `known` query: drop `transaction_type` from its `SELECT DISTINCT` (categories only now).
 - The `INSERT ... SELECT ... FROM jsonb_to_recordset($2::jsonb) AS entry(...)` — remove
   `transaction_type text` from that column list and from the `INSERT`'s column list.
@@ -155,11 +159,43 @@ and confirm they parse into the expected objects.
 
 ---
 
+## Step 8 — migration: drop the column for real
+
+Only once Steps 2-7 are deployed and nothing in the app reads or writes
+`app.plans.transaction_type` anymore.
+
+**File:** `db/migrations/006_plans_drop_transaction_type_column.sql` (new — never edit 002
+or 005)
+
+```sql
+-- Apply after 005_plans_transaction_type_nullable.sql and after Steps 2-7 are deployed.
+-- Nothing reads or writes app.plans.transaction_type by this point; junction.tx's own
+-- transaction_type is untouched.
+ALTER TABLE app.plans DROP COLUMN transaction_type;
+```
+
+Apply it: `psql "$DATABASE_URL" -f db/migrations/006_plans_drop_transaction_type_column.sql`
+
+Then confirm nothing in the app still refers to it:
+
+```
+grep -rn transaction_type src docs
+```
+
+**Done when:** the column is gone on Aiven, and that grep returns nothing except hits
+inside migration files themselves (`db/migrations/005_plans_transaction_type_nullable.sql`,
+`db/migrations/006_plans_drop_transaction_type_column.sql`) and this spec, which
+necessarily talks about the migrations by name. Any hit in actual app code (`src/lib/db/*`,
+`src/lib/ai/*`) at this point is a bug — something from Steps 2-7 was missed.
+
+---
+
 ## Done when (whole spec)
 
-- [ ] Migration applied on Aiven, nothing in `002_app_plans.sql` edited
-- [ ] `transaction_type` does not appear anywhere in `src/lib/db/*` or `src/lib/ai/*`
-      related to plans (grep for it to confirm)
+- [ ] Both migrations applied on Aiven (005 makes the column nullable, 006 drops it),
+      nothing in `002_app_plans.sql` edited
+- [ ] `grep -rn transaction_type src docs` returns nothing except hits inside migration
+      files and this spec (Step 8's check)
 - [ ] The Invest Deposit exclusion check from Step 5 passes
 - [ ] `npx tsc --noEmit`, `npm run lint`, grader self-tests all pass
 - [ ] Committed (can be one commit or a few small ones, your call), pushed
