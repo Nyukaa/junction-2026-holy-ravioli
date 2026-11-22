@@ -6,9 +6,10 @@
 ## Goal
 
 `transaction_type` on a planned entry is never used for any decision — it's always a
-placeholder. Remove it entirely: from what the model writes, from the database column, and
-from every query that touches it. `junction.tx` (real transactions) keeps its own
-`transaction_type` untouched — this is only about `app.plans`.
+placeholder. Stop using it: from what the model writes and from every query that touches
+it. The `app.plans` column itself stays (made nullable, not dropped — might be useful
+again later). `junction.tx` (real transactions) keeps its own `transaction_type`
+untouched — this is only about `app.plans`.
 
 ## Why this touches more than tools.ts
 
@@ -159,41 +160,28 @@ and confirm they parse into the expected objects.
 
 ---
 
-## Step 8 — migration: drop the column for real
+## Step 8 — verify the column is unused (no column drop)
 
-Only once Steps 2-7 are deployed and nothing in the app reads or writes
-`app.plans.transaction_type` anymore.
-
-**File:** `db/migrations/006_plans_drop_transaction_type_column.sql` (new — never edit 002
-or 005)
-
-```sql
--- Apply after 005_plans_transaction_type_nullable.sql and after Steps 2-7 are deployed.
--- Nothing reads or writes app.plans.transaction_type by this point; junction.tx's own
--- transaction_type is untouched.
-ALTER TABLE app.plans DROP COLUMN transaction_type;
-```
-
-Apply it: `psql "$DATABASE_URL" -f db/migrations/006_plans_drop_transaction_type_column.sql`
-
-Then confirm nothing in the app still refers to it:
+No migration here — the column stays, nullable, in case it's useful again later. This
+step only confirms the app has actually stopped touching it, once Steps 2-7 are deployed.
 
 ```
 grep -rn transaction_type src docs
 ```
 
-**Done when:** the column is gone on Aiven, and that grep returns nothing except hits
-inside migration files themselves (`db/migrations/005_plans_transaction_type_nullable.sql`,
-`db/migrations/006_plans_drop_transaction_type_column.sql`) and this spec, which
-necessarily talks about the migrations by name. Any hit in actual app code (`src/lib/db/*`,
-`src/lib/ai/*`) at this point is a bug — something from Steps 2-7 was missed.
+**Done when:** that grep returns nothing except hits inside migration files themselves
+(`db/migrations/005_plans_transaction_type_nullable.sql`) and this spec, which necessarily
+talks about the migration by name. Any hit in actual app code (`src/lib/db/*`,
+`src/lib/ai/*`) at this point is a bug — something from Steps 2-7 was missed. The column
+itself stays on `app.plans`, nullable and unused — dropping it is a separate decision for
+later, not part of this spec.
 
 ---
 
 ## Done when (whole spec)
 
-- [ ] Both migrations applied on Aiven (005 makes the column nullable, 006 drops it),
-      nothing in `002_app_plans.sql` edited
+- [ ] Migration applied on Aiven (005 makes the column nullable), nothing in
+      `002_app_plans.sql` edited, column not dropped
 - [ ] `grep -rn transaction_type src docs` returns nothing except hits inside migration
       files and this spec (Step 8's check)
 - [ ] The Invest Deposit exclusion check from Step 5 passes
