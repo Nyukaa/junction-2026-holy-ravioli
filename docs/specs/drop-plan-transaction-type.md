@@ -182,15 +182,28 @@ No migration here — the column stays, nullable, in case it's useful again late
 step only confirms the app has actually stopped touching it, once Steps 2-7 are deployed.
 
 ```
-grep -rn transaction_type src docs
+grep -rn transaction_type src docs CLAUDE.md
 ```
 
-**Done when:** that grep returns nothing except hits inside migration files themselves
-(`db/migrations/005_plans_transaction_type_nullable.sql`) and this spec, which necessarily
-talks about the migration by name. Any hit in actual app code (`src/lib/db/*`,
-`src/lib/ai/*`) at this point is a bug — something from Steps 2-7 was missed. The column
-itself stays on `app.plans`, nullable and unused — dropping it is a separate decision for
-later, not part of this spec.
+This grep will still show plenty of hits — that's expected, not a bug by itself. It also
+matches `junction.tx`'s real, untouched `transaction_type` (out of scope for this spec):
+the actuals queries in `src/lib/db/index.ts`, `MonthlyCategoryTotal` in `plans.ts`,
+`formatTypeLines` in `tool-handler.ts`, the eval fixtures under `src/lib/ai/eval/fixtures/`,
+`docs/specs/token-optimization.md`, and `docs/eval-output-before.json`. None of those are
+`app.plans` or `save_plan`, so they don't need to disappear.
+
+**The actual criterion:** read every hit and confirm none of them refers to
+`app.plans.transaction_type` or to `save_plan`'s removed `transaction_type` field — only to
+`junction.tx`'s real transaction type, to the migration files
+(`db/migrations/005_plans_transaction_type_nullable.sql`), or to this spec, which
+necessarily talks about the migration and the removed field by name. A hit that does refer
+to `app.plans`/`save_plan` at this point is a bug — something from Steps 2-7 was missed.
+The column itself stays on `app.plans`, nullable and unused — dropping it is a separate
+decision for later, not part of this spec.
+
+**Run and result:** this check was run and the criterion was met — every hit outside the
+migration file and this spec was `junction.tx`'s real transaction type (actuals code,
+eval fixtures, or the two docs above); none referred to `app.plans` or `save_plan`.
 
 ---
 
@@ -198,8 +211,9 @@ later, not part of this spec.
 
 - [ ] Migration applied on Aiven (005 makes the column nullable), nothing in
       `002_app_plans.sql` edited, column not dropped
-- [ ] `grep -rn transaction_type src docs` returns nothing except hits inside migration
-      files and this spec (Step 8's check)
+- [x] `grep -rn transaction_type src docs CLAUDE.md` (Step 8) — hits remain (junction.tx's
+      real transaction type, out of scope), but none refer to `app.plans`/`save_plan`. Run
+      and confirmed.
 - [ ] The Invest Deposit exclusion check from Step 5 passes
 - [ ] `npx tsc --noEmit`, `npm run lint`, grader self-tests all pass
 - [ ] Committed (can be one commit or a few small ones, your call), pushed
