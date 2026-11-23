@@ -159,25 +159,16 @@ class DbImpl implements Db {
       }
 
       const today = await readToday(client);
-      const known = await client.query<{
-        category: string;
-        transaction_type: string;
-      }>(
-        `SELECT DISTINCT category, transaction_type FROM junction.tx
+      const known = await client.query<{ category: string }>(
+        `SELECT DISTINCT category FROM junction.tx
          WHERE customer_id = $1 AND tx_date <= $2::date`,
         [customerId, today],
       );
       const categories = new Set(known.rows.map((row) => row.category));
-      const transactionTypes = new Set(
-        known.rows.map((row) => row.transaction_type),
-      );
       for (const entry of validated) {
-        if (
-          !categories.has(entry.category) ||
-          !transactionTypes.has(entry.transaction_type)
-        ) {
+        if (!categories.has(entry.category)) {
           throw new Error(
-            "Use categories and transaction types from this customer's transaction data",
+            "Use categories from this customer's transaction data",
           );
         }
       }
@@ -188,12 +179,12 @@ class DbImpl implements Db {
       const result = await client.query<PlanRow>(
         `INSERT INTO app.plans
            (customer_id, plan_date, plan_timestamp, category,
-            plan_amount_eur, transaction_type, reason)
+            plan_amount_eur, reason)
          SELECT $1, entry.plan_date, entry.plan_timestamp, entry.category,
-                entry.plan_amount_eur, entry.transaction_type, entry.reason
+                entry.plan_amount_eur, entry.reason
          FROM jsonb_to_recordset($2::jsonb) AS entry(
            plan_date date, plan_timestamp timestamp, category text,
-           plan_amount_eur numeric(12,2), transaction_type text, reason text)
+           plan_amount_eur numeric(12,2), reason text)
          RETURNING *`,
         [customerId, JSON.stringify(validated)],
       );

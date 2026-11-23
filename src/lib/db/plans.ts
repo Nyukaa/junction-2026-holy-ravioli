@@ -9,7 +9,6 @@ export interface PlanRow {
   plan_timestamp: Date;
   category: string;
   plan_amount_eur: string;
-  transaction_type: string;
   reason: string | null;
 }
 
@@ -37,7 +36,6 @@ export const savePlanSchema = z
                 /^-?(?:0|[1-9]\d{0,9})\.\d{2}$/,
                 "Use a signed EUR decimal with exactly two decimal places",
               ),
-            transaction_type: z.string().trim().min(1),
             reason: z.string().trim().min(1).max(1000),
           })
           .strict(),
@@ -48,15 +46,18 @@ export const savePlanSchema = z
 
 export type PlanEntryInput = z.infer<typeof savePlanSchema>["entries"][number];
 
-export interface MonthlyCategoryTotal {
+interface MonthlyTotalBase {
   month: string;
   category: string;
   amount_eur: string;
   entry_count: number;
+}
+
+export interface MonthlyCategoryTotal extends MonthlyTotalBase {
   transaction_types: string[];
 }
 
-export interface MonthlyPlanTotal extends MonthlyCategoryTotal {
+export interface MonthlyPlanTotal extends MonthlyTotalBase {
   reasons: string[];
 }
 
