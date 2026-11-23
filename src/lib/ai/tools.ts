@@ -63,59 +63,22 @@ export const tools: Tool[] = [
     input_schema: {
       type: "object" as const,
       properties: {
-        entries: {
-          type: "array",
-          minItems: 1,
-          items: {
-            type: "object",
-            properties: {
-              plan_date: {
-                type: "string",
-                format: "date",
-                description: "Planned date, YYYY-MM-DD",
-              },
-              plan_timestamp: {
-                type: "string",
-                description:
-                  "Local planned timestamp, YYYY-MM-DDTHH:mm:ss, without timezone",
-              },
-              category: {
-                type: "string",
-                minLength: 1,
-                description: "Category from get_data",
-              },
-              plan_amount_eur: {
-                type: "string",
-                pattern: "^-?(?:0|[1-9]\\d{0,9})\\.\\d{2}$",
-                description:
-                  "Signed EUR decimal, exactly two decimal places; use the same sign convention as actuals",
-              },
-              transaction_type: {
-                type: "string",
-                minLength: 1,
-                description: "Transaction type from get_data",
-              },
-              reason: {
-                type: "string",
-                minLength: 1,
-                maxLength: 1000,
-                description:
-                  "Short explanation of why the user chose this plan entry",
-              },
-            },
-            required: [
-              "plan_date",
-              "plan_timestamp",
-              "category",
-              "plan_amount_eur",
-              "transaction_type",
-              "reason",
-            ],
-            additionalProperties: false,
-          },
+        entries_csv: {
+          type: "string",
+          minLength: 1,
+          description:
+            "One plan entry per line, no header line, 5 comma-separated fields: " +
+            "plan_date,plan_timestamp,category,plan_amount_eur,reason. plan_date is " +
+            "YYYY-MM-DD. plan_timestamp is a local YYYY-MM-DDTHH:mm:ss timestamp, without " +
+            "timezone. category is from get_data. plan_amount_eur is a signed EUR decimal " +
+            "with exactly two decimal places (e.g. -45.00), same sign convention as actuals. " +
+            "reason is free text explaining why the user chose this entry and may contain " +
+            "commas - only the first 4 commas on the line are field separators, everything " +
+            "after the 4th comma is the reason. Example line: " +
+            "2026-09-30,2026-09-30T12:00:00,Restaurants,-45.00,Cut dining out, save for the trip",
         },
       },
-      required: ["entries"],
+      required: ["entries_csv"],
       additionalProperties: false,
     },
   },

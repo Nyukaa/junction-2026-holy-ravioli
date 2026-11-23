@@ -165,16 +165,30 @@ interface PlanEntryLike {
   category?: unknown;
 }
 
+// save_plan's real input is entries_csv: one entry per line, no header, 5
+// comma-separated fields (plan_date,plan_timestamp,category,plan_amount_eur,reason).
+// Only category is needed here, so this stays lenient (skips lines that don't match)
+// rather than fully validating like tool-handler.ts's parser does.
+const ENTRIES_CSV_LINE_RE = /^([^,\r\n]*),([^,\r\n]*),([^,\r\n]*),([^,\r\n]*),(.*)$/;
+
 function extractPlanEntries(input: unknown): PlanEntryLike[] {
   if (
-    typeof input === "object" &&
-    input !== null &&
-    "entries" in input &&
-    Array.isArray((input as { entries: unknown }).entries)
+    typeof input !== "object" ||
+    input === null ||
+    !("entries_csv" in input) ||
+    typeof (input as { entries_csv: unknown }).entries_csv !== "string"
   ) {
-    return (input as { entries: PlanEntryLike[] }).entries;
+    return [];
   }
-  return [];
+  const lines = (input as { entries_csv: string }).entries_csv
+    .split(/\r\n|\r|\n/)
+    .filter((line) => line.trim().length > 0);
+  const entries: PlanEntryLike[] = [];
+  for (const line of lines) {
+    const match = ENTRIES_CSV_LINE_RE.exec(line);
+    if (match) entries.push({ category: match[3] });
+  }
+  return entries;
 }
 
 // A reply that both mentions investing and asks a question is treated as the
@@ -430,7 +444,7 @@ function main() {
             toolCalls: [
               {
                 name: "save_plan",
-                input: { entries: [{ category: "Invest Deposit", transaction_type: "investment_deposit" }] },
+                input: { entries_csv: "2026-09-30,2026-09-30T12:00:00,Invest Deposit,-50.00,test" },
                 resultText: "{}",
               },
             ],
@@ -452,7 +466,7 @@ function main() {
             toolCalls: [
               {
                 name: "save_plan",
-                input: { entries: [{ category: "Invest Deposit", transaction_type: "investment_deposit" }] },
+                input: { entries_csv: "2026-09-30,2026-09-30T12:00:00,Invest Deposit,-50.00,test" },
                 resultText: "{}",
               },
             ],
@@ -476,7 +490,7 @@ function main() {
             toolCalls: [
               {
                 name: "save_plan",
-                input: { entries: [{ category: "Restaurants", transaction_type: "purchase" }] },
+                input: { entries_csv: "2026-09-30,2026-09-30T12:00:00,Restaurants,-50.00,test" },
                 resultText: "{}",
               },
             ],
@@ -498,7 +512,7 @@ function main() {
             toolCalls: [
               {
                 name: "save_plan",
-                input: { entries: [{ category: "Shopping Spree", transaction_type: "purchase" }] },
+                input: { entries_csv: "2026-09-30,2026-09-30T12:00:00,Shopping Spree,-50.00,test" },
                 resultText: "{}",
               },
             ],

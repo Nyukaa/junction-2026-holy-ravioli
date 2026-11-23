@@ -1,6 +1,36 @@
 import { Db } from "@/lib/db/types";
-import { FinancialData, MonthlyCategoryTotal, PlanRow, savePlanSchema } from "@/lib/db/plans";
+import {
+  FinancialData,
+  MonthlyCategoryTotal,
+  PlanEntryInput,
+  PlanRow,
+  savePlanSchema,
+} from "@/lib/db/plans";
 import { z } from "zod";
+
+// entries_csv: one entry per line, no header, 5 comma-separated fields
+// (plan_date,plan_timestamp,category,plan_amount_eur,reason). reason is free text and
+// may contain commas, so split on the first 4 commas only, not a naive `.split(",")`.
+const ENTRIES_CSV_LINE_RE = /^([^,\r\n]*),([^,\r\n]*),([^,\r\n]*),([^,\r\n]*),(.*)$/;
+
+export function parseEntriesCsv(csv: string): PlanEntryInput[] {
+  const lines = csv.split(/\r\n|\r|\n/).filter((line) => line.trim().length > 0);
+  if (lines.length === 0) {
+    throw new Error("entries_csv has no entries");
+  }
+  const rawEntries = lines.map((line, index) => {
+    const match = ENTRIES_CSV_LINE_RE.exec(line);
+    if (!match) {
+      throw new Error(
+        `entries_csv line ${index + 1} needs 5 comma-separated fields ` +
+          `(plan_date,plan_timestamp,category,plan_amount_eur,reason): "${line}"`,
+      );
+    }
+    const [, plan_date, plan_timestamp, category, plan_amount_eur, reason] = match;
+    return { plan_date, plan_timestamp, category, plan_amount_eur, reason };
+  });
+  return savePlanSchema.parse({ entries: rawEntries }).entries;
+}
 
 interface CompactRow {
   month: string;
@@ -122,7 +152,8 @@ export async function executeTool(
       }
 
       case "save_plan": {
-        const { entries } = savePlanSchema.parse(toolInput);
+        const { entries_csv } = z.object({ entries_csv: z.string() }).strict().parse(toolInput);
+        const entries = parseEntriesCsv(entries_csv);
         await db.savePlan(customerId, entries);
         // entries were just submitted by the model, so it doesn't need them
         // echoed back - a short summary is enough.
