@@ -271,14 +271,12 @@ class DbImpl implements Db {
         `SELECT
            COALESCE((SELECT SUM(plan_amount_eur) FROM app.plans
              WHERE customer_id = $1 AND plan_date > $2::date AND plan_date <= $3::date
-               AND transaction_type NOT IN
-                 ('salary_sweep', 'investment_deposit', 'investment_withdrawal')), 0)::text
+               AND NOT (category = ANY($4::text[]))), 0)::text
              AS planned_net_eur,
            EXISTS (SELECT 1 FROM app.plans
              WHERE customer_id = $1 AND plan_date > $2::date
-               AND transaction_type NOT IN
-                 ('salary_sweep', 'investment_deposit', 'investment_withdrawal')) AS has_plan`,
-        [customerId, goal.created_at.slice(0, 10), today],
+               AND NOT (category = ANY($4::text[]))) AS has_plan`,
+        [customerId, goal.created_at.slice(0, 10), today, TRANSFER_CATEGORIES],
       );
       const savingsCategories = await client.query<MonthlyCategoryBudget>(
         `WITH actuals AS (
@@ -295,8 +293,7 @@ class DbImpl implements Db {
            FROM app.plans
            WHERE customer_id = $1 AND plan_date > $2::date AND plan_date <= $3::date
              AND plan_amount_eur < 0
-             AND transaction_type NOT IN
-               ('salary_sweep', 'investment_deposit', 'investment_withdrawal')
+             AND NOT (category = ANY($4::text[]))
            GROUP BY to_char(plan_date, 'YYYY-MM'), category
          )
          SELECT budgets.month, budgets.category,
@@ -304,7 +301,7 @@ class DbImpl implements Db {
                 budgets.amount::text AS plan_amount_eur
          FROM budgets LEFT JOIN actuals USING (month, category)
          ORDER BY budgets.month, budgets.category`,
-        [customerId, goal.created_at.slice(0, 10), today],
+        [customerId, goal.created_at.slice(0, 10), today, TRANSFER_CATEGORIES],
       );
       const categories = await client.query<CategoryBudget>(
         `WITH actuals AS (
@@ -322,8 +319,7 @@ class DbImpl implements Db {
            WHERE customer_id = $1
              AND plan_date >= date_trunc('month', $2::date)::date
              AND plan_date < (date_trunc('month', $2::date) + INTERVAL '1 month')::date
-             AND transaction_type NOT IN
-               ('salary_sweep', 'investment_deposit', 'investment_withdrawal')
+             AND NOT (category = ANY($3::text[]))
            GROUP BY category
          )
          SELECT COALESCE(actuals.category, budgets.category) AS category,
@@ -331,7 +327,7 @@ class DbImpl implements Db {
                 budgets.amount::text AS plan_amount_eur
          FROM actuals FULL OUTER JOIN budgets USING (category)
          ORDER BY category`,
-        [customerId, today],
+        [customerId, today, TRANSFER_CATEGORIES],
       );
       await client.query("COMMIT");
       return {
