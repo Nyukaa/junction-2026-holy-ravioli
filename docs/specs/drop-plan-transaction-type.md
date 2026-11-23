@@ -40,9 +40,10 @@ math, which is why this is split into small, separately-verified steps.
 -- Apply after 004_app_goals.sql.
 -- transaction_type on app.plans was never used for any decision (always a
 -- placeholder for planned entries). This only drops the NOT NULL constraint so
--- Steps 2-7 can stop writing it; the column itself is dropped later, in Step 8,
--- once nothing in the app reads or writes it anymore. junction.tx keeps its
--- real transaction_type untouched throughout.
+-- Steps 2-7 can stop writing it. The column itself stays on app.plans, nullable
+-- and unused from here on — it is not being dropped, in case it's useful again
+-- later (Step 8 only verifies nothing still touches it; see that step).
+-- junction.tx keeps its real transaction_type untouched throughout.
 ALTER TABLE app.plans ALTER COLUMN transaction_type DROP NOT NULL;
 ```
 
@@ -50,6 +51,7 @@ Apply it: `psql "$DATABASE_URL" -f db/migrations/005_plans_transaction_type_null
 
 **Done when:** the column is nullable on Aiven. App code still writes/reads it until
 Step 2, so nothing breaks yet — this migration is safe to apply ahead of the code change.
+The column stays nullable and unused after this — it is not dropped by this spec.
 
 ---
 
@@ -104,7 +106,8 @@ as spending.
 
 ## Step 5 — db/index.ts: getGoalSnapshot
 
-Same substitution, 3 places (`savings`, `savings_categories`, `categories` CTEs) — every
+Same substitution, 4 filters across 3 queries (the `savings` query's planned-net and
+has-plan subqueries, the `savings_categories` CTE, and the `categories` CTE) — every
 `app.plans ... transaction_type NOT IN (...)` becomes
 `category NOT IN ('Salary Sweep', 'Invest Withdraw', 'Invest Deposit')`.
 
@@ -131,6 +134,12 @@ field no longer exists on `PlanRow`. Drop the "types" section entirely for plan 
 (only `get_data`'s actuals still have real types to show); `formatPlan` becomes: plan rows
 + `plan_reasons`, no `types` block.
 
+Also update, since they still reference the removed field:
+- `src/lib/ai/eval/graders.ts`: `categoriesExist` no longer checks transaction types, only
+  category.
+- `src/lib/ai/eval/mock-db.ts`: the fake `savePlan` no longer sets `transaction_type` on
+  the rows it builds.
+
 **Done when:** `npx tsc --noEmit`, `npm run lint`, and the grader self-tests
 (`npx tsx src/lib/ai/eval/graders.ts`) all pass.
 
@@ -151,8 +160,15 @@ originally planned — no "resolve it server-side" logic needed, there's nothing
 - `tool-handler.ts`: parse `entries_csv` line by line with a regex split on the first 4
   commas (not a naive `.split(",")` — `reason` is free text and may contain a comma),
   build the `PlanEntryInput[]` shape (now only 4 fields per entry), pass to
-  `db.savePlan` unchanged otherwise.
+  `db.savePlan` unchanged otherwise. The parser is exported as `parseEntriesCsv` so it can
+  be exercised directly from a scratch script, without going through a live model call.
 - Keep one line per month per category — still no aggregation/exceptions.
+
+Also update, since they still describe or parse the old `entries` array-of-objects shape:
+- `src/lib/ai/prompts.ts`: the system prompt's description of `save_plan`'s entry fields,
+  to describe `entries_csv` instead of per-field JSON with `transaction_type`.
+- `src/lib/ai/eval/graders.ts`: `extractPlanEntries` (now reads `entries_csv` instead of an
+  `entries` array) and the `save_plan` inputs in its self-test fixtures.
 
 **Done when:** `npx tsc --noEmit`, `npm run lint`, grader self-tests pass. No live model
 call needed to verify the parser — write 2-3 example CSV lines by hand in a scratch script
