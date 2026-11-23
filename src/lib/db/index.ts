@@ -1,5 +1,6 @@
 import { Db } from "./types";
 import { Goal, Progress, Warning } from "@/types/contracts";
+import { CATEGORY_GROUPS } from "@/lib/categories";
 import { getPool } from "./pool";
 import type { Pool, PoolClient } from "pg";
 import {
@@ -20,6 +21,13 @@ import {
   PlanRow,
   savePlanSchema,
 } from "./plans";
+
+// Plans have no transaction_type to filter transfers by (Step 1-3 of
+// docs/specs/drop-plan-transaction-type.md); category is already a 1:1 stand-in for
+// the "moves" + "invest" groups (Salary Sweep, Invest Withdraw, Invest Deposit).
+const TRANSFER_CATEGORIES = CATEGORY_GROUPS.filter(
+  (g) => g.id === "moves" || g.id === "invest",
+).flatMap((g) => g.categories);
 
 interface GoalRow {
   id: string;
@@ -219,18 +227,16 @@ class DbImpl implements Db {
         `SELECT to_char(plan_date, 'YYYY-MM') AS month, category,
                 SUM(plan_amount_eur)::text AS amount_eur,
                 COUNT(*)::int AS entry_count,
-                array_agg(DISTINCT transaction_type ORDER BY transaction_type) AS transaction_types,
                 COALESCE(
                   array_agg(DISTINCT reason ORDER BY reason) FILTER (WHERE reason IS NOT NULL),
                   ARRAY[]::text[]
                 ) AS reasons
          FROM app.plans
          WHERE customer_id = $1
-           AND transaction_type NOT IN
-               ('salary_sweep', 'investment_deposit', 'investment_withdrawal')
+           AND NOT (category = ANY($2::text[]))
          GROUP BY to_char(plan_date, 'YYYY-MM'), category
          ORDER BY month, category`,
-        [customerId],
+        [customerId, TRANSFER_CATEGORIES],
       ),
     ]);
     return { as_of: today, actuals: actuals.rows, plans: plans.rows };
