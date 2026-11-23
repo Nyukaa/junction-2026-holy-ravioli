@@ -79,7 +79,6 @@ export function createMockDb(fixture: EvalFixture): Db {
         plan_timestamp: new Date(entry.plan_timestamp),
         category: entry.category,
         plan_amount_eur: entry.plan_amount_eur,
-        transaction_type: entry.transaction_type,
         reason: entry.reason,
       }));
       return plan;

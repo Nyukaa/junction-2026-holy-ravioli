@@ -1,5 +1,5 @@
 import { Db } from "@/lib/db/types";
-import { FinancialData, PlanRow, savePlanSchema } from "@/lib/db/plans";
+import { FinancialData, MonthlyCategoryTotal, PlanRow, savePlanSchema } from "@/lib/db/plans";
 import { z } from "zod";
 
 interface CompactRow {
@@ -7,7 +7,11 @@ interface CompactRow {
   category: string;
   amount_eur: string;
   entry_count: number;
-  transaction_types: string[];
+}
+
+interface ReasonRow {
+  month: string;
+  category: string;
   reasons: string[];
 }
 
@@ -19,7 +23,7 @@ function formatRowLines(section: string, rows: CompactRow[]): string[] {
   return lines;
 }
 
-function formatTypeLines(rows: CompactRow[]): string[] {
+function formatTypeLines(rows: MonthlyCategoryTotal[]): string[] {
   const typesByCategory = new Map<string, Set<string>>();
   for (const row of rows) {
     const types = typesByCategory.get(row.category) ?? new Set<string>();
@@ -33,7 +37,7 @@ function formatTypeLines(rows: CompactRow[]): string[] {
   return lines;
 }
 
-function formatReasonLines(rows: CompactRow[]): string[] {
+function formatReasonLines(rows: ReasonRow[]): string[] {
   const reasonRows = rows.filter((row) => row.reasons.length > 0);
   if (reasonRows.length === 0) return [];
   const lines = ["plan_reasons"];
@@ -51,15 +55,12 @@ function formatReasonLines(rows: CompactRow[]): string[] {
  * every row, and a "plan_reasons" section only for plan rows that have one.
  */
 function formatFinancialData(data: FinancialData): string {
-  const actuals: CompactRow[] = data.actuals.map((row) => ({ ...row, reasons: [] }));
-  const plans: CompactRow[] = data.plans;
-
   const lines: string[] = [`as_of=${data.as_of}`, "columns=month,category,eur,n"];
   lines.push(
-    ...formatRowLines("actuals", actuals),
-    ...formatRowLines("plans", plans),
-    ...formatTypeLines([...actuals, ...plans]),
-    ...formatReasonLines(plans),
+    ...formatRowLines("actuals", data.actuals),
+    ...formatRowLines("plans", data.plans),
+    ...formatTypeLines(data.actuals),
+    ...formatReasonLines(data.plans),
   );
   return lines.join("\n");
 }
@@ -70,7 +71,7 @@ function formatFinancialData(data: FinancialData): string {
  * formatFinancialData, so get_goal's plan costs the same reduced tokens.
  */
 function formatPlan(rows: PlanRow[]): string {
-  const compactRows: CompactRow[] = rows.map((row) => ({
+  const compactRows: (CompactRow & ReasonRow)[] = rows.map((row) => ({
     // plan_date is a SQL `date`; pg's default parser builds the Date at
     // local midnight, so local getters (not toISOString's UTC) recover the
     // calendar month pg's to_char(plan_date, 'YYYY-MM') would give elsewhere.
@@ -78,14 +79,12 @@ function formatPlan(rows: PlanRow[]): string {
     category: row.category,
     amount_eur: row.plan_amount_eur,
     entry_count: 1,
-    transaction_types: [row.transaction_type],
     reasons: row.reason ? [row.reason] : [],
   }));
 
   const lines: string[] = ["columns=month,category,eur,n"];
   lines.push(
     ...formatRowLines("plan", compactRows),
-    ...formatTypeLines(compactRows),
     ...formatReasonLines(compactRows),
   );
   return lines.join("\n");

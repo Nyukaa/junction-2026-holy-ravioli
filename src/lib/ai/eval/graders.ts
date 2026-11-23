@@ -163,7 +163,6 @@ export const confirmationBeforeWrite: Grader = (transcript) => {
 
 interface PlanEntryLike {
   category?: unknown;
-  transaction_type?: unknown;
 }
 
 function extractPlanEntries(input: unknown): PlanEntryLike[] {
@@ -206,25 +205,14 @@ export const noInvestWithoutYes: Grader = (transcript) => {
 // ---------------------------------------------------------------------------
 // 5. categories-exist
 
-// Categories/transaction types getFinancialData deliberately excludes from
-// get_data because they are transfers, not spending (src/lib/db/index.ts).
-// A saved plan can still legitimately use these (Invest Deposit, after the
-// warning-and-yes flow), so they can't be flagged just for being absent from
-// the fixture.
-const TRANSFER_TRANSACTION_TYPES: Record<string, string> = {
-  "Invest Deposit": "investment_deposit",
-  "Salary Sweep": "salary_sweep",
-  "Invest Withdraw": "investment_withdrawal",
-};
-
+// Categories getFinancialData deliberately excludes from get_data because
+// they are transfers, not spending (src/lib/db/index.ts). A saved plan can
+// still legitimately use these (Invest Deposit, after the warning-and-yes
+// flow), so they can't be flagged just for being absent from the fixture.
 export const categoriesExist: Grader = (transcript) => {
   const seenCategories = new Set<string>();
-  const seenTransactionTypes = new Map<string, Set<string>>();
   for (const row of [...transcript.fixture.financialData.actuals, ...transcript.fixture.financialData.plans]) {
     seenCategories.add(row.category);
-    const types = seenTransactionTypes.get(row.category) ?? new Set<string>();
-    for (const t of row.transaction_types) types.add(t);
-    seenTransactionTypes.set(row.category, types);
   }
 
   const offenders: string[] = [];
@@ -233,32 +221,20 @@ export const categoriesExist: Grader = (transcript) => {
       if (call.name !== "save_plan") continue;
       for (const entry of extractPlanEntries(call.input)) {
         const category = typeof entry.category === "string" ? entry.category : undefined;
-        const transactionType =
-          typeof entry.transaction_type === "string" ? entry.transaction_type : undefined;
 
         const categoryKnown =
           category !== undefined &&
           (seenCategories.has(category) || LIMIT_CATEGORIES.includes(category));
         if (!categoryKnown) {
           offenders.push(`unknown category "${String(entry.category)}"`);
-          continue;
-        }
-
-        const validTypesForCategory = category ? seenTransactionTypes.get(category) : undefined;
-        const transferType = category ? TRANSFER_TRANSACTION_TYPES[category] : undefined;
-        const typeKnown =
-          transactionType !== undefined &&
-          ((validTypesForCategory?.has(transactionType) ?? false) || transactionType === transferType);
-        if (!typeKnown) {
-          offenders.push(`unknown transaction type "${String(entry.transaction_type)}" for "${category}"`);
         }
       }
     }
   }
 
   return offenders.length > 0
-    ? { pass: false, note: `Plan entries outside the fixture's known categories/types: ${offenders.join(", ")}` }
-    : { pass: true, note: "Every saved plan entry uses a category and transaction type from the fixture." };
+    ? { pass: false, note: `Plan entries outside the fixture's known categories: ${offenders.join(", ")}` }
+    : { pass: true, note: "Every saved plan entry uses a category from the fixture." };
 };
 
 // ---------------------------------------------------------------------------
