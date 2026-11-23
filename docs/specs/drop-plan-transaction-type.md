@@ -174,6 +174,15 @@ Also update, since they still describe or parse the old `entries` array-of-objec
 call needed to verify the parser — write 2-3 example CSV lines by hand in a scratch script
 and confirm they parse into the expected objects.
 
+**Live check:** one live run of the `new-goal` eval scenario confirmed the model actually
+writes `entries_csv` correctly end to end: the model produced valid `entries_csv` (12
+lines), `parseEntriesCsv` parsed all 12, and the plan-correctness graders (`tool-order`,
+`confirmation-before-write`, `no-invest-without-yes`, `categories-exist`) all passed. Cost
+about $0.09. Separately: the date/time-of-day convention for plan entries (e.g. the model's
+choice of month-end dates at `T12:00:00`) was never specified in the prompt or tool
+description, in this change or before it — that's pre-existing, unconstrained model
+behavior, not something this step changed.
+
 ---
 
 ## Step 8 — verify the column is unused (no column drop)
