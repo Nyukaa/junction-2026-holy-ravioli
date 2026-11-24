@@ -153,6 +153,13 @@ In live conversations, creating a goal needed 65% fewer input tokens (cost
 $0.269 → $0.139), and a follow-up chat used 73% fewer tokens on repeat questions. All
 safety checks (correct tool order, nothing saved without the user's "yes", only real
 categories used) held throughout.
+
+A follow-up change ([`docs/specs/drop-plan-transaction-type.md`](docs/specs/drop-plan-transaction-type.md))
+dropped an unused `transaction_type` field from every saved plan entry and switched
+`save_plan`'s input from one JSON object per entry to a compact CSV line. Measured on a
+full new-goal-to-saved-plan conversation, that cut output tokens by about 52% and cost by
+about 38% ($0.139 → $0.086) on top of the numbers above, with the same safety checks still
+passing.
 ## 🗂 Project Structure
 
 <details>
